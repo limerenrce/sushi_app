@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_app/pages/book_page.dart';
+import 'package:sushi_app/pages/food_page.dart';
 import 'package:sushi_app/pages/news_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
@@ -69,7 +69,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BooksScreen(),
+                    builder: (context) => const FoodsPage(),
                   ),
                 );
               },

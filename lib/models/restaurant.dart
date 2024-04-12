@@ -13,7 +13,7 @@ class Restaurant extends ChangeNotifier {
       rating: "4.3",
       description:
           "Delicate sliced, fresh tuna drapes elegantly over a pillow of perfectly seasoned sushi rice. Its vibrant hue and buttery texture promise an exquisite melt-in-you-mouth experience. Paired with a whisper of wasabi and a side of traditional pickled ginger, our tuna sushi is an ode to the purity and simplicity of authentic Japanese flavors. Indulge in the ocean's bounty with each savory bite.",
-      category: FoodCategory.sushi,
+      category: FoodCategory.Sushi,
     ),
     Food(
       name: "Salmon Sushi",
@@ -22,7 +22,7 @@ class Restaurant extends ChangeNotifier {
       rating: "4.9",
       description:
           "Delicate sliced, fresh salmon drapes elegantly over a pillow of perfectly seasoned sushi rice. Its vibrant hue and buttery texture promise an exquisite melt-in-you-mouth experience. Paired with a whisper of wasabi and a side of traditional pickled ginger, oue salmon sushi is an ode to the purity and simplicity of authentic Japanese flavors. Indulge in the ocean's bounty with each savory bite.",
-      category: FoodCategory.sushi,
+      category: FoodCategory.Sushi,
     ),
     Food(
       name: "Uni Sushi",
@@ -31,7 +31,7 @@ class Restaurant extends ChangeNotifier {
       rating: "4.7",
       description:
           "Delicate sliced, fresh uni drapes elegantly over a pillow of perfectly seasoned sushi rice. Its vibrant hue and buttery texture promise an exquisite melt-in-you-mouth experience. Paired with a whisper of wasabi and a side of traditional pickled ginger, our uni sushi is an ode to the purity and simplicity of authentic Japanese flavors. Indulge in the ocean's bounty with each savory bite.",
-      category: FoodCategory.sushi,
+      category: FoodCategory.Sushi,
     ),
     Food(
       name: "Salmon Eggs",
@@ -40,7 +40,7 @@ class Restaurant extends ChangeNotifier {
       rating: "4.7",
       description:
           "Delicate sliced, fresh salmon eggs drapes elegantly over a pillow of perfectly seasoned sushi rice. Its vibrant hue and buttery texture promise an exquisite melt-in-you-mouth experience. Paired with a whisper of wasabi and a side of traditional pickled ginger, our salmon eggs is an ode to the purity and simplicity of authentic Japanese flavors. Indulge in the ocean's bounty with each savory bite.",
-      category: FoodCategory.sushi,
+      category: FoodCategory.Sushi,
     ),
 
     //RAMEN
@@ -50,7 +50,7 @@ class Restaurant extends ChangeNotifier {
       imagePath: "assets/images/ramen_tori.png",
       rating: "4.7",
       description: "Tori Ramen enak loh",
-      category: FoodCategory.ramen,
+      category: FoodCategory.Ramen,
     ),
     Food(
       name: "Charsiu Ramen",
@@ -58,7 +58,7 @@ class Restaurant extends ChangeNotifier {
       imagePath: "assets/images/ramen_charsiu.png",
       rating: "4.9",
       description: "Charsiu Ramen enak loh",
-      category: FoodCategory.ramen,
+      category: FoodCategory.Ramen,
     ),
 
     //DRINK
@@ -68,7 +68,7 @@ class Restaurant extends ChangeNotifier {
       imagePath: "assets/images/orange_juice.png",
       rating: "4",
       description: "Orange juice segar",
-      category: FoodCategory.drink,
+      category: FoodCategory.Drink,
     ),
   ];
 
@@ -79,7 +79,7 @@ class Restaurant extends ChangeNotifier {
 
 
   */
-  List<Food> get foodMenu => _menu;
+  //List<Food> get foodMenu => _menu;
 
   /*
 
@@ -90,21 +90,21 @@ class Restaurant extends ChangeNotifier {
   */
   //USER CART
 
-  final List<CartItem> _cart = [];
-  //ADD TO CART
-  void addToCart(Food foodItem, int quantity) {
-    for (int i = 0; i < quantity; i++) {
-      _cart.add(foodItem as CartItem);
-    }
-    notifyListeners();
-  }
-  // List<Food> get cart => _cart;
+  // final List<CartItem> _cart = [];
+  // //ADD TO CART
+  // void addToCart(Food foodItem, int quantity) {
+  //   for (int i = 0; i < quantity; i++) {
+  //     _cart.add(foodItem as CartItem);
+  //   }
+  //   notifyListeners();
+  // }
+  // // List<Food> get cart => _cart;
 
-  //REMOVE FROM CART
-  void removeFromCart(Food food) {
-    _cart.remove(food);
-    notifyListeners();
-  }
+  // //REMOVE FROM CART
+  // void removeFromCart(Food food) {
+  //   _cart.remove(food);
+  //   notifyListeners();
+  // }
 
   //GET TOTAL PRICE OF THE CART
 
@@ -124,4 +124,25 @@ class Restaurant extends ChangeNotifier {
   //FORMAT DOUBLE VALUE INTO MONEY
 
   //FORMAT LIST OF ADDONS INTO A STRING SUMMARY
+
+  //CUSTOMER CART
+  List<Food> _cart = [];
+
+  //GETTER METHODS
+  List<Food> get foodMenu => _menu;
+  List<Food> get cart => _cart;
+
+  //ADD TO CART
+  void addToCart(Food foodItem, int quantity) {
+    for (int i = 0; i < quantity; i++) {
+      _cart.add(foodItem);
+    }
+    notifyListeners();
+  }
+
+  //REMOVE FROM CART
+  void removeFromCart(Food food) {
+    _cart.remove(food);
+    notifyListeners();
+  }
 }

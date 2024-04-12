@@ -10,4 +10,10 @@ class News {
         title: json['title'],
         body: json['body'],
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "body": body,
+      };
 }

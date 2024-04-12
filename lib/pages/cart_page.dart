@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/models/food.dart';
-import 'package:sushi_app/models/sushi_shop.dart';
+import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class CartPage extends StatelessWidget {
@@ -12,19 +11,19 @@ class CartPage extends StatelessWidget {
   //REMOVE FROM CART
   void removeFromCart(Food food, BuildContext context) {
     // GET ACCESS TO SHOP
-    final shop = context.read<Shop>();
+    final restaurant = context.read<Restaurant>();
 
     //REMOVE FROM CART
-    shop.removeFromCart(food);
+    restaurant.removeFromCart(food);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Shop>(
+    return Consumer<Restaurant>(
       builder: (context, value, child) => Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
-          title: Text("My Cart"),
+          title: const Text("My Cart"),
           elevation: 0,
           backgroundColor: primaryColor,
         ),

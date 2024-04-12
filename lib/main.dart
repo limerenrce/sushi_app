@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/models/restaurant.dart';
-import 'package:sushi_app/models/sushi_shop.dart';
 import 'package:sushi_app/pages/cart_page.dart';
 import 'package:sushi_app/pages/menu_page.dart';
 import 'package:sushi_app/pages/intro_page.dart';
@@ -11,11 +10,7 @@ import 'package:sushi_app/theme/colors.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [
-        //SHOP PROVIDER
-        ChangeNotifierProvider(
-          create: (context) => Shop(),
-        ),
+      providers: [ 
         //RESTAURANT PROVIDER
         ChangeNotifierProvider(
           create: (context) => Restaurant(),

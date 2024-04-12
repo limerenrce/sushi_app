@@ -27,7 +27,7 @@ class FoodTile extends StatelessWidget {
             //IMAGE
             Image.asset(
               food.imagePath,
-              height: 120,
+              height: 105,
             ),
 
             //TEXT
@@ -60,7 +60,7 @@ class FoodTile extends StatelessWidget {
                       ),
                       Text(
                         food.rating,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                     ],
                   ),

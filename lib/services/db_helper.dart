@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:sushi_app/models/book.dart';
+import 'package:sushi_app/dto/foods.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io' as io;
 import 'package:path/path.dart';
@@ -20,50 +20,51 @@ class DBHelper {
 
   initDatabase() async {
     io.Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, 'db_books.db');
+    String path = join(documentDirectory.path, 'dbFoods.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
 
   _onCreate(Database db, int version) async {
-    await db.execute('CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT)');
+    await db.execute(
+        'CREATE TABLE foods (id INTEGER PRIMARY KEY, name TEXT, price TEXT, rating TEXT, description TEXT, category TEXT)');
   }
 
-  Future<Books> add(Books books) async {
+  Future<Foods> add(Foods foods) async {
     var dbClient = await db;
-    books.id = await dbClient.insert('books', books.toMap());
-    return books;
+    foods.id = await dbClient.insert('foods', foods.toMap());
+    return foods;
   }
 
-  Future<List<Books>> getBooks() async {
+  Future<List<Foods>> getFoods() async {
     var dbClient = await db;
     List<Map<String, dynamic>> maps =
-        await dbClient.query('books', orderBy: 'id DESC');
-    List<Books> books = [];
+        await dbClient.query('foods', orderBy: 'id DESC');
+    List<Foods> foods = [];
     if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
-        books.add(Books.fromMap(maps[i]));
+        foods.add(Foods.fromMap(maps[i]));
       }
     }
-    return books;
+    return foods;
   }
 
   Future<int> delete(int id) async {
     var dbClient = await db;
     return await dbClient.delete(
-      'books',
+      'foods',
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
-  Future<int> update(Books books) async {
+  Future<int> update(Foods foods) async {
     var dbClient = await db;
     return await dbClient.update(
-      'books',
-      books.toMap(),
+      'foods',
+      foods.toMap(),
       where: 'id = ?',
-      whereArgs: [books.id],
+      whereArgs: [foods.id],
     );
   }
 

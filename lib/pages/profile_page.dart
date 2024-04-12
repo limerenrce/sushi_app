@@ -13,11 +13,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey[800],
-        title: Text("Profile"),
+        title: const Text("Profile"),
         elevation: 0,
         actions: [
           //SETTINGS BUTTON
@@ -25,11 +25,19 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () {
               Navigator.pushNamed(context, '');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
             ),
           ),
         ],
+      ),
+      body: const Center(
+        child: Text(
+          "Profile Page",
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
       ),
     );
   }

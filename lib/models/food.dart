@@ -24,7 +24,7 @@ class Food {
 
 //FOOD CATEGORIES
 enum FoodCategory {
-  sushi,
-  ramen,
-  drink,
+  Sushi,
+  Ramen,
+  Drink,
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/button.dart';
@@ -8,7 +7,6 @@ import 'package:sushi_app/components/food_tile.dart';
 import 'package:sushi_app/components/my_tab_bar.dart';
 import 'package:sushi_app/models/food.dart';
 import 'package:sushi_app/models/restaurant.dart';
-import 'package:sushi_app/models/sushi_shop.dart';
 import 'package:sushi_app/pages/food_details_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
@@ -21,22 +19,6 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage>
     with SingleTickerProviderStateMixin {
-  //NAVIGATOR
-  // void navigateToFoodDetails(int index) {
-  //   //GET THE SHOP AND ITS MENU
-  //   final shop = context.read<Shop>();
-  //   final foodMenu = shop.foodMenu;
-
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => FoodDetailsPage(
-  //         food: foodMenu[index],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   //TABS
   late TabController _tabController;
 
@@ -105,10 +87,10 @@ class _MenuPageState extends State<MenuPage>
   @override
   Widget build(BuildContext context) {
     //GET THE SHOP AND ITS MENU
-    context.read<Shop>();
+    context.read<Restaurant>();
 
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.grey[300],
         drawer: const MyDrawer(),
@@ -126,7 +108,7 @@ class _MenuPageState extends State<MenuPage>
               onPressed: () {
                 Navigator.pushNamed(context, '/cart-page');
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.shopping_cart,
               ),
             ),
@@ -157,7 +139,7 @@ class _MenuPageState extends State<MenuPage>
                         ),
                       ),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
 
                       //redeem button
                       MyButton(
@@ -176,7 +158,7 @@ class _MenuPageState extends State<MenuPage>
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
             //SEARCH BAR
             Padding(
@@ -184,22 +166,21 @@ class _MenuPageState extends State<MenuPage>
               child: TextField(
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     hintText: "Search here.."),
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
             //MENU TAB BARS
             MyTabBar(tabController: _tabController),
-            const SizedBox(height: 10),
 
             //MENU TAB VIEWS
             Expanded(
@@ -210,8 +191,8 @@ class _MenuPageState extends State<MenuPage>
                 ),
               ),
             ),
-            // Expanded(child: TabBarView(children: tabBarViews)),
 
+            const SizedBox(height: 20),
             //POPULAR MENU WIDGET
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),

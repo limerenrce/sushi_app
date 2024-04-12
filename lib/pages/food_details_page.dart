@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/models/food.dart';
-import 'package:sushi_app/models/sushi_shop.dart';
+import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class FoodDetailsPage extends StatefulWidget {
@@ -11,10 +11,10 @@ class FoodDetailsPage extends StatefulWidget {
   const FoodDetailsPage({Key? key, required this.food}) : super(key: key);
 
   @override
-  Food_DetailsPageState createState() => Food_DetailsPageState();
+  FoodDetailsPageState createState() => FoodDetailsPageState();
 }
 
-class Food_DetailsPageState extends State<FoodDetailsPage> {
+class FoodDetailsPageState extends State<FoodDetailsPage> {
   //QUANTITY COUNT
   int quantityCount = 0;
 
@@ -39,7 +39,7 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
     //ONLY ADD TO CART IF THERE IS SOMETHING IN THE CART
     if (quantityCount > 0) {
       //GET ACCESS TO SHOP
-      final shop = context.read<Shop>();
+      final shop = context.read<Restaurant>();
 
       //ADD TO CART
       shop.addToCart(widget.food, quantityCount);
