@@ -7,8 +7,8 @@ class TextContainer extends StatelessWidget {
   const TextContainer({
     required this.text,
     required this.color,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

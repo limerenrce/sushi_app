@@ -10,7 +10,7 @@ import 'package:sushi_app/theme/colors.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [ 
+      providers: [
         //RESTAURANT PROVIDER
         ChangeNotifierProvider(
           create: (context) => Restaurant(),
@@ -40,9 +40,10 @@ class MyApp extends StatelessWidget {
 }
 
 class Main extends StatefulWidget {
-  const Main({Key? key}) : super(key: key);
+  const Main({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MainState createState() => _MainState();
 }
 

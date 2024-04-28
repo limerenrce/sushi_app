@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sushi_app/dto/news.dart';
+import 'package:sushi_app/dto/datas.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 
 class DataService {
@@ -16,6 +17,20 @@ class DataService {
     }
   }
 
+  static Future<List<Datas>> fetchDatas() async {
+    final response = await http.get(Uri.parse(Endpoints.datas));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return (data['datas'] as List<dynamic>)
+          .map((item) => Datas.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } else {
+      // Handle error
+      throw Exception('Failed to load data');
+    }
+  }
+
+  // Post data to endpoint news
   static Future<News> addNews(String title, String body) async {
     final response = await http.post(
       Uri.parse(Endpoints.news),
@@ -29,8 +44,10 @@ class DataService {
     );
 
     if (response.statusCode == 201) {
+      // Check for creation success (201 Created)
       return News.fromJson(jsonDecode(response.body));
     } else {
+      // Handle error
       throw Exception('Failed to add News');
     }
   }

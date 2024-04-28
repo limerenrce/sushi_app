@@ -6,7 +6,7 @@ import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({super.key});
 
   //REMOVE FROM CART
   void removeFromCart(Food food, BuildContext context) {

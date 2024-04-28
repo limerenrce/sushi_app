@@ -1,4 +1,6 @@
 //FOOD ITEMS
+// ignore_for_file: unused_element, constant_identifier_names
+
 class Food {
   final String name;
   final String price;

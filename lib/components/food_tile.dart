@@ -6,8 +6,7 @@ class FoodTile extends StatelessWidget {
   final Food food;
   final void Function()? onTap;
 
-  const FoodTile({Key? key, required this.food, required this.onTap})
-      : super(key: key);
+  const FoodTile({super.key, required this.food, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class FoodTile extends StatelessWidget {
                 children: [
                   //PRICE
                   Text(
-                    'RP ' + food.price,
+                    'RP ${food.price}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.grey[700],

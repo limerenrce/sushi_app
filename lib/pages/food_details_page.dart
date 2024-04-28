@@ -8,7 +8,7 @@ import 'package:sushi_app/theme/colors.dart';
 
 class FoodDetailsPage extends StatefulWidget {
   final Food food;
-  const FoodDetailsPage({Key? key, required this.food}) : super(key: key);
+  const FoodDetailsPage({super.key, required this.food});
 
   @override
   FoodDetailsPageState createState() => FoodDetailsPageState();

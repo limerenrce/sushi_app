@@ -3,7 +3,7 @@ import 'package:sushi_app/dto/news.dart';
 import 'package:sushi_app/services/data_service.dart';
 
 class NewsPage extends StatefulWidget {
-  const NewsPage({Key? key}) : super(key: key);
+  const NewsPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api

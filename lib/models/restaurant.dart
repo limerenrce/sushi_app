@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_app/models/cart_item.dart';
 
 import 'food.dart';
 
@@ -126,7 +125,7 @@ class Restaurant extends ChangeNotifier {
   //FORMAT LIST OF ADDONS INTO A STRING SUMMARY
 
   //CUSTOMER CART
-  List<Food> _cart = [];
+  final List<Food> _cart = [];
 
   //GETTER METHODS
   List<Food> get foodMenu => _menu;

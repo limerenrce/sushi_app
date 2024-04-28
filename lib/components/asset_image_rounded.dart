@@ -4,9 +4,9 @@ class AssetImageRounded extends StatelessWidget {
   final String imagePath;
 
   const AssetImageRounded({
-    Key? key,
+    super.key,
     required this.imagePath,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
