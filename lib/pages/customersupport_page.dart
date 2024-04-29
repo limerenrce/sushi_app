@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
+import 'package:sushi_app/pages/serviceLog_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class CustomersupportPage extends StatefulWidget {
@@ -182,6 +183,17 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                     color: Colors.blue,
                     fontWeight: FontWeight.normal,
                   ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ServiceLogPage(),
+                      ),
+                    );
+                  },
+                  child: Text("See your previous log"),
                 ),
               ],
             ),

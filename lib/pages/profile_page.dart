@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             CircleAvatar(
               radius: 50.0,
-              backgroundImage: AssetImage('assets/images/flat_img.png'),
+              backgroundImage: AssetImage('assets/images/tuna.png'),
             ),
             const SizedBox(height: 24),
             Column(
@@ -126,9 +126,9 @@ class NumbersWidget extends StatelessWidget {
         children: <Widget>[
           buildButton(context, '4.8', 'Ranking'),
           buildDivider(),
-          buildButton(context, '35', 'Following'),
+          buildButton(context, '35', 'Review'),
           buildDivider(),
-          buildButton(context, '50', 'Followers'),
+          buildButton(context, '50', 'Buy'),
         ],
       );
   Widget buildDivider() => Container(

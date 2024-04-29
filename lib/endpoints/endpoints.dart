@@ -4,6 +4,9 @@ class Endpoints {
 
   static const String baseURLLive = "https://simobile.singapoly.com";
 
+  static const String baseURLSupport = "https://simobile.singapoly.com";
+
   static const String news = "$baseURL/news";
   static const String datas = "$baseURLLive/api/datas";
+  static const String service = "$baseURLLive/api/customer-service/2215091065";
 }

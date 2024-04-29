@@ -71,6 +71,20 @@ class DataService {
     }
   }
 
+  static Future<void> updateData(Datas data) async {
+    try {
+      await http.put(Uri.parse('${Endpoints.datas}/$data.id'), body: {
+        // Add data fields to be updated
+        'name': data.name,
+        // Add other fields if needed
+      });
+    } catch (error) {
+      // Handle error
+      print('Failed to update data: $error');
+      throw Exception('Failed to update data: $error');
+    }
+  }
+
   static Future<void> deleteNews(String id) async {
     final response = await http.delete(
       Uri.parse('${Endpoints.news}/$id'),
@@ -81,6 +95,19 @@ class DataService {
 
     if (response.statusCode != 200) {
       throw Exception('Failed to delete News');
+    }
+  }
+
+  static Future<void> deleteDatas(int id) async {
+    final response = await http.delete(
+      Uri.parse('${Endpoints.datas}/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete datas');
     }
   }
 }

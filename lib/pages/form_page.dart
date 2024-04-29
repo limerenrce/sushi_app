@@ -99,7 +99,7 @@ class _FormPageState extends State<FormPage> {
       // Handle response (success or error)
       if (response.statusCode == 201) {
         debugPrint('Data and image posted successfully!');
-        Navigator.pushReplacementNamed(context, '/datas-screen');
+        Navigator.pushReplacementNamed(context, '/datas-page');
       } else {
         debugPrint('Error posting data: ${response.statusCode}');
       }
