@@ -6,6 +6,7 @@ import 'package:sushi_app/pages/datas_page.dart';
 import 'package:sushi_app/pages/menu_page.dart';
 import 'package:sushi_app/pages/intro_page.dart';
 import 'package:sushi_app/pages/profile_page.dart';
+import 'package:sushi_app/pages/serviceLog_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 void main() {
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/menu-page': (context) => const MenuPage(),
         '/cart-page': (context) => const CartPage(),
         '/datas-page': (context) => const DatasPage(),
+        '/services-page': (context) => const ServiceLogPage(),
       },
     );
   }

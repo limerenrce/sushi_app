@@ -3,6 +3,7 @@ import 'package:sushi_app/pages/customersupport_page.dart';
 import 'package:sushi_app/pages/datas_page.dart';
 import 'package:sushi_app/pages/food_page.dart';
 import 'package:sushi_app/pages/news_page.dart';
+import 'package:sushi_app/pages/serviceLog_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -119,7 +120,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CustomersupportPage(),
+                    builder: (context) => CustomersupportPage(),
                   ),
                 );
               },

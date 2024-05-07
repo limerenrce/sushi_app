@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             CircleAvatar(
               radius: 50.0,
-              backgroundImage: AssetImage('assets/images/tuna.png'),
+              backgroundImage: AssetImage('assets/images/cocktail.png'),
             ),
             const SizedBox(height: 24),
             Column(
@@ -49,7 +49,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   'Satya Uttami',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                const SizedBox(height: 4),
                 Text(
                   'uttami@gmail.com',
                   style: TextStyle(color: Colors.grey),
@@ -63,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Color.fromRGBO(245, 245, 245, 1),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(60),
                         topRight: Radius.circular(60))),
@@ -77,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
