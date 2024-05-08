@@ -18,43 +18,6 @@ class CustomerService {
     }
   }
 
-  // Post Method
-  Future<Service> postService(Service service) async {
-    final response = await http.post(
-      Uri.parse(Endpoints.service),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(service.toJson()),
-    );
-    if (response.statusCode == 201) {
-      return Service.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to post service');
-    }
-  }
-
-  //Update Method
-  static Future<Service> updateService(
-      String id, String title, String body) async {
-    final response = await http.put(
-      Uri.parse('${Endpoints.service}/$id'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'title': title,
-        'body': body,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      return Service.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to edit News');
-    }
-  }
-
   // Delete Method
   static Future<void> deleteService(int id) async {
     final response = await http.delete(

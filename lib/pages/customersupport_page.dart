@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sushi_app/dto/service.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/pages/serviceLog_page.dart';
+import 'package:sushi_app/theme/colors.dart';
 
 class CustomersupportPage extends StatefulWidget {
   final Service? service;
@@ -26,23 +27,28 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
   final _nimController = TextEditingController();
   final _idController = TextEditingController();
 
+  late String _id;
+  late String _nim;
   late String _title;
   late String _description;
-  late String _nim;
-  late String _id;
 
   File? galleryFile = null;
   final picker = ImagePicker();
 
   double _rating = 0;
 
-  String? _selectedDivision; // Default selected division
-  String? _selectedPriority; // Default selected priority
+  String? _selectedDivision;
+  String? _selectedPriority;
 
   @override
   void initState() {
     super.initState();
-    _selectedDivision = 'select here'; // Initialize selected value
+    _selectedDivision = 'IT';
+    _selectedPriority = 'Low';
+    _id = '';
+    _nim = '';
+    _title = '';
+    _description = '';
     // Pre-fill fields with received data if available (for edit mode)
     if (widget.service != null) {
       _idController.text = widget.service!.idCustomerService.toString();
@@ -105,6 +111,8 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
   @override
   void dispose() {
     _titleController.dispose(); // Dispose of controller when widget is removed
+    _descriptionController.dispose();
+    _nimController.dispose();
     super.dispose();
   }
 
@@ -144,45 +152,33 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
     });
   }
 
-  Future<void> _putDataWithImage(
-    String id,
-  ) async {
+  Future<void> _putDataWithImage(BuildContext context) async {
     if (galleryFile == null) {
       return; // Handle case where no image is selected
     }
 
-    if (_idController.text.isEmpty) {
-      return; // Handle case where ID is not provided
-    }
-
-    var id = _idController.text; // Retrieve the ID from the controller
-
-    var request =
-        MultipartRequest('PUT', Uri.parse('${Endpoints.service}/$id'));
+    var request = http.MultipartRequest('POST',
+        Uri.parse('${Endpoints.service}/${widget.service!.idCustomerService}'));
     request.fields['title_issues'] = _titleController.text;
     request.fields['description_issues'] = _descriptionController.text;
     request.fields['nim'] = _nimController.text;
     request.fields['rating'] = _rating.toString();
 
-    var multipartFile = await MultipartFile.fromPath(
+    var multipartFile = await http.MultipartFile.fromPath(
       'image',
       galleryFile!.path,
     );
     request.files.add(multipartFile);
 
-    request.send().then((response) {
-      // Handle response (success or error)
-      if (response.statusCode == 201) {
-        debugPrint('Data and image posted successfully!');
-        Navigator.pushReplacementNamed(context, '/services-page');
-      } else {
-        debugPrint('Error posting data: ${response.statusCode}');
-        // Add additional error handling if needed
-      }
-    }).catchError((error) {
-      debugPrint('Error posting data: $error $id');
-      // Handle error if request.send() fails
-    });
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      debugPrint('Data and image updated successfully!');
+      Navigator.pushReplacementNamed(context, '/services-page');
+    } else {
+      debugPrint('Error posting data: ${response.statusCode}');
+      // Add additional error handling if needed
+    }
   }
 
   //Rating
@@ -198,8 +194,6 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
       print('Error sending rating: ${response.statusCode}');
     }
   }
-
-  //String _selectedPriority = 'select here';
 
   @override
   Widget build(BuildContext context) {
@@ -257,16 +251,28 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ServiceLogPage(),
+                    SizedBox(height: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(40)),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ServiceLogPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "See your previous log",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
                           ),
-                        );
-                      },
-                      child: Text("See your previous log"),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -285,6 +291,33 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          //----- I D -----
+                          // Container(
+                          //   padding: const EdgeInsets.all(10),
+                          //   decoration: BoxDecoration(
+                          //       color: Colors.grey[100],
+                          //       border: Border(
+                          //           bottom: BorderSide(
+                          //               color: Colors.grey.shade200))),
+                          //   child: TextField(
+                          //     readOnly: true,
+                          //     controller: _idController,
+                          //     decoration: const InputDecoration(
+                          //         focusedBorder: UnderlineInputBorder(
+                          //             borderSide: BorderSide(
+                          //                 color:
+                          //                     Color.fromARGB(255, 138, 60, 55),
+                          //                 width: 2,
+                          //                 style: BorderStyle.solid)),
+                          //         labelText: "Support ID",
+                          //         labelStyle: TextStyle(
+                          //             color: Color.fromARGB(255, 138, 60, 55)),
+                          //         hintText: "Input ID here..",
+                          //         hintStyle: TextStyle(color: Colors.grey),
+                          //         border: InputBorder.none),
+                          //   ),
+                          // ),
+
                           //-----N   I   M-----
                           Container(
                             padding: const EdgeInsets.all(10),
@@ -296,7 +329,16 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                             child: TextField(
                               controller: _nimController,
                               decoration: const InputDecoration(
-                                  hintText: "NIM",
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 138, 60, 55),
+                                          width: 2,
+                                          style: BorderStyle.solid)),
+                                  labelText: "NIM",
+                                  labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 138, 60, 55)),
+                                  hintText: "Input NIM here..",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: InputBorder.none),
                               onChanged: (value) {
@@ -311,43 +353,72 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                             ),
                           ),
 
-                          DropdownButton<String>(
-                            value: _selectedDivision,
-                            icon: Icon(Icons.arrow_downward),
-                            iconSize: 24,
-                            elevation: 16,
-                            style: TextStyle(color: Colors.deepPurple),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedDivision = newValue;
-                              });
-                            },
-                            items: <String?>['select here', 'a', 'b', 'c']
-                                .map<DropdownMenuItem<String>>((String? value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value!),
-                              );
-                            }).toList(),
+                          //-----D I V I S I O N-----
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.grey.shade200))),
+                            child: DropdownButton<String>(
+                              value: _selectedDivision,
+                              hint: Text('Select a division'),
+                              icon: Icon(Icons.arrow_downward),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 138, 60, 55)),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedDivision = newValue;
+                                });
+                              },
+                              items: <String?>[
+                                'IT',
+                                'Billing',
+                                'Help Desk',
+                              ].map<DropdownMenuItem<String>>((String? value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value!),
+                                );
+                              }).toList(),
+                            ),
                           ),
-                          DropdownButton<String>(
-                            value: _selectedPriority,
-                            icon: Icon(Icons.arrow_downward),
-                            iconSize: 24,
-                            elevation: 16,
-                            style: TextStyle(color: Colors.deepPurple),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedPriority = newValue;
-                              });
-                            },
-                            items: <String?>['select here', 'a', 'b', 'c']
-                                .map<DropdownMenuItem<String>>((String? value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value!),
-                              );
-                            }).toList(),
+
+                          //-----P R I O R I T Y-----
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.grey.shade200))),
+                            child: DropdownButton<String>(
+                              hint: Text('Select a priority'),
+                              value: _selectedPriority,
+                              icon: Icon(Icons.arrow_downward),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 138, 60, 55)),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedPriority = newValue;
+                                });
+                              },
+                              items: <String?>[
+                                'Low',
+                                'Medium',
+                                'High'
+                              ].map<DropdownMenuItem<String>>((String? value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value!),
+                                );
+                              }).toList(),
+                            ),
                           ),
 
                           //-----T I T L E   I S S U E-----
@@ -362,7 +433,11 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                 TextField(
                                   controller: _titleController,
                                   decoration: const InputDecoration(
-                                      hintText: "Issue Title",
+                                      labelText: "Issue Title",
+                                      labelStyle: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 138, 60, 55)),
+                                      hintText: "Input title here..",
                                       hintStyle: TextStyle(color: Colors.grey),
                                       border: InputBorder.none),
                                   onChanged: (value) {
@@ -410,7 +485,6 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                           SizedBox(height: 20),
 
                           //-----R A T I N G-----
-
                           Center(
                             child: RatingBar.builder(
                               initialRating: _rating,
@@ -446,7 +520,10 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                             child: TextField(
                               controller: _descriptionController,
                               decoration: const InputDecoration(
-                                  hintText: "Problem Description",
+                                  labelText: "Problem Description",
+                                  labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 138, 60, 55)),
+                                  hintText: "Input description here..",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: InputBorder.none),
                               onChanged: (value) {
@@ -477,9 +554,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
           // Determine whether to create or update based on received data
           if (widget.service != null) {
             // Update mode
-            _putDataWithImage(
-              _id,
-            );
+            _putDataWithImage(context);
           } else {
             // Create mode
             _postDataWithImage(context);
