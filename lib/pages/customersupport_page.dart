@@ -116,10 +116,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
     super.dispose();
   }
 
-  // saveData() {
-  //   debugPrint();
-  // }
-
+  //Post
   Future<void> _postDataWithImage(BuildContext context) async {
     if (galleryFile == null) {
       return; // Handle case where no image is selected
@@ -152,6 +149,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
     });
   }
 
+  //Update
   Future<void> _putDataWithImage(BuildContext context) async {
     if (galleryFile == null) {
       return; // Handle case where no image is selected
@@ -291,33 +289,6 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          //----- I D -----
-                          // Container(
-                          //   padding: const EdgeInsets.all(10),
-                          //   decoration: BoxDecoration(
-                          //       color: Colors.grey[100],
-                          //       border: Border(
-                          //           bottom: BorderSide(
-                          //               color: Colors.grey.shade200))),
-                          //   child: TextField(
-                          //     readOnly: true,
-                          //     controller: _idController,
-                          //     decoration: const InputDecoration(
-                          //         focusedBorder: UnderlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //                 color:
-                          //                     Color.fromARGB(255, 138, 60, 55),
-                          //                 width: 2,
-                          //                 style: BorderStyle.solid)),
-                          //         labelText: "Support ID",
-                          //         labelStyle: TextStyle(
-                          //             color: Color.fromARGB(255, 138, 60, 55)),
-                          //         hintText: "Input ID here..",
-                          //         hintStyle: TextStyle(color: Colors.grey),
-                          //         border: InputBorder.none),
-                          //   ),
-                          // ),
-
                           //-----N   I   M-----
                           Container(
                             padding: const EdgeInsets.all(10),

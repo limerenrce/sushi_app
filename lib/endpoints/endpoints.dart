@@ -8,5 +8,3 @@ class Endpoints {
   static const String datas = "$baseURLLive/api/datas";
   static const String service = "$baseURLLive/api/customer-service/2215091065";
 }
-
-//1315051069

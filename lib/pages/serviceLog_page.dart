@@ -5,15 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/components/bottom_up_transition.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:sushi_app/dto/datas.dart';
 import 'package:sushi_app/dto/service.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/pages/customersupport_page.dart';
-import 'package:sushi_app/pages/dataDetail_page.dart';
-import 'package:sushi_app/pages/formEdit_page.dart';
-import 'package:sushi_app/pages/form_page.dart';
 import 'package:sushi_app/services/customer_service.dart';
-import 'package:sushi_app/services/data_service.dart';
 
 class ServiceLogPage extends StatefulWidget {
   const ServiceLogPage({Key? key}) : super(key: key);
