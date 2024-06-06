@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_app/pages/customersupport_page.dart';
-import 'package:sushi_app/pages/datas_page.dart';
-import 'package:sushi_app/pages/food_page.dart';
-import 'package:sushi_app/pages/news_page.dart';
-import 'package:sushi_app/pages/serviceLog_page.dart';
+import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
+import 'package:sushi_app/pages/splash_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -29,79 +26,6 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(25.0),
             child: Divider(color: secondaryColor),
           ),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              title: Text(
-                "API NEWS",
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
-              ),
-              leading: Icon(
-                Icons.api,
-                color: Colors.grey[600],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NewsPage(),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              title: Text(
-                "API DATAS",
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
-              ),
-              leading: Icon(
-                Icons.api,
-                color: Colors.grey[600],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DatasPage(),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              title: Text(
-                "CRUD SQLITE",
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
-              ),
-              leading: Icon(
-                Icons.table_rows_rounded,
-                color: Colors.grey[600],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FoodsPage(),
-                  ),
-                );
-              },
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
@@ -120,7 +44,31 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CustomersupportPage(),
+                    builder: (context) => const CustomersupportPage(),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: ListTile(
+              title: Text(
+                "LOG OUT",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+              ),
+              leading: Icon(
+                Icons.logout_outlined,
+                color: Colors.grey[600],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SplashPage(),
                   ),
                 );
               },

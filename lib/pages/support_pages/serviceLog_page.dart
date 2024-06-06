@@ -7,8 +7,9 @@ import 'package:sushi_app/components/bottom_up_transition.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sushi_app/dto/service.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
-import 'package:sushi_app/pages/customersupport_page.dart';
-import 'package:sushi_app/services/customer_service.dart';
+import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
+
+import '../../services/data_service.dart';
 
 class ServiceLogPage extends StatefulWidget {
   const ServiceLogPage({Key? key}) : super(key: key);
@@ -23,14 +24,14 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
   @override
   void initState() {
     super.initState();
-    _services = CustomerService.fetchServices();
+    _services = DataService.fetchServices();
   }
 
   void _deleteService(BuildContext context, int idCustomerService) {
     print('Deleting datas with ID: $idCustomerService');
-    CustomerService.deleteService(idCustomerService).then((value) {
+    DataService.deleteService(idCustomerService).then((value) {
       setState(() {
-        _services = CustomerService.fetchServices();
+        _services = DataService.fetchServices();
       });
     }).catchError((error) {
       print('Failed to delete datas: $error');
@@ -164,7 +165,7 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
                                         // Data was updated successfully, refresh the list
                                         setState(() {
                                           _services =
-                                              CustomerService.fetchServices();
+                                              DataService.fetchServices();
                                         });
                                       }
                                     },

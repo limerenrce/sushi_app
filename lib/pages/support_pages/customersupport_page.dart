@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sushi_app/dto/service.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
-import 'package:sushi_app/pages/serviceLog_page.dart';
+import 'package:sushi_app/pages/support_pages/serviceLog_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class CustomersupportPage extends StatefulWidget {

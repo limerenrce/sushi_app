@@ -45,6 +45,10 @@ dependencies:
   flutter_slidable: ^3.1.0
   datetime_picker_formfield: ^2.0.1
   flutter_rating_bar: ^4.0.1
+  intl: ^0.19.0
+  flutter_secure_storage: ^9.2.2
+  meta: ^1.11.0
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_test:

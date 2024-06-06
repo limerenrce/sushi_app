@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/pages/cart_page.dart';
-import 'package:sushi_app/pages/datas_page.dart';
 import 'package:sushi_app/pages/menu_page.dart';
-import 'package:sushi_app/pages/intro_page.dart';
+import 'package:sushi_app/pages/splash_page.dart';
 import 'package:sushi_app/pages/profile_page.dart';
-import 'package:sushi_app/pages/serviceLog_page.dart';
+import 'package:sushi_app/pages/support_pages/serviceLog_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 void main() {
@@ -30,13 +29,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const IntroPage(),
+      home: const SplashPage(),
       routes: {
-        '/intro-page': (context) => const IntroPage(),
+        '/intro-page': (context) => const SplashPage(),
         '/main-page': (context) => const Main(),
         '/menu-page': (context) => const MenuPage(),
         '/cart-page': (context) => const CartPage(),
-        '/datas-page': (context) => const DatasPage(),
         '/services-page': (context) => const ServiceLogPage(),
       },
     );

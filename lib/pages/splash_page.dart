@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/theme/colors.dart';
 
-class IntroPage extends StatelessWidget {
-  const IntroPage({super.key});
+class SplashPage extends StatelessWidget {
+  const SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
