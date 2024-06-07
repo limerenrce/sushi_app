@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/components/bottom_up_transition.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:sushi_app/dto/service.dart';
+import 'package:sushi_app/models/service.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
 

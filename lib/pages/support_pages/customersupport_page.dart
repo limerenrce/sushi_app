@@ -6,7 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sushi_app/dto/service.dart';
+import 'package:sushi_app/models/service.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/pages/support_pages/serviceLog_page.dart';
 import 'package:sushi_app/theme/colors.dart';

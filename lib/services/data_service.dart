@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:sushi_app/endpoints/endpoints.dart';
 
-import '../dto/service.dart';
+import '../models/service.dart';
 import '../utils/constants.dart';
 import '../utils/secure_storage_util.dart';
 
