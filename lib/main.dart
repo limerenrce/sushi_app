@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:sushi_app/models/restaurant.dart';
-import 'package:sushi_app/pages/cart_page.dart';
-import 'package:sushi_app/pages/menu_page.dart';
-import 'package:sushi_app/pages/splash_page.dart';
-import 'package:sushi_app/pages/profile_page.dart';
-import 'package:sushi_app/pages/support_pages/serviceLog_page.dart';
-import 'package:sushi_app/theme/colors.dart';
+import 'package:sushi_app/components/auth_wrapper.dart';
+import 'package:sushi_app/pages/login_page.dart';
+
+import 'cubit/auth/auth_cubit.dart';
+import 'models/restaurant.dart';
+import 'pages/cart_page.dart';
+import 'pages/menu_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/splash_page.dart';
+import 'pages/support_pages/serviceLog_page.dart';
+import 'theme/colors.dart';
 
 void main() {
   runApp(
@@ -27,16 +32,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const SplashPage(),
-      routes: {
-        '/intro-page': (context) => const SplashPage(),
-        '/main-page': (context) => const Main(),
-        '/menu-page': (context) => const MenuPage(),
-        '/cart-page': (context) => const CartPage(),
-        '/services-page': (context) => const ServiceLogPage(),
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const SplashPage(),
+        routes: {
+          '/splash-page': (context) => const SplashPage(),
+          '/login-page': (context) => const LoginPage(),
+          '/main-page': (context) => const Main(),
+          '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
+          '/cart-page': (context) => const AuthWrapper(child: CartPage()),
+          '/services-page': (context) =>
+              const AuthWrapper(child: ServiceLogPage()),
+        },
+      ),
     );
   }
 }

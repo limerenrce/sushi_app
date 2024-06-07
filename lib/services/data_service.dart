@@ -11,9 +11,9 @@ import '../utils/secure_storage_util.dart';
 class DataService {
   //  LOGIN //
   static Future<http.Response> sendLoginData(
-      String email, String password) async {
+      String username, String password) async {
     final url = Uri.parse(Endpoints.login);
-    final data = {'email': email, 'password': password};
+    final data = {'username': username, 'password': password};
 
     final response = await http.post(
       url,

@@ -8,26 +8,25 @@ import 'package:sushi_app/services/data_service.dart';
 import 'package:sushi_app/utils/constants.dart';
 import 'package:sushi_app/utils/secure_storage_util.dart';
 
-import '../components/button.dart';
 import '../models/login.dart';
 import '../theme/colors.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   void sendLogin(context, AuthCubit authCubit) async {
-    final email = _usernameController.text;
+    final username = _usernameController.text;
     final password = _passwordController.text;
 
-    final response = await DataService.sendLoginData(email, password);
+    final response = await DataService.sendLoginData(username, password);
     if (response.statusCode == 200) {
       debugPrint("sending success");
       final data = jsonDecode(response.body);
@@ -36,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .write(key: tokenStoreName, value: loggedIn.accessToken);
 
       authCubit.login(loggedIn.accessToken);
-      Navigator.pushReplacementNamed(context, "/restaurant-screen");
+      Navigator.pushReplacementNamed(context, "/menu-page");
       debugPrint(loggedIn.accessToken);
     } else {
       debugPrint("failed");
@@ -124,12 +123,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 25),
 
                   //GET STARTED BUTTON
-                  MyButton(
-                    text: "Login",
+                  GestureDetector(
                     onTap: () {
                       //GO TO MENU PAGE
                       sendLogin(context, authCubit);
                     },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(40)),
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //TEXT
+                          Text(
+                            "Login",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 10),
