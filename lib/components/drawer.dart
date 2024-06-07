@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sushi_app/pages/admin_page/admin_home.dart';
 import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
 import 'package:sushi_app/pages/splash_page.dart';
 import 'package:sushi_app/theme/colors.dart';
@@ -69,6 +70,30 @@ class MyDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const SplashPage(),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: ListTile(
+              title: Text(
+                "Admin",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+              ),
+              leading: Icon(
+                Icons.admin_panel_settings_outlined,
+                color: Colors.grey[600],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdminHome(),
                   ),
                 );
               },

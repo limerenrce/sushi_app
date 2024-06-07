@@ -302,7 +302,8 @@ class _MenuPageState extends State<MenuPage>
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/food-details-scrren'),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
@@ -316,13 +317,13 @@ class _MenuPageState extends State<MenuPage>
                           children: [
                             //IMAGE
                             Image.asset(
-                              'assets/images/shrimp.png',
+                              'assets/images/salmon_sushi.png',
                               height: 105,
                             ),
 
                             //TEXT
                             Text(
-                              "Shrimp",
+                              "Salmon Sushi",
                               style: GoogleFonts.dmSerifDisplay(fontSize: 20),
                             ),
 

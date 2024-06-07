@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/cubit/auth/auth_cubit.dart';
+import 'package:sushi_app/models/login.dart';
 import 'package:sushi_app/services/data_service.dart';
+import 'package:sushi_app/theme/colors.dart';
 import 'package:sushi_app/utils/constants.dart';
 import 'package:sushi_app/utils/secure_storage_util.dart';
-
-import '../models/login.dart';
-import '../theme/colors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -123,27 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 25),
 
                   //GET STARTED BUTTON
-                  GestureDetector(
+                  MyButton(
+                    text: "Login",
                     onTap: () {
                       //GO TO MENU PAGE
                       sendLogin(context, authCubit);
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(40)),
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //TEXT
-                          Text(
-                            "Login",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
 
                   const SizedBox(height: 10),

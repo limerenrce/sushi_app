@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
+import 'package:sushi_app/pages/food_details_page.dart';
 import 'package:sushi_app/pages/login_page.dart';
 
 import 'cubit/auth/auth_cubit.dart';
@@ -43,8 +44,11 @@ class MyApp extends StatelessWidget {
           '/splash-page': (context) => const SplashPage(),
           '/login-page': (context) => const LoginPage(),
           '/main-page': (context) => const Main(),
-          '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
-          '/cart-page': (context) => const AuthWrapper(child: CartPage()),
+          '/menu-page': (context) => MenuPage(),
+          '/cart-page': (context) => CartPage(),
+
+          // '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
+          // '/cart-page': (context) => const AuthWrapper(child: CartPage()),
           '/services-page': (context) =>
               const AuthWrapper(child: ServiceLogPage()),
         },
