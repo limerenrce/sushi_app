@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:sushi_app/endpoints/endpoints.dart';
 
+import '../models/menu.dart';
 import '../models/service.dart';
 import '../utils/constants.dart';
 import '../utils/secure_storage_util.dart';
@@ -38,7 +39,7 @@ class DataService {
     return response;
   }
 
-  // Get Method
+  // GET SERVICE
   static Future<List<Service>> fetchServices() async {
     final response = await http.get(Uri.parse(Endpoints.service));
     if (response.statusCode == 200) {
@@ -51,7 +52,7 @@ class DataService {
     }
   }
 
-  // Delete Method
+  // DELETE SERVICE
   static Future<void> deleteService(int id) async {
     final response = await http.delete(
       Uri.parse('${Endpoints.service}/$id'),
@@ -61,6 +62,20 @@ class DataService {
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to delete service');
+    }
+  }
+
+  // GET MENUS
+  static Future<List<Menus>> getMenu() async {
+    final response = await http.get(Uri.parse(Endpoints.menus));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return (data['datas'] as List<dynamic>)
+          .map((item) => Menus.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } else {
+      // Handle error
+      throw Exception('Failed to load data');
     }
   }
 }

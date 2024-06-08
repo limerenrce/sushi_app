@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/components/drawer.dart';
 import 'package:sushi_app/components/food_tile.dart';
 import 'package:sushi_app/components/my_tab_bar.dart';
+import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/food.dart';
+import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/pages/food_details_page.dart';
+import 'package:sushi_app/services/data_service.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class MenuPage extends StatefulWidget {
@@ -19,12 +21,14 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage>
     with SingleTickerProviderStateMixin {
+  Future<List<Menus>>? _menu;
   //TABS
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _menu = DataService.getMenu();
     _tabController =
         TabController(length: FoodCategory.values.length, vsync: this);
   }
@@ -301,9 +305,106 @@ class _MenuPageState extends State<MenuPage>
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
+                    FutureBuilder<List<Menus>>(
+                      future: _menu,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final menu = snapshot.data!;
+                          return ListView.builder(
+                              itemCount: menu.length,
+                              itemBuilder: (context, index) {
+                                final item = menu[index];
+                                return ListTile(
+                                  title: item.imagePath != null
+                                      ? GestureDetector(
+                                          onTap: () {},
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[100],
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            margin:
+                                                const EdgeInsets.only(left: 25),
+                                            padding: const EdgeInsets.all(25),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                //IMAGE
+                                                Image.asset(
+                                                  '${Endpoints.img}/${item.imagePath}',
+                                                  height: 105,
+                                                ),
+
+                                                //TEXT
+                                                Text(
+                                                  item.name,
+                                                  style: GoogleFonts
+                                                      .dmSerifDisplay(
+                                                          fontSize: 20),
+                                                ),
+
+                                                //PRICE + RATING
+                                                SizedBox(
+                                                  width: 160,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      //PRICE
+                                                      Text(
+                                                        item.price as String,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.grey[700],
+                                                        ),
+                                                      ),
+
+                                                      //RATING
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.star,
+                                                            color: Colors
+                                                                .yellow[800],
+                                                          ),
+                                                          Text(
+                                                            item.rating
+                                                                as String,
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .grey),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : null,
+                                );
+                              });
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('${snapshot.error}'));
+                        }
+                        return const Center(child: Text('belum masuk')
+                            // CircularProgressIndicator(
+                            //     color: Color.fromARGB(109, 140, 94, 91))
+                            );
+                      },
+                    ),
                     GestureDetector(
-                      onTap: () =>
-                          Navigator.pushNamed(context, '/food-details-scrren'),
+                      onTap: () {},
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
@@ -324,68 +425,6 @@ class _MenuPageState extends State<MenuPage>
                             //TEXT
                             Text(
                               "Salmon Sushi",
-                              style: GoogleFonts.dmSerifDisplay(fontSize: 20),
-                            ),
-
-                            //PRICE + RATING
-                            SizedBox(
-                              width: 160,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //PRICE
-                                  Text(
-                                    'RP 20.000',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey[700],
-                                    ),
-                                  ),
-
-                                  //RATING
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.yellow[800],
-                                      ),
-                                      Text(
-                                        '4.3',
-                                        style:
-                                            const TextStyle(color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        margin: const EdgeInsets.only(left: 25),
-                        padding: const EdgeInsets.all(25),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            //IMAGE
-                            Image.asset(
-                              'assets/images/shrimp.png',
-                              height: 105,
-                            ),
-
-                            //TEXT
-                            Text(
-                              "Shrimp",
                               style: GoogleFonts.dmSerifDisplay(fontSize: 20),
                             ),
 
@@ -451,128 +490,6 @@ class _MenuPageState extends State<MenuPage>
                   borderRadius: BorderRadius.circular(20),
                 ),
                 margin: const EdgeInsets.only(left: 25, right: 25, bottom: 5),
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        //IMAGE
-                        Image.asset(
-                          'assets/images/salmon_eggs.png',
-                          height: 60,
-                        ),
-
-                        const SizedBox(width: 20),
-
-                        //NAME AND PRICE
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //NAME
-                            Text(
-                              "Salmon Eggs",
-                              style: GoogleFonts.dmSerifDisplay(fontSize: 18),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            //PRICE
-                            Text(
-                              'RP 21.000',
-                              style: TextStyle(color: Colors.grey[700]),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    //HEART
-                    IconButton(
-                      onPressed: _toggleLiked,
-                      icon: (_isLiked
-                          ? const Icon(
-                              Icons.favorite_border,
-                              color: Colors.grey,
-                              size: 28,
-                            )
-                          : const Icon(
-                              Icons.favorite,
-                              color: Color.fromARGB(255, 167, 41, 41),
-                              size: 28,
-                            )),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                margin: const EdgeInsets.only(left: 25, right: 25, bottom: 5),
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        //IMAGE
-                        Image.asset(
-                          'assets/images/salmon_eggs.png',
-                          height: 60,
-                        ),
-
-                        const SizedBox(width: 20),
-
-                        //NAME AND PRICE
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //NAME
-                            Text(
-                              "Salmon Eggs",
-                              style: GoogleFonts.dmSerifDisplay(fontSize: 18),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            //PRICE
-                            Text(
-                              'RP 21.000',
-                              style: TextStyle(color: Colors.grey[700]),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    //HEART
-                    IconButton(
-                      onPressed: _toggleLiked,
-                      icon: (_isLiked
-                          ? const Icon(
-                              Icons.favorite_border,
-                              color: Colors.grey,
-                              size: 28,
-                            )
-                          : const Icon(
-                              Icons.favorite,
-                              color: Color.fromARGB(255, 167, 41, 41),
-                              size: 28,
-                            )),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                margin: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
                 padding: const EdgeInsets.all(20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

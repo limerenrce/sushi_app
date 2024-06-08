@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:sushi_app/components/button.dart';
-import 'package:sushi_app/components/drawer.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class AdminHome extends StatefulWidget {

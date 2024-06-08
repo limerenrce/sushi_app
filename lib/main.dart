@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
-import 'package:sushi_app/pages/food_details_page.dart';
 import 'package:sushi_app/pages/login_page.dart';
 
 import 'cubit/auth/auth_cubit.dart';
