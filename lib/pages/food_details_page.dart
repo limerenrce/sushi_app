@@ -7,8 +7,8 @@ import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class FoodDetailsPage extends StatefulWidget {
-  final Food food;
-  const FoodDetailsPage({super.key, required this.food});
+  // final Food food;
+  const FoodDetailsPage({super.key});
 
   @override
   FoodDetailsPageState createState() => FoodDetailsPageState();
@@ -42,34 +42,74 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
       final shop = context.read<Restaurant>();
 
       //ADD TO CART
-      shop.addToCart(widget.food, quantityCount);
+      // shop.addToCart(widget.food, quantityCount);
 
       //LET THE USER KNOW IT WAS SUCCESSFUL
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          backgroundColor: primaryColor,
-          content: const Text(
-            "Successfully added to cart",
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
+          backgroundColor: Colors.white,
+          content: SizedBox(
+            width: 300,
+            height: 200,
+            child: Column(
+              children: [
+                Icon(Icons.check_circle_outline,
+                    color: Colors.green[800], size: 78),
+                const SizedBox(height: 8),
+                const Text(
+                  "Add to cart successful",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Your order has been successfully",
+                  style: TextStyle(color: Colors.grey[800]),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "added to cart",
+                  style: TextStyle(color: Colors.grey[800]),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
           actions: [
             //OKAY BUTTON
-            IconButton(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 //POP ONCE TO REMOVE DIALOG BOX
                 Navigator.pop(context);
 
                 //POP AGAIN TO GO TO PREVIOUS SCREEN
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
-              icon: const Icon(
-                Icons.done,
-                color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(40)),
+                margin: const EdgeInsets.only(left: 50, right: 50),
+                padding: const EdgeInsets.all(15),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //TEXT
+                    Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       );
@@ -92,7 +132,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                 children: [
                   //IMAGE
                   Image.asset(
-                    widget.food.imagePath,
+                    'assets/images/salmon_eggs.png',
                     height: 200,
                   ),
 
@@ -109,7 +149,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
 
                       //RATING NUMBER
                       Text(
-                        widget.food.rating,
+                        '4.7',
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontWeight: FontWeight.bold,
@@ -121,7 +161,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   const SizedBox(height: 10),
                   //FOOD NAME
                   Text(
-                    widget.food.name,
+                    "Salmon Eggs",
                     style: GoogleFonts.dmSerifDisplay(fontSize: 28),
                   ),
 
@@ -138,7 +178,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   const SizedBox(height: 10),
 
                   Text(
-                    widget.food.description,
+                    "Enak nyee",
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -162,7 +202,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   children: [
                     //PRICE
                     Text(
-                      "RP ${widget.food.price}",
+                      "RP 30.000",
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

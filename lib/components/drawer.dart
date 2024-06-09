@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sushi_app/pages/admin_page/admin_home.dart';
+import 'package:sushi_app/pages/admin_page/admin_menu.dart';
+import 'package:sushi_app/pages/food_details_page.dart';
 import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
 import 'package:sushi_app/pages/splash_page.dart';
 import 'package:sushi_app/theme/colors.dart';
@@ -69,7 +71,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SplashPage(),
+                    builder: (context) => FoodDetailsPage(),
                   ),
                 );
               },
@@ -93,7 +95,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AdminHome(),
+                    builder: (context) => AdminMenu(),
                   ),
                 );
               },

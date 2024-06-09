@@ -45,35 +45,35 @@ class _MenuPageState extends State<MenuPage>
   }
 
   //return list of foods in given category
-  List<Widget> getFoodInThisCategory(List<Food> fullMenu) {
-    return FoodCategory.values.map((category) {
-      //get category menu
-      List<Food> categoryMenu = _filterMenuByCategory(category, fullMenu);
+  // List<Widget> getFoodInThisCategory(List<Food> fullMenu) {
+  //   return FoodCategory.values.map((category) {
+  //     //get category menu
+  //     List<Food> categoryMenu = _filterMenuByCategory(category, fullMenu);
 
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: categoryMenu.length,
-          itemBuilder: (context, index) {
-            //get individual food
-            final food = categoryMenu[index];
+  //     return Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: ListView.builder(
+  //         scrollDirection: Axis.horizontal,
+  //         itemCount: categoryMenu.length,
+  //         itemBuilder: (context, index) {
+  //           //get individual food
+  //           final food = categoryMenu[index];
 
-            //return food tile UI
-            return FoodTile(
-              food: food,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FoodDetailsPage(food: food),
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    }).toList();
-  }
+  //           //return food tile UI
+  //           return FoodTile(
+  //             food: food,
+  //             onTap: () => Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                 builder: (context) => FoodDetailsPage(food: food),
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //     );
+  //   }).toList();
+  // }
 
   //FAVORITE BUTTON
   bool _isLiked = true;
