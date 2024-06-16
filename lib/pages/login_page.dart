@@ -26,19 +26,22 @@ class _LoginPageState extends State<LoginPage> {
     final username = _usernameController.text;
     final password = _passwordController.text;
 
-    final response = await DataService.sendLoginData(username, password);
-    if (response.statusCode == 200) {
-      debugPrint("sending success");
-      final data = jsonDecode(response.body);
-      final loggedIn = Login.fromJson(data);
-      await SecureStorageUtil.storage
-          .write(key: tokenStoreName, value: loggedIn.accessToken);
-
-      authCubit.login(loggedIn.accessToken);
-      Navigator.pushReplacementNamed(context, "/menu-page");
-      debugPrint(loggedIn.accessToken);
-    } else {
-      debugPrint("failed");
+    try {
+      final response = await DataService.sendLoginData(username, password);
+      print(response);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final loggedIn = Login.fromJson(data);
+        await SecureStorageUtil.storage
+            .write(key: tokenStoreName, value: loggedIn.accessToken);
+        authCubit.login(loggedIn.accessToken);
+        Navigator.pushReplacementNamed(context, "/menu-page");
+      } else {
+        debugPrint(
+            "Failed to login: ${response.statusCode} - ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      debugPrint("Error sending login data: $e");
     }
   }
 

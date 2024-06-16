@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 import 'package:sushi_app/endpoints/endpoints.dart';
@@ -22,8 +24,42 @@ class DataService {
       body: jsonEncode(data),
     );
 
-    return response;
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to load user data');
+    }
   }
+
+  static Future<Response> makeLoginRequest(Map<String, dynamic> data) async {
+    final Dio dio = Dio();
+    return dio.post(
+      Endpoints.login, // Use HTTPS
+      data: data,
+    );
+  }
+  //Future<Map<String, dynamic>> fetchUserData() async {
+
+  // final token = Provider.of<TokenProvider>(context, listen: false).token;
+  // final userId = Provider.of<TokenProvider>(context, listen: false).userId;
+
+  // Dio dio = Dio();
+  // final response = await dio.get(
+  //   'http://10.0.2.2:1432/GetProfileOfCurrentUser/$userId',
+  //   options: Options(
+  //     headers: {
+  //       'Authorization': 'Bearer $token',
+  //       'Content-Type': 'application/json', // Adjust content type as needed
+  //     },
+  //   ),
+  // );
+
+  // if (response.statusCode == 200) {
+  //   return response.data;
+  // } else {
+  //   throw Exception('Failed to load user data');
+  // }
+  // }
 
   // LOGOUT //
   static Future<http.Response> LogoutData() async {
