@@ -1,79 +1,49 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sushi_app/cubit/auth/auth_cubit.dart';
-import 'package:sushi_app/models/login.dart';
-import 'package:sushi_app/services/data_service.dart';
-import 'package:sushi_app/theme/colors.dart';
-import 'package:sushi_app/utils/constants.dart';
-import 'package:sushi_app/utils/secure_storage_util.dart';
 
-import '../cubit/profile/profile_cubit.dart';
+import '../services/data_service.dart';
+import '../theme/colors.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
+  final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-  void sendLogin(
-      context, AuthCubit authCubit, ProfileCubit profileCubit) async {
+  void sendRegister() async {
+    final name = _nameController.text;
     final username = _usernameController.text;
     final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
 
-    final response = await DataService.sendLoginData(username, password);
-    if (response.statusCode == 200) {
-      debugPrint("sending success");
+    if (password != confirmPassword) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Login Successfully')));
-      final data = jsonDecode(response.body);
-      final loggedIn = Login.fromJson(data);
-      await SecureStorageUtil.storage
-          .write(key: tokenStoreName, value: loggedIn.accessToken);
-      authCubit.login(loggedIn.accessToken);
-      getProfile(profileCubit, loggedIn.accessToken, context);
-      //Navigator.pushReplacementNamed(context, "/menu-page");
-
-      debugPrint(loggedIn.accessToken);
-    } else {
-      debugPrint('failed ${response.statusCode}');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(response.statusCode == 400
-              ? 'fill in the username and password fields'
-              : 'Incorrect username or password')));
-    }
-  }
-
-  void getProfile(
-      ProfileCubit profileCubit, String? accessToken, BuildContext context) {
-    if (accessToken == null) {
-      debugPrint('Access token is null');
+          .showSnackBar(const SnackBar(content: Text("Password didn't match")));
       return;
     }
 
-    DataService.fetchProfile(accessToken).then((profile) {
-      debugPrint(profile.toString());
-      profileCubit.setProfile(profile.roles, profile.userLogged);
-      profile.roles == 'admin'
-          ? Navigator.pushReplacementNamed(context, '/adminHome-page')
-          : Navigator.pushReplacementNamed(context, '/menu-page');
-    }).catchError((error) {
-      debugPrint('Error fetching profile: $error');
-      // Show a user-friendly message here
-    });
+    final response = await DataService.sendRegister(name, username, password);
+    if (response.statusCode == 201) {
+      debugPrint('Regiter success');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Register success')));
+      Navigator.pushReplacementNamed(context, '/login');
+    } else {
+      debugPrint('failed ${response.statusCode}');
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed: ${response.statusCode}')));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authCubit = BlocProvider.of<AuthCubit>(context);
-    final profileCubit = BlocProvider.of<ProfileCubit>(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -87,12 +57,12 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 30),
                   //FOOD NAME
                   Text(
-                    'Welcome Back,',
+                    'Create Your Account',
                     style: GoogleFonts.dmSerifDisplay(
                         fontSize: 28, color: primaryColor),
                   ),
                   Text(
-                    'Login to continue your order',
+                    'Create your account to start your order',
                     style: GoogleFonts.dmSerifDisplay(
                         fontSize: 15, color: primaryColor),
                   ),
@@ -103,6 +73,30 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   const SizedBox(height: 10),
+                  const SizedBox(height: 25),
+
+                  //name
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        hintText: "Name"),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Name';
+                      }
+                      return null;
+                    },
+                  ),
+
                   const SizedBox(height: 25),
 
                   //username
@@ -151,28 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
 
-                  const SizedBox(height: 40),
-
-                  Center(
-                    child: TextButton(
-                      onPressed: () => {},
-                      child: Text(
-                        "Forgot password",
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                    ),
-                  ),
-
                   const SizedBox(height: 25),
 
-                  //LOGIN BUTTON
+                  //SIGN UP BUTTON
                   GestureDetector(
                     onTap: () {
-                      //GO TO MENU PAGE
-                      sendLogin(context, authCubit, profileCubit);
+                      //REGISTER ACCOUNT
+                      sendRegister();
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -184,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           //TEXT
                           Text(
-                            "Login",
+                            "Sign Up",
                             style: TextStyle(color: Colors.white),
                           ),
                           SizedBox(height: 10),
@@ -205,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have account?",
+                        "Already have an account?",
                         style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.bold,
@@ -215,10 +194,10 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/signUp-page');
+                              context, '/login-page');
                         },
                         child: const Text(
-                          "Sign Up",
+                          "Login",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,

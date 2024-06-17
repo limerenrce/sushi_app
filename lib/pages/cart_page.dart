@@ -106,197 +106,199 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Restaurant>(
-      builder: (context, value, child) => Scaffold(
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: AppBar(
+        title: const Text("My Cart"),
+        elevation: 0,
         backgroundColor: primaryColor,
-        appBar: AppBar(
-          title: const Text("My Cart"),
-          elevation: 0,
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.grey[300],
-        ),
-        body: Column(
-          children: [
-            //---------CUSTOMER CART---------
-            Expanded(
-              child: ListView.builder(
-                itemCount: value.cart.length,
-                itemBuilder: (context, index) {
-                  //GET FODD FROM CART
-                  final Food food = value.cart[index];
+        foregroundColor: Colors.grey[300],
+      ),
+      body: Column(
+        children: [
+          //---------CUSTOMER CART---------
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: value.cart.length,
+          //     itemBuilder: (context, index) {
+          //       //GET FODD FROM CART
+          //       final Food food = value.cart[index];
 
-                  //GET FOOD NAME
-                  final String foodName = food.name;
+          //       //GET FOOD NAME
+          //       final String foodName = food.name;
 
-                  //GET FOOD PRICE
-                  final String foodPrice = food.price;
+          //       //GET FOOD PRICE
+          //       final String foodPrice = food.price;
 
-                  //RETURN LIST TITLE
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(8),
+          //       //RETURN LIST TITLE
+          //       return Container(
+          //         decoration: BoxDecoration(
+          //           color: secondaryColor,
+          //           borderRadius: BorderRadius.circular(8),
+          //         ),
+          //         margin: const EdgeInsets.only(left: 20, top: 20, right: 20),
+          //         child: Column(
+          //           children: [
+          //             ListTile(
+          //               title: Text(
+          //                 foodName,
+          //                 style: const TextStyle(
+          //                   color: Colors.white,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               ),
+          //               subtitle: Text(
+          //                 foodPrice,
+          //                 style: TextStyle(
+          //                   color: Colors.grey[200],
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               ),
+          //               trailing: IconButton(
+          //                 onPressed: () => removeFromCart(food, context),
+          //                 icon: Icon(
+          //                   Icons.delete,
+          //                   color: Colors.grey[300],
+          //                 ),
+          //               ),
+          //             ),
+          //             //QUANTITY
+          //             Row(
+          //               children: [
+          //                 //MINUS BUTTON
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                     color: secondaryColor,
+          //                     shape: BoxShape.circle,
+          //                   ),
+          //                   child: IconButton(
+          //                       onPressed: decrementQuantity,
+          //                       icon: const Icon(
+          //                         Icons.remove,
+          //                         color: Colors.white,
+          //                       )),
+          //                 ),
+
+          //                 //QUANTITY COUNT
+          //                 SizedBox(
+          //                   width: 40,
+          //                   child: Center(
+          //                     child: Text(
+          //                       quantityCount.toString(),
+          //                       style: const TextStyle(
+          //                         color: Colors.white,
+          //                         fontWeight: FontWeight.bold,
+          //                         fontSize: 18,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+
+          //                 //PLUS BUTTON
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                     color: secondaryColor,
+          //                     shape: BoxShape.circle,
+          //                   ),
+          //                   child: IconButton(
+          //                       onPressed: incrementQuantity,
+          //                       icon: const Icon(
+          //                         Icons.add,
+          //                         color: Colors.white,
+          //                       )),
+          //                 ),
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
+          Expanded(
+              child: Scaffold(
+            backgroundColor: primaryColor,
+          )),
+          //---------ORDER NOW BUTTON---------
+          Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            padding: const EdgeInsets.all(25),
+            child: Column(
+              children: [
+                //SUBTOTAL
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Subtotal"),
+                    Text("RP 98.000"),
+                  ],
+                ),
+                Divider(color: Colors.grey),
+
+                //TAX
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Tax 10%"),
+                    Text("RP 9.800"),
+                  ],
+                ),
+                Divider(color: Colors.grey),
+
+                //TOTAL
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
-                    margin: const EdgeInsets.only(left: 20, top: 20, right: 20),
-                    child: Column(
+                    Text(
+                      "RP 107.800",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 25),
+                //ORDER NOW BUTTON
+                GestureDetector(
+                  onTap: orderNow,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(40)),
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ListTile(
-                          title: Text(
-                            foodName,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(
-                            foodPrice,
-                            style: TextStyle(
-                              color: Colors.grey[200],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () => removeFromCart(food, context),
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.grey[300],
-                            ),
-                          ),
+                        //TEXT
+                        Text(
+                          "Order Now",
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        //QUANTITY
-                        Row(
-                          children: [
-                            //MINUS BUTTON
-                            Container(
-                              decoration: BoxDecoration(
-                                color: secondaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: IconButton(
-                                  onPressed: decrementQuantity,
-                                  icon: const Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
-                                  )),
-                            ),
-
-                            //QUANTITY COUNT
-                            SizedBox(
-                              width: 40,
-                              child: Center(
-                                child: Text(
-                                  quantityCount.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            //PLUS BUTTON
-                            Container(
-                              decoration: BoxDecoration(
-                                color: secondaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: IconButton(
-                                  onPressed: incrementQuantity,
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 10),
                       ],
                     ),
-                  );
-                },
-              ),
+                  ),
+                )
+              ],
             ),
-
-            //---------ORDER NOW BUTTON---------
-            Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              padding: const EdgeInsets.all(25),
-              child: Column(
-                children: [
-                  //SUBTOTAL
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Subtotal"),
-                      Text("RP 98.000"),
-                    ],
-                  ),
-                  Divider(color: Colors.grey),
-
-                  //TAX
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Tax 10%"),
-                      Text("RP 9.800"),
-                    ],
-                  ),
-                  Divider(color: Colors.grey),
-
-                  //TOTAL
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        "RP 107.800",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 25),
-                  //ORDER NOW BUTTON
-                  GestureDetector(
-                    onTap: orderNow,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(40)),
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //TEXT
-                          Text(
-                            "Order Now",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          const SizedBox(height: 10),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

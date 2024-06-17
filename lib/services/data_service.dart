@@ -7,22 +7,31 @@ import 'dart:convert';
 import 'package:sushi_app/endpoints/endpoints.dart';
 
 import '../models/menu.dart';
+import '../models/profile.dart';
 import '../models/service.dart';
 import '../utils/constants.dart';
 import '../utils/secure_storage_util.dart';
 
 class DataService {
-  //  LOGIN //
+  // LOGIN //
   static Future<http.Response> sendLoginData(
       String username, String password) async {
     final url = Uri.parse(Endpoints.login);
-    final data = {'username': username, 'password': password};
+    // final data = {'username': username, 'password': password};
 
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(data),
-    );
+    final Map<String, dynamic> data = {
+      'username': username,
+      'password': password
+    };
+
+    final response = await http.post(url, body: data);
+    debugPrint("Response: ${{response.statusCode}}");
+
+    // final response = await http.post(
+    //   url,
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: jsonEncode(data),
+    // );
 
     if (response.statusCode == 200) {
       return response;
@@ -31,35 +40,59 @@ class DataService {
     }
   }
 
-  static Future<Response> makeLoginRequest(Map<String, dynamic> data) async {
-    final Dio dio = Dio();
-    return dio.post(
-      Endpoints.login, // Use HTTPS
-      data: data,
+  // PROTECTED GET PROFILE //
+  static Future<Profile> fetchProfile(String? accessToken) async {
+    accessToken ??= await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+    final response = await http.get(
+      Uri.parse(Endpoints.profile),
+      headers: {'Authorization': 'Bearer $accessToken'},
     );
+
+    debugPrint('Profile response: ${response.body}');
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse;
+      try {
+        jsonResponse = jsonDecode(response.body);
+      } catch (e) {
+        throw Exception('Failed to parse JSON: $e');
+      }
+
+      try {
+        return Profile.fromJson(jsonResponse);
+      } catch (e) {
+        throw Exception('Failed to parse Profile: $e');
+      }
+    } else {
+      // Handle error
+      throw Exception(
+          'Failed to load Profile with status code: ${response.statusCode}');
+    }
   }
-  //Future<Map<String, dynamic>> fetchUserData() async {
 
-  // final token = Provider.of<TokenProvider>(context, listen: false).token;
-  // final userId = Provider.of<TokenProvider>(context, listen: false).userId;
+  //REGISTER NEW ACCOUNT //
+  static Future<http.Response> sendRegister(
+      String name, String username, String password) async {
+    final url = Uri.parse(Endpoints.register);
+    //final data = {'name': name, 'username': username, 'password': password};
 
-  // Dio dio = Dio();
-  // final response = await dio.get(
-  //   'http://10.0.2.2:1432/GetProfileOfCurrentUser/$userId',
-  //   options: Options(
-  //     headers: {
-  //       'Authorization': 'Bearer $token',
-  //       'Content-Type': 'application/json', // Adjust content type as needed
-  //     },
-  //   ),
-  // );
+    final Map<String, dynamic> data = {
+      'name': name,
+      'username': username,
+      'password': password
+    };
 
-  // if (response.statusCode == 200) {
-  //   return response.data;
-  // } else {
-  //   throw Exception('Failed to load user data');
-  // }
-  // }
+    // final response = await http.post(
+    //   url,
+    //   body: data,
+    // );
+
+    final response = await http.post(url, body: data);
+    debugPrint("Response: ${{response.statusCode}}");
+
+    return response;
+  }
 
   // LOGOUT //
   static Future<http.Response> LogoutData() async {

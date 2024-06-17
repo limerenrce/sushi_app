@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
+import 'package:sushi_app/cubit/profile/profile_cubit.dart';
+import 'package:sushi_app/pages/admin_page/admin_home.dart';
 import 'package:sushi_app/pages/login_page.dart';
+import 'package:sushi_app/pages/signUp_page.dart';
 
 import 'cubit/auth/auth_cubit.dart';
 import 'models/restaurant.dart';
@@ -24,19 +27,22 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+        BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: const SplashPage(),
         routes: {
+          '/main-page': (context) => const Main(),
           '/splash-page': (context) => const SplashPage(),
           '/login-page': (context) => const LoginPage(),
-          '/main-page': (context) => const Main(),
+          '/signUp-page': (context) => const SignUpPage(),
           //'/menu-page': (context) => MenuPage(),
           //'/cart-page': (context) => CartPage(),
 
           '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
           '/cart-page': (context) => const AuthWrapper(child: CartPage()),
+          '/adminHome-page': (context) => const AuthWrapper(child: AdminHome()),
           '/services-page': (context) =>
               const AuthWrapper(child: ServiceLogPage()),
         },
