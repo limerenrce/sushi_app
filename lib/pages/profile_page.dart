@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_app/components/drawer.dart';
+import 'package:sushi_app/components/user_drawer.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,7 +14,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      drawer: const MyDrawer(),
+      drawer: const UserDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey[800],

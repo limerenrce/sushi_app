@@ -4,11 +4,10 @@ import 'package:sushi_app/pages/admin_page/admin_menu.dart';
 import 'package:sushi_app/pages/admin_page/admin_orderList.dart';
 import 'package:sushi_app/pages/food_details_page.dart';
 import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
-import 'package:sushi_app/pages/splash_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+class AdminDrawer extends StatelessWidget {
+  const AdminDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

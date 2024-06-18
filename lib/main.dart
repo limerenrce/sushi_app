@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
 import 'package:sushi_app/cubit/profile/profile_cubit.dart';
 import 'package:sushi_app/pages/admin_page/admin_home.dart';
 import 'package:sushi_app/pages/login_page.dart';
 import 'package:sushi_app/pages/signUp_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'cubit/auth/auth_cubit.dart';
-import 'models/restaurant.dart';
 import 'pages/cart_page.dart';
 import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
@@ -15,8 +18,72 @@ import 'pages/splash_page.dart';
 import 'pages/support_pages/serviceLog_page.dart';
 import 'theme/colors.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  _requestLocalNotifPermision();
+
+  const AndroidInitializationSettings androidInitializationSettings =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: androidInitializationSettings);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Request permission to receive notifications (Android only)
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    NotificationSettings? settings = await messaging.requestPermission();
+    debugPrint("${settings.authorizationStatus}");
+  }
+
+  // Listen to incoming messages in the foreground
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    debugPrint(
+        "Received message in foreground: ${message.notification?.title}");
+    // Use this data to display a notification or take other actions
+    _showNotification(message);
+    debugPrint("show notification here");
+  });
+
+  // Listen to incoming messages when the app is in background or terminated
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    debugPrint(
+        "Received message when app was closed: ${message.notification?.title}");
+    // Handle notification tap event (optional)
+  });
+
+  // Get the registration token for this device
+  String? token = await messaging.getToken();
+  debugPrint("Registration token: $token");
   runApp(const MyApp());
+}
+
+Future<void> _requestLocalNotifPermision() async {
+  final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+      flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+  await androidImplementation?.requestNotificationsPermission();
+}
+
+void _showNotification(RemoteMessage message) {
+  // Customize notification based on your needs
+  RemoteNotification? notification = message.notification;
+  const AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails('sushiman-app-1', 'sushiman-app',
+          channelDescription: 'Only for demonstrate notification',
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker');
+  const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  if (notification != null) {
+    flutterLocalNotificationsPlugin.show(notification.hashCode,
+        notification.title, notification.body, notificationDetails);
+  }
 }
 
 class MyApp extends StatelessWidget {

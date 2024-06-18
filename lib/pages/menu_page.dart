@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:sushi_app/components/drawer.dart';
-import 'package:sushi_app/components/food_tile.dart';
-import 'package:sushi_app/components/my_tab_bar.dart';
-import 'package:sushi_app/endpoints/endpoints.dart';
-import 'package:sushi_app/models/food.dart';
+import 'package:sushi_app/components/user_drawer.dart';
 import 'package:sushi_app/models/menu.dart';
-import 'package:sushi_app/pages/food_details_page.dart';
 import 'package:sushi_app/services/data_service.dart';
 import 'package:sushi_app/theme/colors.dart';
 
@@ -21,20 +15,20 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage>
     with SingleTickerProviderStateMixin {
   Future<List<Menus>>? _menu;
-  //TABS
-  late TabController _tabController;
+  // //TABS
+  // late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _menu = DataService.getMenu();
-    // _tabController =
-    TabController(length: FoodCategory.values.length, vsync: this);
+    // // _tabController =
+    // TabController(length: FoodCategory.values.length, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    // _tabController.dispose();
     super.dispose();
   }
 
@@ -93,7 +87,7 @@ class _MenuPageState extends State<MenuPage>
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      drawer: const MyDrawer(),
+      drawer: const UserDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey[800],
@@ -142,15 +136,15 @@ class _MenuPageState extends State<MenuPage>
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 15),
-                        Text(
+                        const SizedBox(height: 15),
+                        const Text(
                           'Our new menu',
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.white,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'will release this July',
                           style: TextStyle(
                             fontSize: 15,
@@ -297,7 +291,7 @@ class _MenuPageState extends State<MenuPage>
               //     ),
               //   ),
               // ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

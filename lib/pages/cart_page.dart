@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/models/food.dart';
-import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CartPageState createState() => _CartPageState();
 }
 
@@ -231,32 +229,32 @@ class _CartPageState extends State<CartPage> {
             child: Column(
               children: [
                 //SUBTOTAL
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Subtotal"),
                     Text("RP 98.000"),
                   ],
                 ),
-                Divider(color: Colors.grey),
+                const Divider(color: Colors.grey),
 
                 //TAX
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Tax 10%"),
                     Text("RP 9.800"),
                   ],
                 ),
-                Divider(color: Colors.grey),
+                const Divider(color: Colors.grey),
 
                 //TOTAL
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Total",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -264,7 +262,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     Text(
                       "RP 107.800",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -282,15 +280,15 @@ class _CartPageState extends State<CartPage> {
                         color: primaryColor,
                         borderRadius: BorderRadius.circular(40)),
                     padding: const EdgeInsets.all(20),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //TEXT
                         Text(
                           "Order Now",
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),
