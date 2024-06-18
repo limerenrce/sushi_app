@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sushi_app/pages/cart_page.dart';
-import 'package:sushi_app/pages/food_details_page.dart';
+import 'package:sushi_app/pages/login_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class UserDrawer extends StatelessWidget {
@@ -69,7 +69,7 @@ class UserDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FoodDetailsPage(),
+                    builder: (context) => const LoginPage(),
                   ),
                 );
               },

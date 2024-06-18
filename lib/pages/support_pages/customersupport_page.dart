@@ -27,12 +27,12 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
   final _nimController = TextEditingController();
   final _idController = TextEditingController();
 
-  late String _id;
-  late String _nim;
-  late String _title;
-  late String _description;
+  // late String _id;
+  // late String _nim;
+  // late String _title;
+  // late String _description;
 
-  File? galleryFile = null;
+  File? galleryFile;
   final picker = ImagePicker();
 
   double _rating = 0;
@@ -45,10 +45,10 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
     super.initState();
     _selectedDivision = 'IT';
     _selectedPriority = 'Low';
-    _id = '';
-    _nim = '';
-    _title = '';
-    _description = '';
+    // _id = '';
+    // _nim = '';
+    // _title = '';
+    // _description = '';
     // Pre-fill fields with received data if available (for edit mode)
     if (widget.service != null) {
       _idController.text = widget.service!.idCustomerService.toString();
@@ -172,6 +172,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
 
     if (response.statusCode == 200) {
       debugPrint('Data and image updated successfully!');
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/services-page');
     } else {
       debugPrint('Error posting data: ${response.statusCode}');
@@ -187,9 +188,9 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
     );
 
     if (response.statusCode == 200) {
-      print('Rating sent successfully!');
+      debugPrint('Rating sent successfully!');
     } else {
-      print('Error sending rating: ${response.statusCode}');
+      debugPrint('Error sending rating: ${response.statusCode}');
     }
   }
 
@@ -249,7 +250,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Container(
                       decoration: BoxDecoration(
                           color: primaryColor,
@@ -316,8 +317,8 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                 // Update state on text change
                                 setState(
                                   () {
-                                    _nim =
-                                        value; // Update the _title state variable
+                                    // _nim =
+                                    value; // Update the _title state variable
                                   },
                                 );
                               },
@@ -334,11 +335,11 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                         color: Colors.grey.shade200))),
                             child: DropdownButton<String>(
                               value: _selectedDivision,
-                              hint: Text('Select a division'),
-                              icon: Icon(Icons.arrow_downward),
+                              hint: const Text('Select a division'),
+                              icon: const Icon(Icons.arrow_downward),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color.fromARGB(255, 138, 60, 55)),
                               onChanged: (String? newValue) {
                                 setState(() {
@@ -367,12 +368,12 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                     bottom: BorderSide(
                                         color: Colors.grey.shade200))),
                             child: DropdownButton<String>(
-                              hint: Text('Select a priority'),
+                              hint: const Text('Select a priority'),
                               value: _selectedPriority,
-                              icon: Icon(Icons.arrow_downward),
+                              icon: const Icon(Icons.arrow_downward),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color.fromARGB(255, 138, 60, 55)),
                               onChanged: (String? newValue) {
                                 setState(() {
@@ -414,8 +415,8 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                   onChanged: (value) {
                                     // Update state on text change
                                     setState(() {
-                                      _title =
-                                          value; // Update the _title state variable
+                                      // _title =
+                                      value; // Update the _title state variable
                                     });
                                   },
                                 ),
@@ -440,7 +441,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                 height: 175, // Adjust height as needed
                                 // color: Colors.grey[200], // Placeholder color
                                 child: galleryFile == null
-                                    ? Center(
+                                    ? const Center(
                                         child: Icon(
                                         Icons.camera_alt,
                                         color: Colors.grey,
@@ -453,7 +454,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                             ),
                           ),
 
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
 
                           //-----R A T I N G-----
                           Center(
@@ -464,8 +465,8 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                               allowHalfRating: false,
                               itemCount: 5,
                               itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => Icon(
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                               ),
@@ -478,7 +479,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                             ),
                           ),
 
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
 
                           //-----D E S K R I P S I   I S S U E-----
                           Container(
@@ -501,8 +502,8 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
                                 // Update state on text change
                                 setState(
                                   () {
-                                    _description =
-                                        value; // Update the _title state variable
+                                    // _description =
+                                    value; // Update the _title state variable
                                   },
                                 );
                               },
@@ -531,7 +532,7 @@ class _CustomersupportPageState extends State<CustomersupportPage> {
             _postDataWithImage(context);
           }
         },
-        child: Icon(Icons.save, color: Colors.white, size: 28),
+        child: const Icon(Icons.save, color: Colors.white, size: 28),
       ),
     );
   }

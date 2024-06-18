@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/button.dart';
-import 'package:sushi_app/models/food.dart';
+import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class FoodDetailsPage extends StatefulWidget {
-  // final Food food;
-  const FoodDetailsPage({super.key});
+  final Menus menu;
+  const FoodDetailsPage({super.key, required this.menu});
 
   @override
   FoodDetailsPageState createState() => FoodDetailsPageState();
@@ -132,7 +132,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                 children: [
                   //IMAGE
                   Image.asset(
-                    'assets/images/salmon_eggs.png',
+                    widget.menu.imagePath,
                     height: 200,
                   ),
 
@@ -149,7 +149,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
 
                       //RATING NUMBER
                       Text(
-                        '4.7',
+                        '${widget.menu.rating}',
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   const SizedBox(height: 10),
                   //FOOD NAME
                   Text(
-                    "Salmon Eggs",
+                    widget.menu.name,
                     style: GoogleFonts.dmSerifDisplay(fontSize: 28),
                   ),
 
@@ -178,7 +178,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   const SizedBox(height: 10),
 
                   Text(
-                    "Enak nyee",
+                    widget.menu.description,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -202,7 +202,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   children: [
                     //PRICE
                     Text(
-                      "RP 30.000",
+                      '${widget.menu.price}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
