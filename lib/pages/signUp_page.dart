@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -5,9 +7,10 @@ import '../services/data_service.dart';
 import '../theme/colors.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignUpPageState createState() => _SignUpPageState();
 }
 
@@ -15,30 +18,22 @@ class _SignUpPageState extends State<SignUpPage> {
   final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
   void sendRegister() async {
     final name = _nameController.text;
     final username = _usernameController.text;
     final password = _passwordController.text;
-    final confirmPassword = _confirmPasswordController.text;
-
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Password didn't match")));
-      return;
-    }
 
     final response = await DataService.sendRegister(name, username, password);
     if (response.statusCode == 201) {
       debugPrint('Regiter success');
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Register success')));
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacementNamed(context, '/login-page');
     } else {
       debugPrint('failed ${response.statusCode}');
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: ${response.statusCode}')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Register failed')));
     }
   }
 

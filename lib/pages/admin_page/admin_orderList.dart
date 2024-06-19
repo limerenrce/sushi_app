@@ -1,12 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class AdminOrderList extends StatefulWidget {
-  const AdminOrderList({Key? key}) : super(key: key);
+  const AdminOrderList({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminOrderListState createState() => _AdminOrderListState();
 }
 
@@ -29,7 +31,7 @@ class _AdminOrderListState extends State<AdminOrderList> {
             child: SingleChildScrollView(
           // scrollDirection: Axis.horizontal,
           child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

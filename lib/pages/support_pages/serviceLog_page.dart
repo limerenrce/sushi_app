@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, file_names
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +12,7 @@ import 'package:sushi_app/pages/support_pages/customersupport_page.dart';
 import '../../services/data_service.dart';
 
 class ServiceLogPage extends StatefulWidget {
-  const ServiceLogPage({Key? key}) : super(key: key);
+  const ServiceLogPage({super.key});
 
   @override
   _ServiceLogPageState createState() => _ServiceLogPageState();
@@ -28,13 +28,13 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
   }
 
   void _deleteService(BuildContext context, int idCustomerService) {
-    print('Deleting datas with ID: $idCustomerService');
+    debugPrint('Deleting datas with ID: $idCustomerService');
     DataService.deleteService(idCustomerService).then((value) {
       setState(() {
         _services = DataService.fetchServices();
       });
     }).catchError((error) {
-      print('Failed to delete datas: $error');
+      debugPrint('Failed to delete datas: $error');
     });
   }
 
@@ -57,8 +57,8 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
               itemBuilder: (context, index) => Slidable(
                 // Customize appearance and behavior as needed
                 key: ValueKey(index),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
+                endActionPane: const ActionPane(
+                  motion: ScrollMotion(),
                   children: [
                     // SlidableAction(
                     //   // An action can be bigger than the others.
@@ -100,7 +100,7 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
                                     const Icon(Icons
                                         .error), // Display error icon if image fails to load
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
 
                               //RATING
                               Row(
@@ -140,7 +140,7 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
                               //DESCRIPTION
 
                               Text(
-                                '${data[index].descriptionIssues}',
+                                data[index].descriptionIssues,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   color: const Color.fromARGB(255, 36, 31, 31),
@@ -151,7 +151,7 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: Icon(Icons.edit),
+                                    icon: const Icon(Icons.edit),
                                     onPressed: () async {
                                       final success = await Navigator.push(
                                         context,
@@ -171,7 +171,7 @@ class _ServiceLogPageState extends State<ServiceLogPage> {
                                     },
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.delete),
+                                    icon: const Icon(Icons.delete),
                                     onPressed: () {
                                       _deleteService(context,
                                           data[index].idCustomerService);

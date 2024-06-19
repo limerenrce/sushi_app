@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/components/user_drawer.dart';
-import 'package:sushi_app/cubit/menu/menu_cubit.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/pages/food_details_page.dart';
@@ -19,8 +17,8 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage>
     with SingleTickerProviderStateMixin {
   Future<List<Menus>>? _menu;
-  List<Menus> _filteredMenu = [];
-  late TextEditingController _searchController = TextEditingController();
+//  List<Menus> _filteredMenu = [];
+//  late TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -28,15 +26,9 @@ class _MenuPageState extends State<MenuPage>
     _menu = DataService.fetchMenus();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _fetchMenu();
-  }
-
-  void _fetchMenu() {
-    BlocProvider.of<MenuCubit>(context).fetchMenu(_searchController.text);
-  }
+  // void _fetchMenu() {
+  //   BlocProvider.of<MenuCubit>(context).fetchMenu(_searchController.text);
+  // }
 
   void _navigateToDetail(Menus menu) {
     Navigator.push(
@@ -516,7 +508,7 @@ class _MenuPageState extends State<MenuPage>
               // ),
 
               SafeArea(
-                  child: Container(
+                  child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 250,
                 child: FutureBuilder<List<Menus>>(
@@ -529,112 +521,98 @@ class _MenuPageState extends State<MenuPage>
                         child: Row(
                           children: List.generate(menu.length, (index) {
                             final item = menu[index];
-                            return Container(
+                            return SizedBox(
                               width: 250, // Adjust the width as needed
                               height: 250, // Add margin to separate boxes
                               child: ListTile(
-                                title: item.imagePath != null
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          _navigateToDetail(item);
+                                  title: GestureDetector(
+                                onTap: () {
+                                  _navigateToDetail(item);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  margin: const EdgeInsets.only(left: 25),
+                                  padding: const EdgeInsets.all(25),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      // IMAGE
+                                      Image.network(
+                                        '${Endpoints.ngrok}/${item.imagePath}',
+                                        height: 105,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          }
                                         },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[100],
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          margin:
-                                              const EdgeInsets.only(left: 25),
-                                          padding: const EdgeInsets.all(25),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              // IMAGE
-                                              Image.network(
-                                                '${Endpoints.ngrok}/${item.imagePath}',
-                                                height: 105,
-                                                fit: BoxFit.cover,
-                                                loadingBuilder:
-                                                    (BuildContext context,
-                                                        Widget child,
-                                                        ImageChunkEvent?
-                                                            loadingProgress) {
-                                                  if (loadingProgress == null) {
-                                                    return child;
-                                                  } else {
-                                                    return Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        value: loadingProgress
-                                                                    .expectedTotalBytes !=
-                                                                null
-                                                            ? loadingProgress
-                                                                    .cumulativeBytesLoaded /
-                                                                loadingProgress
-                                                                    .expectedTotalBytes!
-                                                            : null,
-                                                      ),
-                                                    );
-                                                  }
-                                                },
+                                      ),
+                                      // TEXT
+                                      Text(
+                                        item.name,
+                                        style: GoogleFonts.dmSerifDisplay(
+                                            fontSize: 20),
+                                      ),
+                                      // PRICE + RATING
+                                      SizedBox(
+                                        width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                            0.5, // Adjust the width as needed
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            // PRICE
+                                            Text(
+                                              "RP${item.price}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey[700],
                                               ),
-                                              // TEXT
-                                              Text(
-                                                item.name,
-                                                style:
-                                                    GoogleFonts.dmSerifDisplay(
-                                                        fontSize: 20),
-                                              ),
-                                              // PRICE + RATING
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.5, // Adjust the width as needed
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    // PRICE
-                                                    Text(
-                                                      "RP${item.price}",
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey[700],
-                                                      ),
-                                                    ),
-                                                    // RATING
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.star,
-                                                          color: Colors
-                                                              .yellow[800],
-                                                        ),
-                                                        Text(
-                                                          "${item.rating}",
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                            ),
+                                            // RATING
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow[800],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
+                                                Text(
+                                                  "${item.rating}",
+                                                  style: const TextStyle(
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                      )
-                                    : null,
-                              ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
                             );
                           }),
                         ),

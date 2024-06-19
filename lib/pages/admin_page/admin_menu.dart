@@ -4,9 +4,10 @@ import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class AdminMenu extends StatefulWidget {
-  const AdminMenu({Key? key}) : super(key: key);
+  const AdminMenu({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminMenuState createState() => _AdminMenuState();
 }
 
@@ -256,7 +257,8 @@ class _AdminMenuState extends State<AdminMenu> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => AdminAddMenu(),
+                                        builder: (context) =>
+                                            const AdminAddMenu(),
                                       ),
                                     );
                                   },

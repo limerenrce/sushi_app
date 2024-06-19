@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:sushi_app/components/button.dart';
+import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/menu.dart';
-import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class FoodDetailsPage extends StatefulWidget {
@@ -39,7 +38,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
     //ONLY ADD TO CART IF THERE IS SOMETHING IN THE CART
     if (quantityCount > 0) {
       //GET ACCESS TO SHOP
-      final shop = context.read<Restaurant>();
+      //final shop = context.read<Restaurant>();
 
       //ADD TO CART
       // shop.addToCart(widget.food, quantityCount);
@@ -132,7 +131,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                 children: [
                   //IMAGE
                   Image.network(
-                    widget.menu.imagePath,
+                    '${Endpoints.ngrok}/${widget.menu.imagePath}',
                     height: 200,
                   ),
 

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,9 +10,10 @@ import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class AdminAddMenu extends StatefulWidget {
-  const AdminAddMenu({Key? key}) : super(key: key);
+  const AdminAddMenu({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminAddMenuState createState() => _AdminAddMenuState();
 }
 
@@ -33,9 +36,9 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     );
 
     if (response.statusCode == 200) {
-      print('Rating sent successfully!');
+      debugPrint('Rating sent successfully!');
     } else {
-      print('Error sending rating: ${response.statusCode}');
+      debugPrint('Error sending rating: ${response.statusCode}');
     }
   }
 
@@ -117,7 +120,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                       .center, // Menengahkan teks (termasuk placeholder)
                   decoration: InputDecoration(
                     hintText: "Menu Name",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     fillColor: Colors
                         .white, // Menambahkan warna background putih di dalam outline
                     filled:
@@ -149,12 +152,12 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: DropdownButtonFormField<String>(
                   value: _selectedOption1,
-                  hint: Center(
+                  hint: const Center(
                     child: Text(
                       "Category",
                       style: TextStyle(color: Colors.grey),
@@ -174,8 +177,8 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                   }).toList(),
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide(
@@ -191,7 +194,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
@@ -200,7 +203,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                       .center, // Menengahkan teks (termasuk placeholder)
                   decoration: InputDecoration(
                     hintText: "Price",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     fillColor: Colors
                         .white, // Menambahkan warna background putih di dalam outline
                     filled:
@@ -240,7 +243,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                       .center, // Menengahkan teks (termasuk placeholder)
                   decoration: InputDecoration(
                     hintText: "Description",
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: const TextStyle(color: Colors.grey),
                     fillColor: Colors
                         .white, // Menambahkan warna background putih di dalam outline
                     filled:
@@ -274,7 +277,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               //-----R A T I N G-----
 
               Center(
@@ -284,8 +287,8 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                   direction: Axis.horizontal,
                   allowHalfRating: false,
                   itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => Icon(
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
@@ -298,7 +301,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Center(
               //   child: galleryFile == null
               //       ? Text(
@@ -329,7 +332,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                   child: Center(
                     // Mengatur agar konten berada di tengah
                     child: galleryFile == null
-                        ? Text(
+                        ? const Text(
                             "Insert Image",
                             style: TextStyle(color: Colors.grey), // Warna teks
                           )
@@ -343,7 +346,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               //OKAY BUTTON
               GestureDetector(
                 onTap: () {

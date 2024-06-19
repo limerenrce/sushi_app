@@ -6,9 +6,10 @@ import 'package:sushi_app/theme/colors.dart';
 import '../../components/bottom_up_transition.dart';
 
 class AdminHome extends StatefulWidget {
-  const AdminHome({Key? key}) : super(key: key);
+  const AdminHome({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminHomeState createState() => _AdminHomeState();
 }
 
@@ -26,7 +27,7 @@ class _AdminHomeState extends State<AdminHome> {
           'Hi, Admin',
           textAlign: TextAlign.center,
         ),
-        actions: [],
+        actions: const [],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -51,8 +52,8 @@ class _AdminHomeState extends State<AdminHome> {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Row(
+                    const SizedBox(height: 10),
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -65,7 +66,7 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -78,7 +79,7 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -91,8 +92,8 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
-                    Row(
+                    const SizedBox(height: 10),
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -143,7 +144,7 @@ class _AdminHomeState extends State<AdminHome> {
                       padding: const EdgeInsets.all(25),
                       child: Row(
                         children: [
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -152,7 +153,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 'assets/images/salmon_sushi.png',
                                 height: 105,
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
 
                               //TEXT
                               Text(
@@ -161,7 +162,7 @@ class _AdminHomeState extends State<AdminHome> {
                               ),
                             ],
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                         ],
                       ),
                     ),
@@ -176,7 +177,7 @@ class _AdminHomeState extends State<AdminHome> {
                       padding: const EdgeInsets.all(25),
                       child: Row(
                         children: [
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -185,7 +186,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 'assets/images/ramen_tori.png',
                                 height: 105,
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
 
                               //TEXT
                               Text(
@@ -194,14 +195,14 @@ class _AdminHomeState extends State<AdminHome> {
                               ),
                             ],
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                         ],
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   GestureDetector(
@@ -215,7 +216,7 @@ class _AdminHomeState extends State<AdminHome> {
                       padding: const EdgeInsets.all(25),
                       child: Row(
                         children: [
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -224,7 +225,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 'assets/images/orange_juice.png',
                                 height: 105,
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
 
                               //TEXT
                               Text(
@@ -233,7 +234,7 @@ class _AdminHomeState extends State<AdminHome> {
                               ),
                             ],
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                         ],
                       ),
                     ),

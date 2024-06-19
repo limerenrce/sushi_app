@@ -38,12 +38,12 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 50.0,
               backgroundImage: AssetImage('assets/images/cocktail.png'),
             ),
             const SizedBox(height: 24),
-            Column(
+            const Column(
               children: [
                 Text(
                   'Satya Uttami',
@@ -56,8 +56,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Center(
-                child:
-                    TextButton(onPressed: () {}, child: Text('Edit Profile'))),
+                child: TextButton(
+                    onPressed: () {}, child: const Text('Edit Profile'))),
             const SizedBox(height: 20),
             Expanded(
               child: Container(
@@ -81,11 +81,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: Column(
                           children: [
-                            NumbersWidget(),
+                            const NumbersWidget(),
                             const SizedBox(height: 48),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 48),
-                              child: Column(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 48),
+                              child: const Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -95,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  const SizedBox(height: 16),
+                                  SizedBox(height: 16),
                                   Text(
                                     'like to eat!',
                                     style: TextStyle(fontSize: 16, height: 1.4),
@@ -119,6 +120,8 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class NumbersWidget extends StatelessWidget {
+  const NumbersWidget({super.key});
+
   @override
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -130,14 +133,14 @@ class NumbersWidget extends StatelessWidget {
           buildButton(context, '50', 'Buy'),
         ],
       );
-  Widget buildDivider() => Container(
+  Widget buildDivider() => const SizedBox(
         height: 24,
         child: VerticalDivider(),
       );
 
   Widget buildButton(BuildContext context, String value, String text) =>
       MaterialButton(
-        padding: EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: 4),
         onPressed: () {},
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Column(
@@ -146,12 +149,12 @@ class NumbersWidget extends StatelessWidget {
           children: <Widget>[
             Text(
               value,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 2),
             Text(
               text,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
