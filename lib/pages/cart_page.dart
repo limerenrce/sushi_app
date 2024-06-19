@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/models/food.dart';
 import 'package:sushi_app/theme/colors.dart';
 
@@ -12,12 +13,12 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   //QUANTITY COUNT
-  int quantityCount = 0;
+  int quantityCount = 1;
 
   //DECREMENT  QUANTITY
   void decrementQuantity() {
     setState(() {
-      if (quantityCount > 0) {
+      if (quantityCount > 1) {
         quantityCount--;
       }
     });
@@ -217,6 +218,81 @@ class _CartPageState extends State<CartPage> {
           Expanded(
               child: Scaffold(
             backgroundColor: primaryColor,
+            body: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              height: 150,
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      //IMAGE
+                      Image.asset(
+                        'assets/images/salmon_eggs.png',
+                        height: 60,
+                      ),
+
+                      const SizedBox(width: 20),
+
+                      //NAME AND PRICE
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //NAME
+                          Text(
+                            "Salmon Eggs",
+                            style: GoogleFonts.dmSerifDisplay(fontSize: 18),
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          //PRICE
+                          Text(
+                            'RP 21.000',
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
+
+                          //ICON ADD AND KURANG
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: decrementQuantity,
+                                  icon: (Icon(
+                                    Icons.remove_circle,
+                                    color: primaryColor,
+                                    size: 20,
+                                  ))),
+                              Text("$quantityCount"),
+                              IconButton(
+                                  onPressed: incrementQuantity,
+                                  icon: (Icon(
+                                    Icons.add_circle,
+                                    color: primaryColor,
+                                    size: 20,
+                                  ))),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  //HEART
+                  IconButton(
+                      onPressed: () {},
+                      icon: (Icon(
+                        Icons.delete,
+                        color: primaryColor,
+                        size: 28,
+                      ))),
+                ],
+              ),
+            ),
           )),
           //---------ORDER NOW BUTTON---------
           Container(

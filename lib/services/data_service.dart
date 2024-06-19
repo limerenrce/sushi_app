@@ -123,7 +123,8 @@ class DataService {
           .toList();
     } else {
       // Handle error
-      throw Exception('Failed to load menu');
+      debugPrint("Error response body: ${response.body}");
+      throw Exception('Failed to load menu: ${response.reasonPhrase}');
     }
   }
 

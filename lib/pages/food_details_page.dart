@@ -131,7 +131,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
               child: ListView(
                 children: [
                   //IMAGE
-                  Image.asset(
+                  Image.network(
                     widget.menu.imagePath,
                     height: 200,
                   ),

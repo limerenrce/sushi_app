@@ -403,169 +403,252 @@ class _MenuPageState extends State<MenuPage>
               //   },
               // ),
 
-              // // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     children: [
-              //       FutureBuilder<List<Menus>>(
-              //         future: _menu,
-              //         builder: (context, snapshot) {
-              //           if (snapshot.hasData) {
-              //             final menu = snapshot.data!;
-              //             return ListView.builder(
-              //                 itemCount: menu.length,
-              //                 itemBuilder: (context, index) {
-              //                   final item = menu[index];
-              //                   return ListTile(
-              //                     title: item.imagePath != null
-              //                         ? GestureDetector(
-              //                             onTap: () {},
-              //                             child: Container(
-              //                               decoration: BoxDecoration(
-              //                                 color: Colors.grey[100],
-              //                                 borderRadius:
-              //                                     BorderRadius.circular(20),
-              //                               ),
-              //                               margin:
-              //                                   const EdgeInsets.only(left: 25),
-              //                               padding: const EdgeInsets.all(25),
-              //                               child: Column(
-              //                                 crossAxisAlignment:
-              //                                     CrossAxisAlignment.start,
-              //                                 mainAxisAlignment:
-              //                                     MainAxisAlignment.spaceEvenly,
-              //                                 children: [
-              //                                   //IMAGE
-              //                                   Image.asset(
-              //                                     '${Endpoints.img}/${item.imagePath}',
-              //                                     height: 105,
+              // SafeArea(
+              //   child: Container(
+              //     width: MediaQuery.of(context).size.width,
+              //     height: 250,
+              //     child: SingleChildScrollView(
+              //       scrollDirection: Axis.horizontal,
+              //       child: Row(
+              //         children: [
+              //           FutureBuilder<List<Menus>>(
+              //             future: _menu,
+              //             builder: (context, snapshot) {
+              //               if (snapshot.hasData) {
+              //                 final menu = snapshot.data!;
+              //                 return Row(
+              //                   children: List.generate(menu.length, (index) {
+              //                     final item = menu[index];
+              //                     return Container(
+              //                       width: 200,
+              //                       height: 200,
+              //                       child: ListTile(
+              //                         title: item.imagePath != null
+              //                             ? GestureDetector(
+              //                                 onTap: () {_navigateToDetail(item);},
+              //                                 child: Container(
+              //                                   decoration: BoxDecoration(
+              //                                     color: Colors.grey[100],
+              //                                     borderRadius:
+              //                                         BorderRadius.circular(20),
               //                                   ),
+              //                                   margin:
+              //                                       const EdgeInsets.only(left: 25),
+              //                                   padding: const EdgeInsets.all(25),
+              //                                   child: Column(
+              //                                     crossAxisAlignment:
+              //                                         CrossAxisAlignment.start,
+              //                                     mainAxisAlignment:
+              //                                         MainAxisAlignment.spaceEvenly,
+              //                                     children: [
+              //                                       // IMAGE
+              //                                       Image.asset(
+              //                                         '${Endpoints.img}/${item.imagePath}',
+              //                                         height: 105,
+              //                                       ),
 
-              //                                   //TEXT
-              //                                   Text(
-              //                                     item.name,
-              //                                     style: GoogleFonts
-              //                                         .dmSerifDisplay(
-              //                                             fontSize: 20),
-              //                                   ),
+              //                                       // TEXT
+              //                                       Text(
+              //                                         item.name,
+              //                                         style:
+              //                                             GoogleFonts.dmSerifDisplay(
+              //                                                 fontSize: 20),
+              //                                       ),
 
-              //                                   //PRICE + RATING
-              //                                   SizedBox(
-              //                                     width: 160,
-              //                                     child: Row(
-              //                                       mainAxisAlignment:
-              //                                           MainAxisAlignment
-              //                                               .spaceBetween,
-              //                                       children: [
-              //                                         //PRICE
-              //                                         Text(
-              //                                           item.price as String,
-              //                                           style: TextStyle(
-              //                                             fontWeight:
-              //                                                 FontWeight.bold,
-              //                                             color:
-              //                                                 Colors.grey[700],
-              //                                           ),
-              //                                         ),
-
-              //                                         //RATING
-              //                                         Row(
+              //                                       // PRICE + RATING
+              //                                       SizedBox(
+              //                                         width: 160,
+              //                                         child: Row(
+              //                                           mainAxisAlignment:
+              //                                               MainAxisAlignment
+              //                                                   .spaceBetween,
               //                                           children: [
-              //                                             Icon(
-              //                                               Icons.star,
-              //                                               color: Colors
-              //                                                   .yellow[800],
-              //                                             ),
+              //                                             // PRICE
               //                                             Text(
-              //                                               item.rating
-              //                                                   as String,
-              //                                               style:
-              //                                                   const TextStyle(
-              //                                                       color: Colors
-              //                                                           .grey),
+              //                                               "RP${item.price}",
+              //                                               style: TextStyle(
+              //                                                 fontWeight:
+              //                                                     FontWeight.bold,
+              //                                                 color: Colors.grey[700],
+              //                                               ),
+              //                                             ),
+
+              //                                             // RATING
+              //                                             Row(
+              //                                               children: [
+              //                                                 Icon(
+              //                                                   Icons.star,
+              //                                                   color: Colors
+              //                                                       .yellow[800],
+              //                                                 ),
+              //                                                 Text(
+              //                                                   "${item.rating}",
+              //                                                   style:
+              //                                                       const TextStyle(
+              //                                                           color: Colors
+              //                                                               .grey),
+              //                                                 ),
+              //                                               ],
               //                                             ),
               //                                           ],
               //                                         ),
-              //                                       ],
-              //                                     ),
-              //                                   )
-              //                                 ],
-              //                               ),
-              //                             ),
-              //                           )
-              //                         : null,
-              //                   );
-              //                 });
-              //           } else if (snapshot.hasError) {
-              //             return Center(child: Text('${snapshot.error}'));
-              //           }
-              //           return const CircularProgressIndicator(
-              //               color: Color.fromARGB(109, 140, 94, 91));
-              //         },
+              //                                       )
+              //                                     ],
+              //                                   ),
+              //                                 ),
+              //                               )
+              //                             : null,
+              //                       ),
+              //                     );
+              //                   }),
+              //                 );
+              //               } else if (snapshot.hasError) {
+              //                 return Center(child: Text('${snapshot.error}'));
+              //               }
+              //               return const CircularProgressIndicator(
+              //                   color: Color.fromARGB(109, 140, 94, 91));
+              //             },
+              //           ),
+              //         ],
               //       ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  margin: const EdgeInsets.only(left: 25),
-                  padding: const EdgeInsets.all(25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      //IMAGE
-                      Image.asset(
-                        'assets/images/salmon_sushi.png',
-                        height: 105,
-                      ),
-
-                      //TEXT
-                      Text(
-                        "Salmon Sushi",
-                        style: GoogleFonts.dmSerifDisplay(fontSize: 20),
-                      ),
-
-                      //PRICE + RATING
-                      SizedBox(
-                        width: 160,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //PRICE
-                            Text(
-                              'RP 20.000',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-
-                            //RATING
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow[800],
-                                ),
-                                const Text(
-                                  '4.3',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              //     ],
+              //     ),
               //   ),
               // ),
+
+              SafeArea(
+                  child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                child: FutureBuilder<List<Menus>>(
+                  future: _menu,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final menu = snapshot.data!;
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(menu.length, (index) {
+                            final item = menu[index];
+                            return Container(
+                              width: 250, // Adjust the width as needed
+                              height: 250, // Add margin to separate boxes
+                              child: ListTile(
+                                title: item.imagePath != null
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          _navigateToDetail(item);
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          margin:
+                                              const EdgeInsets.only(left: 25),
+                                          padding: const EdgeInsets.all(25),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              // IMAGE
+                                              Image.network(
+                                                '${Endpoints.ngrok}/${item.imagePath}',
+                                                height: 105,
+                                                fit: BoxFit.cover,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  } else {
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                loadingProgress
+                                                                    .expectedTotalBytes!
+                                                            : null,
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                              ),
+                                              // TEXT
+                                              Text(
+                                                item.name,
+                                                style:
+                                                    GoogleFonts.dmSerifDisplay(
+                                                        fontSize: 20),
+                                              ),
+                                              // PRICE + RATING
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.5, // Adjust the width as needed
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    // PRICE
+                                                    Text(
+                                                      "RP${item.price}",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey[700],
+                                                      ),
+                                                    ),
+                                                    // RATING
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.star,
+                                                          color: Colors
+                                                              .yellow[800],
+                                                        ),
+                                                        Text(
+                                                          "${item.rating}",
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .grey),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                              ),
+                            );
+                          }),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('${snapshot.error}'));
+                    }
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Color.fromARGB(109, 140, 94, 91),
+                    ));
+                  },
+                ),
+              )),
 
               const SizedBox(height: 20),
               //POPULAR MENU WIDGET
