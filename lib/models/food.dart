@@ -1,4 +1,6 @@
 //FOOD ITEMS
+// ignore_for_file: unused_element, constant_identifier_names
+
 class Food {
   final String name;
   final String price;
@@ -24,7 +26,7 @@ class Food {
 
 //FOOD CATEGORIES
 enum FoodCategory {
-  sushi,
-  ramen,
-  drink,
+  Sushi,
+  Ramen,
+  Drink,
 }

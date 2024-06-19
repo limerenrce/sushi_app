@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sushi_app/components/button.dart';
-import 'package:sushi_app/models/food.dart';
-import 'package:sushi_app/models/sushi_shop.dart';
+import 'package:sushi_app/models/menu.dart';
+import 'package:sushi_app/models/restaurant.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 class FoodDetailsPage extends StatefulWidget {
-  final Food food;
-  const FoodDetailsPage({Key? key, required this.food}) : super(key: key);
+  final Menus menu;
+  const FoodDetailsPage({super.key, required this.menu});
 
   @override
-  Food_DetailsPageState createState() => Food_DetailsPageState();
+  FoodDetailsPageState createState() => FoodDetailsPageState();
 }
 
-class Food_DetailsPageState extends State<FoodDetailsPage> {
+class FoodDetailsPageState extends State<FoodDetailsPage> {
   //QUANTITY COUNT
   int quantityCount = 0;
 
@@ -39,37 +39,77 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
     //ONLY ADD TO CART IF THERE IS SOMETHING IN THE CART
     if (quantityCount > 0) {
       //GET ACCESS TO SHOP
-      final shop = context.read<Shop>();
+      final shop = context.read<Restaurant>();
 
       //ADD TO CART
-      shop.addToCart(widget.food, quantityCount);
+      // shop.addToCart(widget.food, quantityCount);
 
       //LET THE USER KNOW IT WAS SUCCESSFUL
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          backgroundColor: primaryColor,
-          content: const Text(
-            "Successfully added to cart",
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
+          backgroundColor: Colors.white,
+          content: SizedBox(
+            width: 300,
+            height: 200,
+            child: Column(
+              children: [
+                Icon(Icons.check_circle_outline,
+                    color: Colors.green[800], size: 78),
+                const SizedBox(height: 8),
+                const Text(
+                  "Add to cart successful",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Your order has been successfully",
+                  style: TextStyle(color: Colors.grey[800]),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "added to cart",
+                  style: TextStyle(color: Colors.grey[800]),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
           actions: [
             //OKAY BUTTON
-            IconButton(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 //POP ONCE TO REMOVE DIALOG BOX
                 Navigator.pop(context);
 
                 //POP AGAIN TO GO TO PREVIOUS SCREEN
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
-              icon: const Icon(
-                Icons.done,
-                color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(40)),
+                margin: const EdgeInsets.only(left: 50, right: 50),
+                padding: const EdgeInsets.all(15),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //TEXT
+                    Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       );
@@ -92,7 +132,7 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
                 children: [
                   //IMAGE
                   Image.asset(
-                    widget.food.imagePath,
+                    widget.menu.imagePath,
                     height: 200,
                   ),
 
@@ -109,7 +149,7 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
 
                       //RATING NUMBER
                       Text(
-                        widget.food.rating,
+                        '${widget.menu.rating}',
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontWeight: FontWeight.bold,
@@ -121,7 +161,7 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
                   const SizedBox(height: 10),
                   //FOOD NAME
                   Text(
-                    widget.food.name,
+                    widget.menu.name,
                     style: GoogleFonts.dmSerifDisplay(fontSize: 28),
                   ),
 
@@ -138,7 +178,7 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
                   const SizedBox(height: 10),
 
                   Text(
-                    widget.food.description,
+                    widget.menu.description,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -162,7 +202,7 @@ class Food_DetailsPageState extends State<FoodDetailsPage> {
                   children: [
                     //PRICE
                     Text(
-                      "RP ${widget.food.price}",
+                      '${widget.menu.price}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

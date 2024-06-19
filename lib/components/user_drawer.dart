@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_app/pages/book_page.dart';
-import 'package:sushi_app/pages/news_page.dart';
+import 'package:sushi_app/pages/cart_page.dart';
+import 'package:sushi_app/pages/login_page.dart';
 import 'package:sushi_app/theme/colors.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+class UserDrawer extends StatelessWidget {
+  const UserDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,18 +26,17 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(25.0),
             child: Divider(color: secondaryColor),
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
               title: Text(
-                "A P I",
+                "CART",
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
               ),
               leading: Icon(
-                Icons.api,
+                Icons.shopping_cart,
                 color: Colors.grey[600],
               ),
               onTap: () {
@@ -45,23 +44,24 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NewsPage(),
+                    builder: (context) => const CartPage(),
                   ),
                 );
               },
             ),
           ),
+          const SizedBox(height: 500),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
               title: Text(
-                "CRUD SQLITE",
+                "LOG OUT",
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
               ),
               leading: Icon(
-                Icons.table_rows_rounded,
+                Icons.logout_outlined,
                 color: Colors.grey[600],
               ),
               onTap: () {
@@ -69,7 +69,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BooksScreen(),
+                    builder: (context) => const LoginPage(),
                   ),
                 );
               },

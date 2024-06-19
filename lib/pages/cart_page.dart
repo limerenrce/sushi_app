@@ -1,94 +1,302 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/models/food.dart';
-import 'package:sushi_app/models/sushi_shop.dart';
 import 'package:sushi_app/theme/colors.dart';
 
-class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
+class CartPage extends StatefulWidget {
+  const CartPage({super.key});
 
-  //REMOVE FROM CART
-  void removeFromCart(Food food, BuildContext context) {
-    // GET ACCESS TO SHOP
-    final shop = context.read<Shop>();
+  @override
+  // ignore: library_private_types_in_public_api
+  _CartPageState createState() => _CartPageState();
+}
 
-    //REMOVE FROM CART
-    shop.removeFromCart(food);
+class _CartPageState extends State<CartPage> {
+  //QUANTITY COUNT
+  int quantityCount = 0;
+
+  //DECREMENT  QUANTITY
+  void decrementQuantity() {
+    setState(() {
+      if (quantityCount > 0) {
+        quantityCount--;
+      }
+    });
+  }
+
+  //INCREMENT QUANTITY
+  void incrementQuantity() {
+    setState(() {
+      quantityCount++;
+    });
+  }
+
+  removeFromCart(Food food, BuildContext context) {}
+
+  void orderNow() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        content: SizedBox(
+          width: 300,
+          height: 200,
+          child: Column(
+            children: [
+              Icon(Icons.check_circle_outline,
+                  color: Colors.green[800], size: 78),
+              const SizedBox(height: 8),
+              const Text(
+                "Your Order is Confirmed!",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Your order is currently being",
+                style: TextStyle(color: Colors.grey[800]),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                "prepared by our chef",
+                style: TextStyle(color: Colors.grey[800]),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          //OKAY BUTTON
+          GestureDetector(
+            onTap: () {
+              //POP ONCE TO REMOVE DIALOG BOX
+              Navigator.pop(context);
+
+              //POP AGAIN TO GO TO PREVIOUS SCREEN
+              // Navigator.pop(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: primaryColor, borderRadius: BorderRadius.circular(40)),
+              margin: const EdgeInsets.only(left: 50, right: 50),
+              padding: const EdgeInsets.all(15),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //TEXT
+                  Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Shop>(
-      builder: (context, value, child) => Scaffold(
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: AppBar(
+        title: const Text("My Cart"),
+        elevation: 0,
         backgroundColor: primaryColor,
-        appBar: AppBar(
-          title: Text("My Cart"),
-          elevation: 0,
-          backgroundColor: primaryColor,
-        ),
-        body: Column(
-          children: [
-            //---------CUSTOMER CART---------
-            Expanded(
-              child: ListView.builder(
-                itemCount: value.cart.length,
-                itemBuilder: (context, index) {
-                  //GET FODD FROM CART
-                  final Food food = value.cart[index];
+        foregroundColor: Colors.grey[300],
+      ),
+      body: Column(
+        children: [
+          //---------CUSTOMER CART---------
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: value.cart.length,
+          //     itemBuilder: (context, index) {
+          //       //GET FODD FROM CART
+          //       final Food food = value.cart[index];
 
-                  //GET FOOD NAME
-                  final String foodName = food.name;
+          //       //GET FOOD NAME
+          //       final String foodName = food.name;
 
-                  //GET FOOD PRICE
-                  final String foodPrice = food.price;
+          //       //GET FOOD PRICE
+          //       final String foodPrice = food.price;
 
-                  //RETURN LIST TITLE
-                  return Container(
+          //       //RETURN LIST TITLE
+          //       return Container(
+          //         decoration: BoxDecoration(
+          //           color: secondaryColor,
+          //           borderRadius: BorderRadius.circular(8),
+          //         ),
+          //         margin: const EdgeInsets.only(left: 20, top: 20, right: 20),
+          //         child: Column(
+          //           children: [
+          //             ListTile(
+          //               title: Text(
+          //                 foodName,
+          //                 style: const TextStyle(
+          //                   color: Colors.white,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               ),
+          //               subtitle: Text(
+          //                 foodPrice,
+          //                 style: TextStyle(
+          //                   color: Colors.grey[200],
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               ),
+          //               trailing: IconButton(
+          //                 onPressed: () => removeFromCart(food, context),
+          //                 icon: Icon(
+          //                   Icons.delete,
+          //                   color: Colors.grey[300],
+          //                 ),
+          //               ),
+          //             ),
+          //             //QUANTITY
+          //             Row(
+          //               children: [
+          //                 //MINUS BUTTON
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                     color: secondaryColor,
+          //                     shape: BoxShape.circle,
+          //                   ),
+          //                   child: IconButton(
+          //                       onPressed: decrementQuantity,
+          //                       icon: const Icon(
+          //                         Icons.remove,
+          //                         color: Colors.white,
+          //                       )),
+          //                 ),
+
+          //                 //QUANTITY COUNT
+          //                 SizedBox(
+          //                   width: 40,
+          //                   child: Center(
+          //                     child: Text(
+          //                       quantityCount.toString(),
+          //                       style: const TextStyle(
+          //                         color: Colors.white,
+          //                         fontWeight: FontWeight.bold,
+          //                         fontSize: 18,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+
+          //                 //PLUS BUTTON
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                     color: secondaryColor,
+          //                     shape: BoxShape.circle,
+          //                   ),
+          //                   child: IconButton(
+          //                       onPressed: incrementQuantity,
+          //                       icon: const Icon(
+          //                         Icons.add,
+          //                         color: Colors.white,
+          //                       )),
+          //                 ),
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
+          Expanded(
+              child: Scaffold(
+            backgroundColor: primaryColor,
+          )),
+          //---------ORDER NOW BUTTON---------
+          Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            padding: const EdgeInsets.all(25),
+            child: Column(
+              children: [
+                //SUBTOTAL
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Subtotal"),
+                    Text("RP 98.000"),
+                  ],
+                ),
+                const Divider(color: Colors.grey),
+
+                //TAX
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Tax 10%"),
+                    Text("RP 9.800"),
+                  ],
+                ),
+                const Divider(color: Colors.grey),
+
+                //TOTAL
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "RP 107.800",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 25),
+                //ORDER NOW BUTTON
+                GestureDetector(
+                  onTap: orderNow,
+                  child: Container(
                     decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(8),
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(40)),
+                    padding: const EdgeInsets.all(20),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //TEXT
+                        Text(
+                          "Order Now",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(height: 10),
+                      ],
                     ),
-                    margin: const EdgeInsets.only(left: 20, top: 20, right: 20),
-                    child: ListTile(
-                      title: Text(
-                        foodName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        foodPrice,
-                        style: TextStyle(
-                          color: Colors.grey[200],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      trailing: IconButton(
-                        onPressed: () => removeFromCart(food, context),
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.grey[300],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                  ),
+                )
+              ],
             ),
-
-            //---------PAY BUTTON---------
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: MyButton(
-                text: "Pay Now",
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
