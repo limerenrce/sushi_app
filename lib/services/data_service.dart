@@ -113,8 +113,8 @@ class DataService {
   // --------------- MODUL MENU -------------------- //
 
   // GET MENUS //
-  static Future<List<Menus>> fetchMenus() async {
-    final response = await http.get(Uri.parse(Endpoints.getMenus));
+  static Future<List<Menus>> fetchMenus(String category) async {
+    final response = await http.get(Uri.parse('${Endpoints.getMenus}?category=$category'));
     debugPrint("Response: ${{response.statusCode}}");
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as Map<String, dynamic>;

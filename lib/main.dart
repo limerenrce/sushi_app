@@ -107,12 +107,13 @@ class MyApp extends StatelessWidget {
           '/splash-page': (context) => const SplashPage(),
           '/login-page': (context) => const LoginPage(),
           '/signUp-page': (context) => const SignUpPage(),
-          //'/menu-page': (context) => MenuPage(),
-          //'/cart-page': (context) => CartPage(),
+          '/menu-page': (context) => MenuPage(),
+          '/cart-page': (context) => CartPage(),
+          '/adminHome-page': (context) => AdminHome(),
 
-          '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
-          '/cart-page': (context) => const AuthWrapper(child: CartPage()),
-          '/adminHome-page': (context) => const AuthWrapper(child: AdminHome()),
+          //'/menu-page': (context) => const AuthWrapper(child: MenuPage()),
+          //'/cart-page': (context) => const AuthWrapper(child: CartPage()),
+          //'/adminHome-page': (context) => const AuthWrapper(child: AdminHome()),
           '/services-page': (context) =>
               const AuthWrapper(child: ServiceLogPage()),
         },

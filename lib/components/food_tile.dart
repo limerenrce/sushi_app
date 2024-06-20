@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sushi_app/models/food.dart';
+
+import '../endpoints/endpoints.dart';
+import '../models/menu.dart';
 
 class FoodTile extends StatelessWidget {
-  final Food food;
+  final Menus menus;
   final void Function()? onTap;
 
-  const FoodTile({super.key, required this.food, required this.onTap});
+  const FoodTile({super.key, required this.onTap, required this.menus});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,14 @@ class FoodTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             //IMAGE
-            Image.asset(
-              food.imagePath,
+            Image.network(
+              '${Endpoints.ngrok}/${menus.imagePath}',
               height: 105,
             ),
 
             //TEXT
             Text(
-              food.name,
+              menus.name,
               style: GoogleFonts.dmSerifDisplay(fontSize: 20),
             ),
 
@@ -43,7 +45,7 @@ class FoodTile extends StatelessWidget {
                 children: [
                   //PRICE
                   Text(
-                    'RP ${food.price}',
+                    'RP ${menus.price}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.grey[700],
@@ -58,7 +60,7 @@ class FoodTile extends StatelessWidget {
                         color: Colors.yellow[800],
                       ),
                       Text(
-                        food.rating,
+                        '${menus.rating}',
                         style: const TextStyle(color: Colors.grey),
                       ),
                     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
+import 'package:sushi_app/pages/admin_page/admin_menu.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 import '../../components/bottom_up_transition.dart';
@@ -14,6 +15,8 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +138,12 @@ class _AdminHomeState extends State<AdminHome> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      // Navigator.pushNamed(context, '/form-screen');
+                      // BottomUpRoute(page: const FormScreen());
+                      Navigator.push(
+                          context, BottomUpRoute(page: const AdminMenu()));
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
