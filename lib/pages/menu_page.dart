@@ -534,7 +534,7 @@ class _MenuPageState extends State<MenuPage>
                                     color: Colors.grey[100],
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  margin: const EdgeInsets.only(left: 25),
+                                  margin: const EdgeInsets.only(left: 10),
                                   padding: const EdgeInsets.all(25),
                                   child: Column(
                                     crossAxisAlignment:
@@ -543,30 +543,32 @@ class _MenuPageState extends State<MenuPage>
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       // IMAGE
-                                      Image.network(
-                                        '${Endpoints.ngrok}/${item.imagePath}',
-                                        height: 105,
-                                        fit: BoxFit.cover,
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          } else {
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes!
-                                                    : null,
-                                              ),
-                                            );
-                                          }
-                                        },
+                                      Center(
+                                        child: Image.network(
+                                          '${Endpoints.ngrok}/${item.imagePath}',
+                                          height: 105,
+                                          fit: BoxFit.cover,
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent? loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            } else {
+                                              return Center(
+                                                child: CircularProgressIndicator(
+                                                  value: loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
                                       ),
                                       // TEXT
                                       Text(

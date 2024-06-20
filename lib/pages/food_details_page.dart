@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/components/button.dart';
+import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class FoodDetailsPage extends StatefulWidget {
   final Menus menu;
@@ -37,6 +40,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
   void addToCart() {
     //ONLY ADD TO CART IF THERE IS SOMETHING IN THE CART
     if (quantityCount > 0) {
+      context.read<CartCubit>().addItem(widget.menu, quantityCount);
       //GET ACCESS TO SHOP
       //final shop = context.read<Restaurant>();
 
@@ -114,6 +118,10 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
       );
     }
   }
+  
+  int totalPrice() {
+    return widget.menu.price * quantityCount;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +172,15 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                     style: GoogleFonts.dmSerifDisplay(fontSize: 28),
                   ),
 
+                  Text(
+                    "RP ${widget.menu.price}",
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                    )
+                  ),
+
                   const SizedBox(height: 25),
                   //DESCRIPTION
                   Text(
@@ -201,7 +218,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   children: [
                     //PRICE
                     Text(
-                      '${widget.menu.price}',
+                      'RP ${totalPrice()}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

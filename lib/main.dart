@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
+import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 import 'package:sushi_app/cubit/profile/profile_cubit.dart';
 import 'package:sushi_app/pages/admin_page/admin_home.dart';
 import 'package:sushi_app/pages/login_page.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
         BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
+        BlocProvider<CartCubit>(create: (context) => CartCubit())
         // BlocProvider<MenuCubit>(create: (context) => MenuCubit()),
       ],
       child: MaterialApp(

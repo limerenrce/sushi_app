@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/models/food.dart';
 import 'package:sushi_app/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sushi_app/models/menu.dart';
+import 'package:sushi_app/cubit/cart/cart_cubit.dart';
+
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -106,274 +110,307 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
       appBar: AppBar(
-        title: const Text("My Cart"),
-        elevation: 0,
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.grey[300],
+        title: Text('My Cart'),
       ),
-      body: Column(
-        children: [
-          //---------CUSTOMER CART---------
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: value.cart.length,
-          //     itemBuilder: (context, index) {
-          //       //GET FODD FROM CART
-          //       final Food food = value.cart[index];
-
-          //       //GET FOOD NAME
-          //       final String foodName = food.name;
-
-          //       //GET FOOD PRICE
-          //       final String foodPrice = food.price;
-
-          //       //RETURN LIST TITLE
-          //       return Container(
-          //         decoration: BoxDecoration(
-          //           color: secondaryColor,
-          //           borderRadius: BorderRadius.circular(8),
-          //         ),
-          //         margin: const EdgeInsets.only(left: 20, top: 20, right: 20),
-          //         child: Column(
-          //           children: [
-          //             ListTile(
-          //               title: Text(
-          //                 foodName,
-          //                 style: const TextStyle(
-          //                   color: Colors.white,
-          //                   fontWeight: FontWeight.bold,
-          //                 ),
-          //               ),
-          //               subtitle: Text(
-          //                 foodPrice,
-          //                 style: TextStyle(
-          //                   color: Colors.grey[200],
-          //                   fontWeight: FontWeight.bold,
-          //                 ),
-          //               ),
-          //               trailing: IconButton(
-          //                 onPressed: () => removeFromCart(food, context),
-          //                 icon: Icon(
-          //                   Icons.delete,
-          //                   color: Colors.grey[300],
-          //                 ),
-          //               ),
-          //             ),
-          //             //QUANTITY
-          //             Row(
-          //               children: [
-          //                 //MINUS BUTTON
-          //                 Container(
-          //                   decoration: BoxDecoration(
-          //                     color: secondaryColor,
-          //                     shape: BoxShape.circle,
-          //                   ),
-          //                   child: IconButton(
-          //                       onPressed: decrementQuantity,
-          //                       icon: const Icon(
-          //                         Icons.remove,
-          //                         color: Colors.white,
-          //                       )),
-          //                 ),
-
-          //                 //QUANTITY COUNT
-          //                 SizedBox(
-          //                   width: 40,
-          //                   child: Center(
-          //                     child: Text(
-          //                       quantityCount.toString(),
-          //                       style: const TextStyle(
-          //                         color: Colors.white,
-          //                         fontWeight: FontWeight.bold,
-          //                         fontSize: 18,
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-
-          //                 //PLUS BUTTON
-          //                 Container(
-          //                   decoration: BoxDecoration(
-          //                     color: secondaryColor,
-          //                     shape: BoxShape.circle,
-          //                   ),
-          //                   child: IconButton(
-          //                       onPressed: incrementQuantity,
-          //                       icon: const Icon(
-          //                         Icons.add,
-          //                         color: Colors.white,
-          //                       )),
-          //                 ),
-          //               ],
-          //             ),
-          //           ],
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-
-          Expanded(
-              child: Scaffold(
-            backgroundColor: primaryColor,
-            body: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              height: 150,
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      //IMAGE
-                      Image.asset(
-                        'assets/images/salmon_eggs.png',
-                        height: 60,
-                      ),
-
-                      const SizedBox(width: 20),
-
-                      //NAME AND PRICE
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //NAME
-                          Text(
-                            "Salmon Eggs",
-                            style: GoogleFonts.dmSerifDisplay(fontSize: 18),
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          //PRICE
-                          Text(
-                            'RP 21.000',
-                            style: TextStyle(color: Colors.grey[700]),
-                          ),
-
-                          //ICON ADD AND KURANG
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: decrementQuantity,
-                                  icon: (Icon(
-                                    Icons.remove_circle,
-                                    color: primaryColor,
-                                    size: 20,
-                                  ))),
-                              Text("$quantityCount"),
-                              IconButton(
-                                  onPressed: incrementQuantity,
-                                  icon: (Icon(
-                                    Icons.add_circle,
-                                    color: primaryColor,
-                                    size: 20,
-                                  ))),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  //HEART
-                  IconButton(
-                      onPressed: () {},
-                      icon: (Icon(
-                        Icons.delete,
-                        color: primaryColor,
-                        size: 28,
-                      ))),
-                ],
-              ),
-            ),
-          )),
-          //---------ORDER NOW BUTTON---------
-          Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20))),
-            padding: const EdgeInsets.all(25),
-            child: Column(
-              children: [
-                //SUBTOTAL
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Subtotal"),
-                    Text("RP 98.000"),
-                  ],
-                ),
-                const Divider(color: Colors.grey),
-
-                //TAX
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Tax 10%"),
-                    Text("RP 9.800"),
-                  ],
-                ),
-                const Divider(color: Colors.grey),
-
-                //TOTAL
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Total",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      "RP 107.800",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 25),
-                //ORDER NOW BUTTON
-                GestureDetector(
-                  onTap: orderNow,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(40)),
-                    padding: const EdgeInsets.all(20),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //TEXT
-                        Text(
-                          "Order Now",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
+      body: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state.cartItems.isEmpty) {
+            return Center(
+              child: Text('Your Cart is Empty'),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: state.cartItems.length,
+              itemBuilder: (context, index) {
+                final cartItem = state.cartItems[index];
+                return ListTile(
+                  title: Text(cartItem.menu.name),
+                  subtitle: Text('${cartItem.quantity}'),
+                  trailing: Text('RP ${cartItem.menu.price * cartItem.quantity}'),
+                  leading: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      context.read<CartCubit>().removeItem(cartItem.menu);
+                    }
+                  )
+                );
+              }
+            );
+          }
+        }
       ),
+
     );
+    // return Scaffold(
+    //   backgroundColor: primaryColor,
+    //   appBar: AppBar(
+    //     title: const Text("My Cart"),
+    //     elevation: 0,
+    //     backgroundColor: primaryColor,
+    //     foregroundColor: Colors.grey[300],
+    //   ),
+    //   body: Column(
+    //     children: [
+    //       //---------CUSTOMER CART---------
+    //       // Expanded(
+    //       //   child: ListView.builder(
+    //       //     itemCount: value.cart.length,
+    //       //     itemBuilder: (context, index) {
+    //       //       //GET FODD FROM CART
+    //       //       final Food food = value.cart[index];
+
+    //       //       //GET FOOD NAME
+    //       //       final String foodName = food.name;
+
+    //       //       //GET FOOD PRICE
+    //       //       final String foodPrice = food.price;
+
+    //       //       //RETURN LIST TITLE
+    //       //       return Container(
+    //       //         decoration: BoxDecoration(
+    //       //           color: secondaryColor,
+    //       //           borderRadius: BorderRadius.circular(8),
+    //       //         ),
+    //       //         margin: const EdgeInsets.only(left: 20, top: 20, right: 20),
+    //       //         child: Column(
+    //       //           children: [
+    //       //             ListTile(
+    //       //               title: Text(
+    //       //                 foodName,
+    //       //                 style: const TextStyle(
+    //       //                   color: Colors.white,
+    //       //                   fontWeight: FontWeight.bold,
+    //       //                 ),
+    //       //               ),
+    //       //               subtitle: Text(
+    //       //                 foodPrice,
+    //       //                 style: TextStyle(
+    //       //                   color: Colors.grey[200],
+    //       //                   fontWeight: FontWeight.bold,
+    //       //                 ),
+    //       //               ),
+    //       //               trailing: IconButton(
+    //       //                 onPressed: () => removeFromCart(food, context),
+    //       //                 icon: Icon(
+    //       //                   Icons.delete,
+    //       //                   color: Colors.grey[300],
+    //       //                 ),
+    //       //               ),
+    //       //             ),
+    //       //             //QUANTITY
+    //       //             Row(
+    //       //               children: [
+    //       //                 //MINUS BUTTON
+    //       //                 Container(
+    //       //                   decoration: BoxDecoration(
+    //       //                     color: secondaryColor,
+    //       //                     shape: BoxShape.circle,
+    //       //                   ),
+    //       //                   child: IconButton(
+    //       //                       onPressed: decrementQuantity,
+    //       //                       icon: const Icon(
+    //       //                         Icons.remove,
+    //       //                         color: Colors.white,
+    //       //                       )),
+    //       //                 ),
+
+    //       //                 //QUANTITY COUNT
+    //       //                 SizedBox(
+    //       //                   width: 40,
+    //       //                   child: Center(
+    //       //                     child: Text(
+    //       //                       quantityCount.toString(),
+    //       //                       style: const TextStyle(
+    //       //                         color: Colors.white,
+    //       //                         fontWeight: FontWeight.bold,
+    //       //                         fontSize: 18,
+    //       //                       ),
+    //       //                     ),
+    //       //                   ),
+    //       //                 ),
+
+    //       //                 //PLUS BUTTON
+    //       //                 Container(
+    //       //                   decoration: BoxDecoration(
+    //       //                     color: secondaryColor,
+    //       //                     shape: BoxShape.circle,
+    //       //                   ),
+    //       //                   child: IconButton(
+    //       //                       onPressed: incrementQuantity,
+    //       //                       icon: const Icon(
+    //       //                         Icons.add,
+    //       //                         color: Colors.white,
+    //       //                       )),
+    //       //                 ),
+    //       //               ],
+    //       //             ),
+    //       //           ],
+    //       //         ),
+    //       //       );
+    //       //     },
+    //       //   ),
+    //       // ),
+
+    //       Expanded(
+    //           child: Scaffold(
+    //         backgroundColor: primaryColor,
+    //         body: Container(
+    //           decoration: BoxDecoration(
+    //             color: Colors.grey[100],
+    //             borderRadius: BorderRadius.circular(20),
+    //           ),
+    //           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+    //           height: 150,
+    //           padding: const EdgeInsets.all(20),
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             children: [
+    //               Row(
+    //                 children: [
+    //                   //IMAGE
+    //                   Image.asset(
+    //                     'assets/images/salmon_eggs.png',
+    //                     height: 60,
+    //                   ),
+
+    //                   const SizedBox(width: 20),
+
+    //                   //NAME AND PRICE
+    //                   Column(
+    //                     crossAxisAlignment: CrossAxisAlignment.start,
+    //                     children: [
+    //                       //NAME
+    //                       Text(
+    //                         "Salmon Eggs",
+    //                         style: GoogleFonts.dmSerifDisplay(fontSize: 18),
+    //                       ),
+
+    //                       const SizedBox(height: 10),
+
+    //                       //PRICE
+    //                       Text(
+    //                         'RP 21.000',
+    //                         style: TextStyle(color: Colors.grey[700]),
+    //                       ),
+
+    //                       //ICON ADD AND KURANG
+    //                       Row(
+    //                         children: [
+    //                           IconButton(
+    //                               onPressed: decrementQuantity,
+    //                               icon: (Icon(
+    //                                 Icons.remove_circle,
+    //                                 color: primaryColor,
+    //                                 size: 20,
+    //                               ))),
+    //                           Text("$quantityCount"),
+    //                           IconButton(
+    //                               onPressed: incrementQuantity,
+    //                               icon: (Icon(
+    //                                 Icons.add_circle,
+    //                                 color: primaryColor,
+    //                                 size: 20,
+    //                               ))),
+    //                         ],
+    //                       )
+    //                     ],
+    //                   ),
+    //                 ],
+    //               ),
+
+    //               //HEART
+    //               IconButton(
+    //                   onPressed: () {},
+    //                   icon: (Icon(
+    //                     Icons.delete,
+    //                     color: primaryColor,
+    //                     size: 28,
+    //                   ))),
+    //             ],
+    //           ),
+    //         ),
+    //       )),
+    //       //---------ORDER NOW BUTTON---------
+    //       Container(
+    //         decoration: const BoxDecoration(
+    //             color: Colors.white,
+    //             borderRadius: BorderRadius.only(
+    //                 topLeft: Radius.circular(20),
+    //                 topRight: Radius.circular(20))),
+    //         padding: const EdgeInsets.all(25),
+    //         child: Column(
+    //           children: [
+    //             //SUBTOTAL
+    //             const Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 Text("Subtotal"),
+    //                 Text("RP 98.000"),
+    //               ],
+    //             ),
+    //             const Divider(color: Colors.grey),
+
+    //             //TAX
+    //             const Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 Text("Tax 10%"),
+    //                 Text("RP 9.800"),
+    //               ],
+    //             ),
+    //             const Divider(color: Colors.grey),
+
+    //             //TOTAL
+    //             const Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 Text(
+    //                   "Total",
+    //                   style: TextStyle(
+    //                     color: Colors.black,
+    //                     fontWeight: FontWeight.bold,
+    //                     fontSize: 18,
+    //                   ),
+    //                 ),
+    //                 Text(
+    //                   "RP 107.800",
+    //                   style: TextStyle(
+    //                     color: Colors.black,
+    //                     fontWeight: FontWeight.bold,
+    //                     fontSize: 18,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+
+    //             const SizedBox(height: 25),
+    //             //ORDER NOW BUTTON
+    //             GestureDetector(
+    //               onTap: orderNow,
+    //               child: Container(
+    //                 decoration: BoxDecoration(
+    //                     color: primaryColor,
+    //                     borderRadius: BorderRadius.circular(40)),
+    //                 padding: const EdgeInsets.all(20),
+    //                 child: const Row(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   children: [
+    //                     //TEXT
+    //                     Text(
+    //                       "Order Now",
+    //                       style: TextStyle(color: Colors.white),
+    //                     ),
+    //                     SizedBox(height: 10),
+    //                   ],
+    //                 ),
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
