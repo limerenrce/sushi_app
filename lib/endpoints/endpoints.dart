@@ -2,11 +2,13 @@ class Endpoints {
   static const String baseURLLive = "https://simobile.singapoly.com";
   static const String nim = "2215091065";
   static const String localFlask = "http://192.168.1.7:5000";
-  static const String ngrok = "https://9f58-180-249-185-160.ngrok-free.app";
+  static const String ngrok = "https://06b0-180-249-185-160.ngrok-free.app";
+  
 
   //static const String login = "$baseURLLive/api/auth/login";
   //static const String logout = "$baseURLLive/api/auth/logout";
   static const String service = "$baseURLLive/api/customer-service/$nim";
+
 
   // static const String login = "$localFlask/api/v1/auth/login";
   // static const String logout = "$localFlask/api/v1/auth/logout";

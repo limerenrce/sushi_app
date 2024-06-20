@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_app/pages/cart_page.dart';
-import 'package:sushi_app/pages/login_page.dart';
+import 'package:sushi_app/pages/cart_page.dart'; 
 import 'package:sushi_app/theme/colors.dart';
+
+import '../services/data_service.dart';
+import '../utils/constants.dart';
+import '../utils/secure_storage_util.dart';
 
 class UserDrawer extends StatelessWidget {
   const UserDrawer({super.key});
+
+  
+  Future<void> doLogout(context) async {
+    debugPrint("need logout");
+    final response = await DataService.logoutData();
+    if (response.statusCode == 200) {
+      await SecureStorageUtil.storage.delete(key: tokenStoreName);
+      Navigator.pushReplacementNamed(context, "/login-page");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +80,7 @@ class UserDrawer extends StatelessWidget {
                     color: Colors.grey[600],
                   ),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    );
+                    doLogout(context);
                   },
                 ),
               ),

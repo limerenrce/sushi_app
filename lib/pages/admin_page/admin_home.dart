@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
-import 'package:sushi_app/pages/admin_page/admin_menu.dart';
+import 'package:sushi_app/components/admin_drawer.dart';
+import 'package:sushi_app/pages/admin_page/admin_addMenu.dart'; 
 import 'package:sushi_app/theme/colors.dart';
 
 import '../../components/bottom_up_transition.dart';
@@ -15,13 +15,11 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      // drawer: const MyDrawer(),
+      drawer: const AdminDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey[800],
@@ -139,10 +137,7 @@ class _AdminHomeState extends State<AdminHome> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, '/form-screen');
-                      // BottomUpRoute(page: const FormScreen());
-                      Navigator.push(
-                          context, BottomUpRoute(page: const AdminMenu()));
+                      Navigator.pushNamed(context, '/adminSushi-page');
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -176,7 +171,7 @@ class _AdminHomeState extends State<AdminHome> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {  Navigator.pushNamed(context, '/adminRamen-page');},
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
@@ -214,7 +209,7 @@ class _AdminHomeState extends State<AdminHome> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {  Navigator.pushNamed(context, '/adminSides-page');},
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[100],

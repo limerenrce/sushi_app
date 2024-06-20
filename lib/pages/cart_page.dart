@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart'; 
 import 'package:sushi_app/models/food.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
