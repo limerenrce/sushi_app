@@ -51,5 +51,17 @@ class CartCubit extends Cubit<CartState> {
     return state.cartItems.fold(
         0, (total, current) => total + (current.menu.price * current.quantity));
   }
+
+  double getSubtotal() {
+    return state.cartItems.fold(0, (total, item) => total + item.menu.price * item.quantity);
+  }
+
+  double getTax() {
+    return getSubtotal() * 0.1;
+  }
+
+  double getTotal() {
+    return getSubtotal() + getTax();
+  }
 }
 
