@@ -92,7 +92,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                 Navigator.pop(context);
 
                 //POP AGAIN TO GO TO PREVIOUS SCREEN
-                // Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Container(
                 decoration: BoxDecoration(
