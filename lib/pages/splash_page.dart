@@ -63,7 +63,7 @@ class SplashPage extends StatelessWidget {
                   text: "Get Started",
                   onTap: () {
                     //GO TO MENU PAGE
-                    Navigator.pushNamed(context, '/menu-page');
+                    Navigator.pushNamed(context, '/login-page');
                   },
                 ),
               ],
