@@ -1,12 +1,15 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/food.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/cubit/cart/cart_cubit.dart';
+
+// import '../cubit/cart/cart_cubit.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -395,74 +398,83 @@ class _CartPageState extends State<CartPage> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
             padding: const EdgeInsets.all(25),
-            child: Column(
-              children: [
-                //SUBTOTAL
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: BlocBuilder<CartCubit, CartState>(
+              builder: (context, state) {
+                final cartCubit = context.read<CartCubit>();
+                final subtotal = cartCubit.getSubtotal();
+                final tax = cartCubit.getTax();
+                final total = cartCubit.getTotal();
+                
+                return Column(
                   children: [
-                    Text("Subtotal"),
-                    Text("RP 98.000"),
-                  ],
-                ),
-                const Divider(color: Colors.grey),
-
-                //TAX
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Tax 10%"),
-                    Text("RP 9.800"),
-                  ],
-                ),
-                const Divider(color: Colors.grey),
-
-                //TOTAL
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Total",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      "RP 107.800",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 25),
-                //ORDER NOW BUTTON
-                GestureDetector(
-                  onTap: orderNow,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(40)),
-                    padding: const EdgeInsets.all(20),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    //SUBTOTAL
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        //TEXT
-                        Text(
-                          "Order Now",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        SizedBox(height: 10),
+                        Text("Subtotal"),
+                        Text("RP ${subtotal.toStringAsFixed(2)}"),
                       ],
                     ),
-                  ),
-                )
-              ],
+                    const Divider(color: Colors.grey),
+
+                    //TAX
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Tax 10%"),
+                        Text("RP ${tax.toStringAsFixed(2)}"),
+                      ],
+                    ),
+                    const Divider(color: Colors.grey),
+
+                    //TOTAL
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "RP ${total.toStringAsFixed(2)}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 25),
+                    //ORDER NOW BUTTON
+                    GestureDetector(
+                      onTap: orderNow,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(40)),
+                        padding: const EdgeInsets.all(20),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //TEXT
+                            Text(
+                              "Order Now",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              },
             ),
           ),
         ],

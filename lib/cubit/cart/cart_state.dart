@@ -9,17 +9,22 @@ part of 'cart_cubit.dart';
 
 class CartState extends Equatable {
   final List<CartItem> cartItems;
+  final int notificationCount;
 
-  const CartState({required this.cartItems});
+  CartState({required this.cartItems, required this.notificationCount});
 
   factory CartState.initial() {
-    return CartState(cartItems: []);
+    return CartState(cartItems: [], notificationCount: 0);
   }
 
-  CartState copyWith({List<CartItem>? cartItems}) {
-    return CartState(cartItems: cartItems ?? this.cartItems);
+  CartState copyWith({List<CartItem>? cartItems, int? notificationCount}) {
+    return CartState(
+      cartItems: cartItems ?? this.cartItems,
+      notificationCount: notificationCount ?? this.notificationCount,
+    );
   }
 
   @override
-  List<Object> get props => [cartItems];
+  List<Object> get props => [cartItems, notificationCount];
 }
+

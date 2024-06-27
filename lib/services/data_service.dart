@@ -163,7 +163,43 @@ class DataService {
       throw Exception('Failed to create menu: $e');
     }
   }
+  // static Future<bool> createMenu(Menus menu, File? imageFile) async {
+  //   try {
+  //     // Construct the multipart request
+  //     var request = http.MultipartRequest('POST', Uri.parse(Endpoints.createMenus));
+      
+  //     // Add fields to the request
+  //     request.fields['category'] = menu.category;
+  //     request.fields['createdAt'] = menu.createdAt;
+  //     request.fields['description'] = menu.description;
+  //     request.fields['name'] = menu.name;
+  //     request.fields['price'] = menu.price.toString();
+  //     request.fields['rating'] = menu.rating.toString();
+  //     request.fields['updatedAt'] = menu.updatedAt;
 
+  //     // Add the image file if it exists
+  //     if (imageFile != null) {
+  //       request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+  //     }
+
+  //     // Send the request
+  //     var response = await request.send();
+
+  //     // Read the response
+  //     var responseString = await response.stream.bytesToString();
+  //     if (response.statusCode == 200) {
+  //       print('Success: $responseString');
+  //       return true;
+  //     } else {
+  //       print('Failed with status: ${response.statusCode}');
+  //       print('Response: $responseString');
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print('Exception: $e');
+  //     return false;
+  //   }
+  // }
   // UPDATE EXISTING MENU //
   static Future<http.Response> updateMenus(
       int idMenus,

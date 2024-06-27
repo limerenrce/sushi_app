@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
 import 'package:sushi_app/cubit/cart/cart_cubit.dart';
+import 'package:sushi_app/cubit/menu/menu_cubit.dart';
 import 'package:sushi_app/cubit/profile/profile_cubit.dart';
+import 'package:sushi_app/cubit/search/search_cubit.dart';
 import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
 import 'package:sushi_app/pages/admin_page/admin_home.dart';
 import 'package:sushi_app/pages/admin_page/admin_orderList.dart';
@@ -101,8 +103,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
         BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
-        BlocProvider<CartCubit>(create: (context) => CartCubit())
+        BlocProvider<CartCubit>(create: (context) => CartCubit()),
         // BlocProvider<MenuCubit>(create: (context) => MenuCubit()),
+        BlocProvider<SearchCubit>(create: (context) => SearchCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
