@@ -26,6 +26,9 @@ class DataService {
       'password': password
     };
 
+
+
+
     final response = await http.post(url, body: data);
     debugPrint("Response: ${{response.statusCode}}");
 
@@ -129,41 +132,98 @@ class DataService {
   }
 
   // POST NEW MENU //
+
   static Future<http.Response> createMenus(
-      String name,
-      String price,
-      String rating,
-      String description,
-      String category,
-      File? imageFile) async {
-    try {
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(Endpoints.createMenus), // Ganti dengan URL endpoint Anda
-      );
+  String name,
+  String price,
+  String rating,
+  String description,
+  String category,
+  String? imagePath,
+) async {
+  try {
+    // Fetch the token from secure storage
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-      request.fields['name'] = name;
-      request.fields['price'] = price;
-      request.fields['rating'] = rating;
-      request.fields['description'] = description;
-      request.fields['category'] = category;
-
-      if (imageFile != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'gambar',
-            imageFile.path,
-          ),
-        );
-      }
-
-      var response = await request.send();
-      return http.Response.fromStream(response);
-    } catch (e) {
-      throw Exception('Failed to create menu: $e');
+    if (token == null) {
+      throw Exception('Token not found');
     }
+
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(Endpoints.createMenus),
+      
+    );
+
+    // Set the headers
+    request.headers['Authorization'] = 'Bearer $token';
+
+    // Add the fields
+    request.fields['name'] = name;
+    request.fields['price'] = price;
+    request.fields['rating'] = rating;
+    request.fields['description'] = description;
+    request.fields['category'] = category;
+
+    if (imagePath != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image_path',
+          imagePath,
+        ),
+      );
+    }
+
+    // Debug prints
+    print('Request URL: ${Endpoints.createMenus}');
+    print('Request Headers: ${request.headers}');
+    print('Request Fields: ${request.fields}');
+    if (imagePath != null) {
+      print('Image File: $imagePath');
+    }
+
+    // Send the request and handle the response
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    // Debug print response details
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    // Check for status codes and handle accordingly
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return response;
+    } else {
+      throw Exception('Failed to create menu: ${response.statusCode} ${response.reasonPhrase}');
+    }
+  } catch (e) {
+    throw Exception('Failed to create menu: $e');
   }
-  // static Future<bool> createMenu(Menus menu, File? imageFile) async {
+}
+// static Future<void> createMenu(Menus menu) async {
+//   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+//   if (token == null) {
+//     throw Exception('Token not found');
+//   }
+//     final response = await http.post(
+//       Uri.parse(Endpoints.createMenus),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//         'Authorization': 'Bearer $token',
+//       },
+//       body: jsonEncode(menu.toJson()),
+//     );
+
+//     if (response.statusCode == 201) {
+//       print('Issues uploaded succesfully');
+//     } else {
+//       throw Exception('Failed to create issues');
+//     }
+//   }
+
+// ----------------------- batas ------------------------
+
   //   try {
   //     // Construct the multipart request
   //     var request = http.MultipartRequest('POST', Uri.parse(Endpoints.createMenus));
@@ -224,7 +284,7 @@ class DataService {
       if (imageFile != null) {
         request.files.add(
           await http.MultipartFile.fromPath(
-            'gambar',
+            'image_path',
             imageFile.path,
           ),
         );

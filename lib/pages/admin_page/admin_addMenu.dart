@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -60,8 +59,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     );
   }
 
-  // Method to get image from camera or gallery
-  Future<void> getImage(ImageSource img) async {
+  Future getImage(ImageSource img) async {
     final pickedFile = await picker.pickImage(source: img);
     setState(() {
       if (pickedFile != null) {
@@ -81,6 +79,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     final price = _priceController.text;
     final description = _descriptionController.text;
     final rating = _rating.toString();
+    final imagePath = galleryFile?.path;
 
     if (name.isEmpty || category.isEmpty || price.isEmpty || description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -96,7 +95,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
         rating,
         description,
         category,
-        galleryFile,
+        imagePath,
       );
 
       if (response.statusCode == 200) {
@@ -106,7 +105,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
         Navigator.pop(context); // Navigate back after successful creation
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to create menu')),
+          SnackBar(content: Text('Failed to create menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}')),
         );
       }
     } catch (e) {
@@ -294,30 +293,33 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                 ),
               ),
               const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.grey.shade200,
-                    width: 2.0,
+              GestureDetector(
+                onTap: () => _showPicker(context: context),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.grey.shade200,
+                      width: 2.0,
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 60.0),
-                  child: Center(
-                    child: galleryFile == null
-                        ? const Text(
-                            "Insert Image",
-                            style: TextStyle(color: Colors.grey),
-                          )
-                        : Image.file(
-                            galleryFile!,
-                            height: 200,
-                            width: 200,
-                            fit: BoxFit.cover,
-                          ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 60.0),
+                    child: Center(
+                      child: galleryFile == null
+                          ? const Text(
+                              "Insert Image",
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          : Image.file(
+                              galleryFile!,
+                              height: 200,
+                              width: 200,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -360,6 +362,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     super.dispose();
   }
 }
+
 
 
 // import 'dart:io';
