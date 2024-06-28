@@ -250,7 +250,7 @@ class _MenuPageState extends State<MenuPage>
                                 children: [
                                   // IMAGE
                                   Image.asset(
-                                    'assets/images/sushi.png',
+                                    'assets/images/salmon_sushi.png',
                                     height: 27,
                                   ),
                                   const SizedBox(width: 8),
@@ -314,7 +314,7 @@ class _MenuPageState extends State<MenuPage>
                                 children: [
                                   // IMAGE
                                   Image.asset(
-                                    'assets/images/shrimp.png',
+                                    'assets/images/dango.png',
                                     height: 27,
                                   ),
                                   const SizedBox(width: 8),
