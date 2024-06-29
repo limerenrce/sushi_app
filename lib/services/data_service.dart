@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sushi_app/endpoints/endpoints.dart';
+import 'package:sushi_app/models/order_detail.dart';
 
 import '../models/menu.dart';
 import '../models/profile.dart';
@@ -25,9 +26,6 @@ class DataService {
       'username': username,
       'password': password
     };
-
-
-
 
     final response = await http.post(url, body: data);
     debugPrint("Response: ${{response.statusCode}}");
@@ -117,11 +115,19 @@ class DataService {
 
   // GET MENUS //
   static Future<List<Menus>> fetchMenus(String category) async {
-    final response = await http.get(Uri.parse('${Endpoints.getMenus}?category=$category'));
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+        Uri.parse('${Endpoints.getMenus}/$category'),
+        headers: {'Authorization': 'Bearer $token'});
     debugPrint("Response: ${{response.statusCode}}");
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as Map<String, dynamic>;
-      return (data['datas'] as List<dynamic>)
+      return (data['data'] as List<dynamic>)
           .map((item) => Menus.fromJson(item as Map<String, dynamic>))
           .toList();
     } else {
@@ -134,72 +140,72 @@ class DataService {
   // POST NEW MENU //
 
   static Future<http.Response> createMenus(
-  String name,
-  String price,
-  String rating,
-  String description,
-  String category,
-  String? imagePath,
-) async {
-  try {
-    // Fetch the token from secure storage
-    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+    String name,
+    String price,
+    String rating,
+    String description,
+    String category,
+    String? imagePath,
+  ) async {
+    try {
+      // Fetch the token from secure storage
+      String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-    if (token == null) {
-      throw Exception('Token not found');
-    }
+      if (token == null) {
+        throw Exception('Token not found');
+      }
 
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse(Endpoints.createMenus),
-      
-    );
-
-    // Set the headers
-    request.headers['Authorization'] = 'Bearer $token';
-
-    // Add the fields
-    request.fields['name'] = name;
-    request.fields['price'] = price;
-    request.fields['rating'] = rating;
-    request.fields['description'] = description;
-    request.fields['category'] = category;
-
-    if (imagePath != null) {
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'image_path',
-          imagePath,
-        ),
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(Endpoints.createMenus),
       );
+
+      // Set the headers
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Add the fields
+      request.fields['name'] = name;
+      request.fields['price'] = price;
+      request.fields['rating'] = rating;
+      request.fields['description'] = description;
+      request.fields['category'] = category;
+
+      if (imagePath != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'image_path',
+            imagePath,
+          ),
+        );
+      }
+
+      // Debug prints
+      print('Request URL: ${Endpoints.createMenus}');
+      print('Request Headers: ${request.headers}');
+      print('Request Fields: ${request.fields}');
+      if (imagePath != null) {
+        print('Image File: $imagePath');
+      }
+
+      // Send the request and handle the response
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      // Debug print response details
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      // Check for status codes and handle accordingly
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return response;
+      } else {
+        throw Exception(
+            'Failed to create menu: ${response.statusCode} ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      throw Exception('Failed to create menu: $e');
     }
-
-    // Debug prints
-    print('Request URL: ${Endpoints.createMenus}');
-    print('Request Headers: ${request.headers}');
-    print('Request Fields: ${request.fields}');
-    if (imagePath != null) {
-      print('Image File: $imagePath');
-    }
-
-    // Send the request and handle the response
-    var streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
-
-    // Debug print response details
-    print('Response Status Code: ${response.statusCode}');
-    print('Response Body: ${response.body}');
-
-    // Check for status codes and handle accordingly
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return response;
-    } else {
-      throw Exception('Failed to create menu: ${response.statusCode} ${response.reasonPhrase}');
-    }
-  } catch (e) {
-    throw Exception('Failed to create menu: $e');
   }
-}
 // static Future<void> createMenu(Menus menu) async {
 //   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
@@ -227,7 +233,7 @@ class DataService {
   //   try {
   //     // Construct the multipart request
   //     var request = http.MultipartRequest('POST', Uri.parse(Endpoints.createMenus));
-      
+
   //     // Add fields to the request
   //     request.fields['category'] = menu.category;
   //     request.fields['createdAt'] = menu.createdAt;
@@ -304,7 +310,95 @@ class DataService {
     return response;
   }
 
-  // --------------- MODUL CUSTOMER SUPPORT -------------------- //
+
+  //---------------- MODUL ORDERS ----------------
+
+  //GET ORDERS
+  Future<List<OrderDetail>> fetchOrder() async {
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+      Uri.parse(Endpoints.getOrders),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return (data['datas'] as List<dynamic>)
+          .map((item) => OrderDetail.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } else {
+      // Handle error
+      debugPrint("Error response body: ${response.body}");
+      throw Exception('Failed to load orders: ${response.reasonPhrase}');
+    }
+  }
+
+  //UPDATE ORDERS
+//   Future<void> updateOrderStatus(int orderId) async {
+//   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+//     if (token == null) {
+//       throw Exception('Token not found');
+//     }
+
+//   final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
+//   final Map<String, String> headers = {
+//     'Content-Type': 'application/json',
+//     'Authorization': 'Bearer $token',
+//   };
+//   final Map<String, dynamic> body = {'status': 'paid'};
+
+//   try {
+//     final response = await http.put(uri, headers: headers, body: jsonEncode(body));
+    
+//     if (response.statusCode == 200) {
+//       print('Order status updated successfully');
+//     } else {
+//       print('Failed to update order status. Status code: ${response.statusCode}');
+//       print('Response body: ${response.body}');
+//       throw Exception('Failed to update order status');
+//     }
+//   } catch (e) {
+//     print('Error updating order status: $e');
+//     throw Exception('Failed to update order status: $e');
+//   }
+// }
+Future<void> updateOrderStatus(int orderId) async {
+  String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+  final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
+  final Map<String, String> headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
+  final Map<String, dynamic> body = {'status': 'paid'};
+
+  try {
+    final response = await http.put(uri, headers: headers, body: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      print('Order status updated successfully');
+    } else {
+      print('Failed to update order status. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to update order status');
+    }
+  } catch (e) {
+    print('Error updating order status: $e');
+    throw Exception('Failed to update order status: $e');
+  }
+}
+
+
+// --------------- MODUL CUSTOMER SUPPORT -------------------- //
 
   // GET SERVICE
   static Future<List<Service>> fetchServices() async {

@@ -2,7 +2,7 @@ class Endpoints {
   static const String baseURLLive = "https://simobile.singapoly.com";
   static const String nim = "2215091065";
   static const String localFlask = "http://192.168.1.7:5000";
-  static const String ngrok = "https://46b9-180-249-185-160.ngrok-free.app";
+  static const String ngrok = "https://60e3-180-249-185-160.ngrok-free.app";
 
   //static const String login = "$baseURLLive/api/auth/login";
   //static const String logout = "$baseURLLive/api/auth/logout";
@@ -23,4 +23,7 @@ class Endpoints {
   static const String updateMenus = "$ngrok/api/v1/menus/update";
   static const String deleteMenus = "$ngrok/api/v1/menus/update";
   static const String img = "$ngrok/static/assets/img";
+  static const String getOrders = "$ngrok/api/v1/orders/read";
+  static const String createOrders = "$ngrok/api/v1/orders/create";
+  static const String updateOrders = "$ngrok/api/v1/orders/update";
 }
