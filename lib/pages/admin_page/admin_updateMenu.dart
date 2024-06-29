@@ -98,6 +98,7 @@ class _AdminUpdatemenuState extends State<AdminUpdatemenu> {
 
   // Method to save data
   void saveData(BuildContext context) async {
+    final idMenu = widget.menu.idMenus;
     final name = _titleController.text;
     final category = _selectedOption1 ?? '';
     final price = _priceController.text;
@@ -116,7 +117,8 @@ class _AdminUpdatemenuState extends State<AdminUpdatemenu> {
     }
 
     try {
-      final response = await DataService.createMenus(
+      final response = await DataService.updateMenus(
+        idMenu,
         name,
         price,
         rating,
@@ -125,16 +127,17 @@ class _AdminUpdatemenuState extends State<AdminUpdatemenu> {
         imagePath,
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Menu created successfully')),
+          const SnackBar(content: Text('Menu updated successfully')),
         );
         Navigator.pop(context); // Navigate back after successful creation
+        Navigator.pop(context); 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
-                  'Failed to create menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}')),
+                  'Failed to update menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}')),
         );
       }
     } catch (e) {

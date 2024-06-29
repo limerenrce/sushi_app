@@ -195,66 +195,7 @@ class DataService {
       throw Exception('Failed to create menu: $e');
     }
   }
-// static Future<void> createMenu(Menus menu) async {
-//   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-//   if (token == null) {
-//     throw Exception('Token not found');
-//   }
-//     final response = await http.post(
-//       Uri.parse(Endpoints.createMenus),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//         'Authorization': 'Bearer $token',
-//       },
-//       body: jsonEncode(menu.toJson()),
-//     );
-
-//     if (response.statusCode == 201) {
-//       print('Issues uploaded succesfully');
-//     } else {
-//       throw Exception('Failed to create issues');
-//     }
-//   }
-
-// ----------------------- batas ------------------------
-
-  //   try {
-  //     // Construct the multipart request
-  //     var request = http.MultipartRequest('POST', Uri.parse(Endpoints.createMenus));
-
-  //     // Add fields to the request
-  //     request.fields['category'] = menu.category;
-  //     request.fields['createdAt'] = menu.createdAt;
-  //     request.fields['description'] = menu.description;
-  //     request.fields['name'] = menu.name;
-  //     request.fields['price'] = menu.price.toString();
-  //     request.fields['rating'] = menu.rating.toString();
-  //     request.fields['updatedAt'] = menu.updatedAt;
-
-  //     // Add the image file if it exists
-  //     if (imageFile != null) {
-  //       request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-  //     }
-
-  //     // Send the request
-  //     var response = await request.send();
-
-  //     // Read the response
-  //     var responseString = await response.stream.bytesToString();
-  //     if (response.statusCode == 200) {
-  //       print('Success: $responseString');
-  //       return true;
-  //     } else {
-  //       print('Failed with status: ${response.statusCode}');
-  //       print('Response: $responseString');
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //     return false;
-  //   }
-  // }
   // UPDATE EXISTING MENU //
   static Future<http.Response> updateMenus(
       int idMenus,
@@ -263,12 +204,22 @@ class DataService {
       String rating,
       String description,
       String category,
-      File? imageFile) async {
+      String? imagePath) async {
     try {
+      // Fetch the token from secure storage
+      String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+      if (token == null) {
+        throw Exception('Token not found');
+      }
+
       var request = http.MultipartRequest(
         'PUT',
-        Uri.parse('${Endpoints.updateMenus}$idMenus'),
+        Uri.parse('${Endpoints.updateMenus}/$idMenus'),
       );
+
+      // Set the headers
+      request.headers['Authorization'] = 'Bearer $token';
 
       request.fields['name'] = name;
       request.fields['price'] = price;
@@ -276,29 +227,63 @@ class DataService {
       request.fields['description'] = description;
       request.fields['category'] = category;
 
-      if (imageFile != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'image_path',
-            imageFile.path,
-          ),
-        );
+      if (imagePath != null) {
+        final multipartFile =
+            await http.MultipartFile.fromPath('image', imagePath);
+        request.files.add(multipartFile);
       }
 
       var response = await request.send();
-      return http.Response.fromStream(response);
+      // Debug prints
+      debugPrint('Request URL: ${Endpoints.updateMenus}');
+      debugPrint('Request Headers: ${request.headers}');
+      debugPrint('Request Fields: ${request.fields}');
+
+      // Check for status codes and handle accordingly
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        debugPrint('Response status ${response.statusCode}');
+        // debugPrint("success");
+        return http.Response.fromStream(response);
+      } else {
+        throw Exception(
+            'Failed to create menu: ${response.statusCode} ${response.reasonPhrase}');
+      }
     } catch (e) {
-      throw Exception('Failed to update menu: $e');
+      throw Exception('Failed to create menu: $e');
     }
   }
 
   // DELETE MENU //
-  static Future<http.Response> deleteMenus(int idMenus) async {
-    final url = Uri.parse('${Endpoints.deleteMenus}$idMenus');
-    final response = await http.delete(url);
-    return response;
-  }
+  static Future<http.Response> deleteMenu(int idMenus) async {
+  try {
+    // Fetch the token from secure storage
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    var request = http.MultipartRequest(
+      'PUT', Uri.parse('${Endpoints.deleteMenus}/$idMenus'),
+    );
+
+    // Set the headers
+    request.headers['Authorization'] = 'Bearer $token';
+
+    var response = await request.send();
+
+    // Check the response status
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      debugPrint('Soft deleted menu successfully. Status ${response.statusCode}');
+      // Convert the streamed response to a http.Response
+      return http.Response.fromStream(response);
+    } else {
+      throw Exception('Failed to soft delete menu: ${response.statusCode} ${response.reasonPhrase}');
+    }
+  } catch (e) {
+    throw Exception('Failed to delete menu: $e');
+  }
+}
 
   //---------------- MODUL ORDERS ----------------
 
@@ -344,7 +329,7 @@ class DataService {
 
 //   try {
 //     final response = await http.put(uri, headers: headers, body: jsonEncode(body));
-    
+
 //     if (response.statusCode == 200) {
 //       print('Order status updated successfully');
 //     } else {
@@ -357,34 +342,35 @@ class DataService {
 //     throw Exception('Failed to update order status: $e');
 //   }
 // }
-Future<void> updateOrderStatus(int orderId) async {
-  String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+  Future<void> updateOrderStatus(int orderId) async {
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-  if (token == null) {
-    throw Exception('Token not found');
-  }
-  final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
-  final Map<String, String> headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': 'Bearer $token',
-  };
-  final Map<String, String> body = {'status': 'paid'};
-
-  try {
-    final response = await http.put(uri, headers: headers, body: body);
-
-    if (response.statusCode == 200) {
-      print('Order status updated successfully');
-    } else {
-      print('Failed to update order status. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to update order status');
+    if (token == null) {
+      throw Exception('Token not found');
     }
-  } catch (e) {
-    print('Error updating order status: $e');
-    throw Exception('Failed to update order status: $e');
-  }}
+    final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
+    final Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer $token',
+    };
+    final Map<String, String> body = {'status': 'paid'};
 
+    try {
+      final response = await http.put(uri, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        debugPrint('Order status updated successfully');
+      } else {
+        debugPrint(
+            'Failed to update order status. Status code: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        throw Exception('Failed to update order status');
+      }
+    } catch (e) {
+      debugPrint('Error updating order status: $e');
+      throw Exception('Failed to update order status: $e');
+    }
+  }
 
 // --------------- MODUL CUSTOMER SUPPORT -------------------- //
 
