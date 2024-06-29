@@ -169,35 +169,24 @@ class DataService {
       request.fields['rating'] = rating;
       request.fields['description'] = description;
       request.fields['category'] = category;
-
       if (imagePath != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'image_path',
-            imagePath,
-          ),
-        );
+        final multipartFile =
+            await http.MultipartFile.fromPath('image', imagePath);
+        request.files.add(multipartFile);
       }
+
+      var response = await request.send();
 
       // Debug prints
-      print('Request URL: ${Endpoints.createMenus}');
-      print('Request Headers: ${request.headers}');
-      print('Request Fields: ${request.fields}');
-      if (imagePath != null) {
-        print('Image File: $imagePath');
-      }
-
-      // Send the request and handle the response
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-
-      // Debug print response details
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
+      debugPrint('Request URL: ${Endpoints.createMenus}');
+      debugPrint('Request Headers: ${request.headers}');
+      debugPrint('Request Fields: ${request.fields}');
 
       // Check for status codes and handle accordingly
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        return response;
+        debugPrint('Response status ${response.statusCode}');
+        // debugPrint("success");
+        return http.Response.fromStream(response);
       } else {
         throw Exception(
             'Failed to create menu: ${response.statusCode} ${response.reasonPhrase}');
@@ -371,18 +360,18 @@ class DataService {
 Future<void> updateOrderStatus(int orderId) async {
   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-    if (token == null) {
-      throw Exception('Token not found');
-    }
+  if (token == null) {
+    throw Exception('Token not found');
+  }
   final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
   final Map<String, String> headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': 'Bearer $token',
   };
-  final Map<String, dynamic> body = {'status': 'paid'};
+  final Map<String, String> body = {'status': 'paid'};
 
   try {
-    final response = await http.put(uri, headers: headers, body: jsonEncode(body));
+    final response = await http.put(uri, headers: headers, body: body);
 
     if (response.statusCode == 200) {
       print('Order status updated successfully');
@@ -394,8 +383,7 @@ Future<void> updateOrderStatus(int orderId) async {
   } catch (e) {
     print('Error updating order status: $e');
     throw Exception('Failed to update order status: $e');
-  }
-}
+  }}
 
 
 // --------------- MODUL CUSTOMER SUPPORT -------------------- //

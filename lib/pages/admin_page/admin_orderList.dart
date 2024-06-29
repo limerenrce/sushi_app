@@ -17,7 +17,13 @@ class _AdminOrderListState extends State<AdminOrderList> {
   @override
   void initState() {
     super.initState();
-    futureOrderDetails = DataService().fetchOrder();
+    fetchOrderDetails();
+  }
+
+  void fetchOrderDetails() {
+    setState(() {
+      futureOrderDetails = DataService().fetchOrder();
+    });
   }
 
   Map<int, List<OrderDetail>> groupByIdOrder(List<OrderDetail> orders) {
@@ -79,6 +85,7 @@ class _AdminOrderListState extends State<AdminOrderList> {
                         return OrderGroupCard(
                           idOrder: entry.key,
                           orders: entry.value,
+                          onUpdate: fetchOrderDetails,
                         );
                       }).toList(),
                     );
@@ -96,8 +103,9 @@ class _AdminOrderListState extends State<AdminOrderList> {
 class OrderGroupCard extends StatelessWidget {
   final int idOrder;
   final List<OrderDetail> orders;
+  final VoidCallback onUpdate;
 
-  const OrderGroupCard({Key? key, required this.idOrder, required this.orders})
+  const OrderGroupCard({Key? key, required this.idOrder, required this.orders, required this.onUpdate})
       : super(key: key);
 
   @override
@@ -114,9 +122,9 @@ class OrderGroupCard extends StatelessWidget {
         orders.forEach((order) {
           order.updateStatus('paid');
         });
+        onUpdate();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Payment made successfully')),
-        );
+          SnackBar(content: Text('Payment made successfully')));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to make payment: $e')),
