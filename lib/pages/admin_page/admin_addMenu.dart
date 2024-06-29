@@ -1,12 +1,11 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_element, use_build_context_synchronously
 
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:sushi_app/services/data_service.dart';
 
@@ -14,6 +13,7 @@ class AdminAddMenu extends StatefulWidget {
   const AdminAddMenu({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminAddMenuState createState() => _AdminAddMenuState();
 }
 
@@ -82,7 +82,10 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     final description = _descriptionController.text;
     final rating = _rating.toString();
 
-    if (name.isEmpty || category.isEmpty || price.isEmpty || description.isEmpty) {
+    if (name.isEmpty ||
+        category.isEmpty ||
+        price.isEmpty ||
+        description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill all the fields')),
       );

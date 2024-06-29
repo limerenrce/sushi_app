@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
-import 'package:sushi_app/models/food.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/models/menu.dart';
-import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 
 // import '../cubit/cart/cart_cubit.dart';
 
@@ -286,7 +283,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
-        title: Text('My Cart'),
+        title: const Text('My Cart'),
         elevation: 0,
         backgroundColor: primaryColor,
         foregroundColor: Colors.grey[300],
@@ -296,7 +293,7 @@ class _CartPageState extends State<CartPage> {
           Expanded(
             child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
               if (state.cartItems.isEmpty) {
-                return Center(
+                return const Center(
                   child: Text('Your Cart is Empty',
                       style: TextStyle(color: Colors.white)),
                 );
@@ -332,7 +329,7 @@ class _CartPageState extends State<CartPage> {
                                   children: [
                                     //NAME
                                     Text(
-                                      "${cartItem.menu.name}",
+                                      cartItem.menu.name,
                                       style: GoogleFonts.dmSerifDisplay(
                                           fontSize: 18),
                                     ),
@@ -388,7 +385,7 @@ class _CartPageState extends State<CartPage> {
               }
             }),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
@@ -404,14 +401,14 @@ class _CartPageState extends State<CartPage> {
                 final subtotal = cartCubit.getSubtotal();
                 final tax = cartCubit.getTax();
                 final total = cartCubit.getTotal();
-                
+
                 return Column(
                   children: [
                     //SUBTOTAL
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Subtotal"),
+                        const Text("Subtotal"),
                         Text("RP ${subtotal.toStringAsFixed(2)}"),
                       ],
                     ),
@@ -421,7 +418,7 @@ class _CartPageState extends State<CartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Tax 10%"),
+                        const Text("Tax 10%"),
                         Text("RP ${tax.toStringAsFixed(2)}"),
                       ],
                     ),
@@ -431,7 +428,7 @@ class _CartPageState extends State<CartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Total",
                           style: TextStyle(
                             color: Colors.black,
@@ -441,7 +438,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                         Text(
                           "RP ${total.toStringAsFixed(2)}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

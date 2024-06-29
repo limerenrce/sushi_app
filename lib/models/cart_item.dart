@@ -21,7 +21,7 @@ class CartItem extends Equatable {
   final Menus menu;
   final int quantity;
 
-  CartItem({required this.menu, required this.quantity});
+  const CartItem({required this.menu, required this.quantity});
 
   @override
   List<Object> get props => [menu, quantity];
