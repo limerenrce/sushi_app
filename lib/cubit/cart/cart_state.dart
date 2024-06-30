@@ -4,10 +4,10 @@ class CartState extends Equatable {
   final List<CartItem> cartItems;
   final int notificationCount;
 
-  CartState({required this.cartItems, required this.notificationCount});
+  const CartState({required this.cartItems, required this.notificationCount});
 
   factory CartState.initial() {
-    return CartState(cartItems: [], notificationCount: 0);
+    return const CartState(cartItems: [], notificationCount: 0);
   }
 
   CartState copyWith({List<CartItem>? cartItems}) {

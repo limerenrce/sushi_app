@@ -1,4 +1,5 @@
 // menu_page.dart
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -313,7 +314,7 @@ class _MenuPageState extends State<MenuPage>
                                 children: [
                                   // IMAGE
                                   Image.asset(
-                                    'assets/images/shrimp.png',
+                                    'assets/images/dango.png',
                                     height: 27,
                                   ),
                                   const SizedBox(width: 8),
@@ -358,8 +359,8 @@ class _MenuPageState extends State<MenuPage>
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                             ),
-                                            margin: const EdgeInsets.only(
-                                                left: 10),
+                                            margin:
+                                                const EdgeInsets.only(left: 10),
                                             padding: const EdgeInsets.all(25),
                                             child: Column(
                                               crossAxisAlignment:
@@ -369,35 +370,49 @@ class _MenuPageState extends State<MenuPage>
                                               children: [
                                                 // IMAGE
                                                 Center(
-                                                  child: Image.network(
-                                                    '${Endpoints.ngrok}/${item.imagePath}',
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        '${Endpoints.ngrok}/${item.imagePath}',
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        const CircularProgressIndicator(
+                                                            color: Colors.grey,
+                                                            ),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
                                                     height: 105,
                                                     fit: BoxFit.cover,
-                                                    loadingBuilder:
-                                                        (BuildContext context,
-                                                            Widget child,
-                                                            ImageChunkEvent?
-                                                                loadingProgress) {
-                                                      if (loadingProgress ==
-                                                          null) {
-                                                        return child;
-                                                      } else {
-                                                        return Center(
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            value: loadingProgress
-                                                                        .expectedTotalBytes !=
-                                                                    null
-                                                                ? loadingProgress
-                                                                        .cumulativeBytesLoaded /
-                                                                    loadingProgress
-                                                                        .expectedTotalBytes!
-                                                                : null,
-                                                          ),
-                                                        );
-                                                      }
-                                                    },
                                                   ),
+                                                  // Image.network(
+                                                  //   ,
+                                                  //   height: 105,
+                                                  //   fit: BoxFit.cover,
+                                                  //   loadingBuilder:
+                                                  //       (BuildContext context,
+                                                  //           Widget child,
+                                                  //           ImageChunkEvent?
+                                                  //               loadingProgress) {
+                                                  //     if (loadingProgress ==
+                                                  //         null) {
+                                                  //       return child;
+                                                  //     } else {
+                                                  //       return Center(
+                                                  //         child:
+                                                  //             CircularProgressIndicator(
+                                                  //           value: loadingProgress
+                                                  //                       .expectedTotalBytes !=
+                                                  //                   null
+                                                  //               ? loadingProgress
+                                                  //                       .cumulativeBytesLoaded /
+                                                  //                   loadingProgress
+                                                  //                       .expectedTotalBytes!
+                                                  //               : null,
+                                                  //         ),
+                                                  //       );
+                                                  //     }
+                                                  //   },
+                                                  // ),
                                                 ),
                                                 // TEXT
                                                 Text(
@@ -438,9 +453,10 @@ class _MenuPageState extends State<MenuPage>
                                                           ),
                                                           Text(
                                                             "${item.rating}",
-                                                            style: const TextStyle(
-                                                                color: Colors
-                                                                    .grey),
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .grey),
                                                           ),
                                                         ],
                                                       ),
@@ -489,8 +505,8 @@ class _MenuPageState extends State<MenuPage>
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      margin: const EdgeInsets.only(
-                          left: 25, right: 25, bottom: 5),
+                      margin:
+                          const EdgeInsets.only(left: 25, right: 25, bottom: 5),
                       padding: const EdgeInsets.all(20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

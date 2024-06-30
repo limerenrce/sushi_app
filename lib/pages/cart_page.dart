@@ -182,35 +182,112 @@ class _CartPageState extends State<CartPage> {
   }
 
   void orderNow(BuildContext context) async {
-  final cartCubit = context.read<CartCubit>();
-  final cartItems = cartCubit.state.cartItems;
+    final cartCubit = context.read<CartCubit>();
+    final cartItems = cartCubit.state.cartItems;
 
-  // Access the username from ProfileCubit
-  final profileCubit = context.read<ProfileCubit>();
-  final username = profileCubit.state.userLogged;
+    // Access the username from ProfileCubit
+    final profileCubit = context.read<ProfileCubit>();
+    final username = profileCubit.state.userLogged;
 
-  // Prepare data for ordering
-  final idMenus = cartItems.map((item) => item.menu.idMenus).toList();
-  final quantities = cartItems.map((item) => item.quantity).toList();
-  final totals = cartItems.map((item) => item.menu.price * item.quantity).toList();
+    // Prepare data for ordering
+    final idMenus = cartItems.map((item) => item.menu.idMenus).toList();
+    final quantities = cartItems.map((item) => item.quantity).toList();
+    final totals =
+        cartItems.map((item) => item.menu.price * item.quantity).toList();
 
-  // Log the request details
-  print('Order Request:');
-  print('Username: $username');
-  print('ID Menus: $idMenus');
-  print('Quantities: $quantities');
-  print('Totals: $totals');
+    // Log the request details
+    debugPrint('Order Request:');
+    debugPrint('Username: $username');
+    debugPrint('ID Menus: $idMenus');
+    debugPrint('Quantities: $quantities');
+    debugPrint('Totals: $totals');
 
-  try {
-    // Send order data to API
-    final response = await DataService().createOrder(username, idMenus, quantities, totals);
+    try {
+      // Send order data to API
+      final response = await DataService()
+          .createOrder(username, idMenus, quantities, totals);
 
-    // Log the response details
-    print('Order Response: ${response.statusCode}');
-    print('Response Body: ${response.body}');
+      // Log the response details
+      debugPrint('Order Response: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
 
-    if (response.statusCode == 201) {
-      // Show success dialog or handle success state
+      if (response.statusCode == 201) {
+        // Show success dialog or handle success state
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            content: SizedBox(
+              width: 300,
+              height: 200,
+              child: Column(
+                children: [
+                  Icon(Icons.check_circle_outline,
+                      color: Colors.green[800], size: 78),
+                  const SizedBox(height: 8),
+                  const Text(
+                    "Your Order is Confirmed!",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Your order is currently being",
+                    style: TextStyle(color: Colors.grey[800]),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    "prepared by our chef",
+                    style: TextStyle(color: Colors.grey[800]),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              //OKAY BUTTON
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(40)),
+                  margin: const EdgeInsets.only(left: 50, right: 50),
+                  padding: const EdgeInsets.all(15),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //TEXT
+                      Text(
+                        "Ok",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+
+        // Clear cart after successful order
+        cartCubit.clearCart();
+      } else {
+        throw Exception(
+            'Failed to place order: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      // Handle error if order fails
+      debugPrint('Order Error: $e');
+
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -221,10 +298,10 @@ class _CartPageState extends State<CartPage> {
             height: 200,
             child: Column(
               children: [
-                Icon(Icons.check_circle_outline, color: Colors.green[800], size: 78),
+                Icon(Icons.error_outline, color: Colors.red[800], size: 78),
                 const SizedBox(height: 8),
                 const Text(
-                  "Your Order is Confirmed!",
+                  "Order Failed!",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 23,
@@ -234,12 +311,7 @@ class _CartPageState extends State<CartPage> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Your order is currently being",
-                  style: TextStyle(color: Colors.grey[800]),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  "prepared by our chef",
+                  "Failed to place order. Please try again.",
                   style: TextStyle(color: Colors.grey[800]),
                   textAlign: TextAlign.center,
                 ),
@@ -254,7 +326,8 @@ class _CartPageState extends State<CartPage> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: primaryColor, borderRadius: BorderRadius.circular(40)),
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(40)),
                 margin: const EdgeInsets.only(left: 50, right: 50),
                 padding: const EdgeInsets.all(15),
                 child: const Row(
@@ -273,83 +346,15 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       );
-
-      // Clear cart after successful order
-      cartCubit.clearCart();
-    } else {
-      throw Exception('Failed to place order: ${response.statusCode} ${response.body}');
     }
-  } catch (e) {
-    // Handle error if order fails
-    print('Order Error: $e');
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        content: SizedBox(
-          width: 300,
-          height: 200,
-          child: Column(
-            children: [
-              Icon(Icons.error_outline, color: Colors.red[800], size: 78),
-              const SizedBox(height: 8),
-              const Text(
-                "Order Failed!",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Failed to place order. Please try again.",
-                style: TextStyle(color: Colors.grey[800]),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          //OKAY BUTTON
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: primaryColor, borderRadius: BorderRadius.circular(40)),
-              margin: const EdgeInsets.only(left: 50, right: 50),
-              padding: const EdgeInsets.all(15),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //TEXT
-                  Text(
-                    "Ok",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
-        title: Text('My Cart'),
+        title: const Text('My Cart'),
         elevation: 0,
         backgroundColor: primaryColor,
         foregroundColor: Colors.grey[300],
@@ -359,7 +364,7 @@ class _CartPageState extends State<CartPage> {
           Expanded(
             child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
               if (state.cartItems.isEmpty) {
-                return Center(
+                return const Center(
                   child: Text('Your Cart is Empty',
                       style: TextStyle(color: Colors.white)),
                 );
@@ -395,7 +400,7 @@ class _CartPageState extends State<CartPage> {
                                   children: [
                                     //NAME
                                     Text(
-                                      "${cartItem.menu.name}",
+                                      cartItem.menu.name,
                                       style: GoogleFonts.dmSerifDisplay(
                                           fontSize: 18),
                                     ),
@@ -451,7 +456,7 @@ class _CartPageState extends State<CartPage> {
               }
             }),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
@@ -474,7 +479,7 @@ class _CartPageState extends State<CartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Total",
                           style: TextStyle(
                             color: Colors.black,
@@ -496,7 +501,8 @@ class _CartPageState extends State<CartPage> {
                     const SizedBox(height: 25),
                     //ORDER NOW BUTTON
                     GestureDetector(
-                      onTap: () => orderNow(context), // Pass context to orderNow
+                      onTap: () =>
+                          orderNow(context), // Pass context to orderNow
                       child: Container(
                         decoration: BoxDecoration(
                             color: primaryColor,

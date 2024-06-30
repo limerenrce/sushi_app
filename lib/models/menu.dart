@@ -9,6 +9,7 @@ class Menus {
   int price;
   double rating;
   String updatedAt;
+  int version;
 
   Menus({
     required this.category,
@@ -21,6 +22,7 @@ class Menus {
     required this.price,
     required this.rating,
     required this.updatedAt,
+    required this.version,
   });
 
   factory Menus.fromJson(Map<String, dynamic> json) => Menus(
@@ -34,6 +36,7 @@ class Menus {
         price: json["price"],
         rating: json["rating"]?.toDouble(),
         updatedAt: json["updated_at"],
+        version: json["version"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +50,6 @@ class Menus {
         "price": price,
         "rating": rating,
         "updated_at": updatedAt,
+        "version": version,
       };
 }

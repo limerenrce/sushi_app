@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/models/cart_item.dart';
 
@@ -46,7 +47,8 @@ class CartCubit extends Cubit<CartState> {
 
   // GET SUBTOTAL
   double getSubtotal() {
-    return state.cartItems.fold(0, (total, item) => total + item.menu.price * item.quantity);
+    return state.cartItems
+        .fold(0, (total, item) => total + item.menu.price * item.quantity);
   }
 
   // CLEAR CART

@@ -21,7 +21,7 @@ class Endpoints {
   static const String getMenus = "$ngrok/api/v1/menus/read";
   static const String createMenus = "$ngrok/api/v1/menus/create";
   static const String updateMenus = "$ngrok/api/v1/menus/update";
-  static const String deleteMenus = "$ngrok/api/v1/menus/update";
+  static const String deleteMenus = "$ngrok/api/v1/menus/delete";
   static const String img = "$ngrok/static/assets/img";
   static const String getOrders = "$ngrok/api/v1/orders/read";
   static const String createOrders = "$ngrok/api/v1/orders/create";
