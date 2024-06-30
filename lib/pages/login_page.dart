@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           content: Text(response.statusCode == 400
               ? 'fill in the username and password fields'
               : 'Incorrect username or password')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('login failed')));
     }
   }
 

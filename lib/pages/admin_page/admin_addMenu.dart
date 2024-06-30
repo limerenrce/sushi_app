@@ -99,7 +99,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
         rating,
         description,
         category,
-        galleryFile,
+        galleryFile as String?,
       );
 
       if (response.statusCode == 200) {

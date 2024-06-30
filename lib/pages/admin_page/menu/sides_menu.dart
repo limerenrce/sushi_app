@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
+import 'package:google_fonts/google_fonts.dart'; 
+import 'package:sushi_app/pages/admin_page/admin_updateMenu.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 import '../../../endpoints/endpoints.dart';
@@ -39,8 +41,36 @@ class _SidesMenuState extends State<SidesMenu> {
     });
   }
 
-  //ADD TO CART
-  void deleteMenu() {
+  void delete(int id) async {
+  try {
+    final response = await DataService.deleteMenu(id);
+
+    if (response.statusCode == 200) {
+      // Handle success (if needed)
+      okayDelete(); // Optionally show success message
+    } else {
+      // Handle failure
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Failed to delete menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}',
+          ),
+        ),
+      );
+    }
+  } catch (e) {
+    // Handle exceptions
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: $e'),
+      ),
+    );
+  }
+}
+
+  //DELETE MENU
+  void deleteMenu(int id) {
+    final int menuId = id;
     //LET THE USER KNOW IT WAS SUCCESSFUL
     showDialog(
       context: context,
@@ -87,15 +117,16 @@ class _SidesMenuState extends State<SidesMenu> {
               GestureDetector(
                 onTap: () {
                   //POP ONCE TO REMOVE DIALOG BOX
-                  Navigator.pop(context); 
+                  Navigator.pop(context);
                 },
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(40), border: Border.all(color: primaryColor)), 
+                      borderRadius: BorderRadius.circular(40),
+                      border: Border.all(color: primaryColor)),
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 8, right: 20, left: 20),
-                  child:  Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //TEXT
@@ -110,15 +141,10 @@ class _SidesMenuState extends State<SidesMenu> {
               const SizedBox(width: 8),
               //DELETE BUTTON
               GestureDetector(
-                onTap: okayDelete,
-                
-                // (){
-                //   //DELETE THE MENU
-                //   okayDelete;
-
-                //   //POP ONCE TO REMOVE DIALOG BOX
-                //  // Navigator.pop(context); 
-                // },
+                onTap: 
+                (){ 
+                  delete(menuId);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                       color: primaryColor,
@@ -146,8 +172,8 @@ class _SidesMenuState extends State<SidesMenu> {
   }
 
   //ADD TO CART
-  void okayDelete() { 
-    //LET THE USER KNOW IT WAS SUCCESSFUL 
+  void okayDelete() {
+    //LET THE USER KNOW IT WAS SUCCESSFUL
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -187,6 +213,7 @@ class _SidesMenuState extends State<SidesMenu> {
               Navigator.pop(context);
 
               //POP AGAIN TO GO TO PREVIOUS SCREEN
+              Navigator.pop(context);
               Navigator.pop(context);
             },
             child: Container(
@@ -287,7 +314,7 @@ class _SidesMenuState extends State<SidesMenu> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const AdminAddMenu(),
+                                                AdminUpdatemenu(menu: item),
                                           ),
                                         );
                                       },
@@ -299,7 +326,7 @@ class _SidesMenuState extends State<SidesMenu> {
                                     ),
                                     // DELETE BUTTON
                                     IconButton(
-                                      onPressed: () => deleteMenu(),
+                                      onPressed: () => deleteMenu(item.idMenus),
                                       icon: Icon(
                                         Icons.delete,
                                         color: primaryColor,

@@ -8,6 +8,7 @@ import 'package:sushi_app/cubit/search/search_cubit.dart';
 import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
 import 'package:sushi_app/pages/admin_page/admin_home.dart';
 import 'package:sushi_app/pages/admin_page/admin_orderList.dart';
+import 'package:sushi_app/pages/admin_page/admin_updateMenu.dart';
 import 'package:sushi_app/pages/admin_page/menu/ramen_menu.dart';
 import 'package:sushi_app/pages/admin_page/menu/sides_menu.dart';
 import 'package:sushi_app/pages/admin_page/menu/sushi_menu.dart';
@@ -117,6 +118,13 @@ class MyApp extends StatelessWidget {
           '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
           '/cart-page': (context) => const AuthWrapper(child: CartPage()),
           '/adminHome-page': (context) => const AuthWrapper(child: AdminHome()),
+          '/adminSushi-page': (context) => const AuthWrapper(child: SushiMenu()),
+          '/adminRamen-page': (context) => const AuthWrapper(child: RamenMenu()),
+          '/adminSides-page': (context) => const AuthWrapper(child: SidesMenu()),
+          '/adminAddMenu-page': (context) => const AuthWrapper(child: AdminAddMenu()), 
+          '/adminOrderList-page': (context) => const AuthWrapper(child: AdminOrderList()),
+
+          '/services-page': (context) => const AuthWrapper(child: ServiceLogPage()),
           '/adminSushi-page': (context) =>
               const AuthWrapper(child: SushiMenu()),
           '/adminRamen-page': (context) =>
