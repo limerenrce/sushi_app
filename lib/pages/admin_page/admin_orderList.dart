@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_build_context_synchronously, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/theme/colors.dart';
@@ -8,6 +10,7 @@ class AdminOrderList extends StatefulWidget {
   const AdminOrderList({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminOrderListState createState() => _AdminOrderListState();
 }
 
@@ -73,11 +76,11 @@ class _AdminOrderListState extends State<AdminOrderList> {
                 future: futureOrderDetails,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No orders available'));
+                    return const Center(child: Text('No orders available'));
                   } else {
                     final groupedOrders = groupByIdOrder(snapshot.data!);
                     return Column(
@@ -105,8 +108,7 @@ class OrderGroupCard extends StatelessWidget {
   final List<OrderDetail> orders;
   final VoidCallback onUpdate;
 
-  const OrderGroupCard({Key? key, required this.idOrder, required this.orders, required this.onUpdate})
-      : super(key: key);
+  const OrderGroupCard({super.key, required this.idOrder, required this.orders, required this.onUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -119,12 +121,13 @@ class OrderGroupCard extends StatelessWidget {
         // Assuming orders list has only one status, update for simplicity
         await DataService().updateOrderStatus(orders.first.idOrder);
         // Update status locally in the widget
+        // ignore: avoid_function_literals_in_foreach_calls
         orders.forEach((order) {
           order.updateStatus('paid');
         });
         onUpdate();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Payment made successfully')));
+          const SnackBar(content: Text('Payment made successfully')));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to make payment: $e')),
@@ -148,7 +151,7 @@ class OrderGroupCard extends StatelessWidget {
             children: [
               Text(
                 'OrderID#$idOrder',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               Text(
                 status,
@@ -161,29 +164,29 @@ class OrderGroupCard extends StatelessWidget {
             ],
           ),
           Text('Placed by: $user'),
-          SizedBox(height: 10), // Adding some space before the header
+          const SizedBox(height: 10), // Adding some space before the header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 width: 120, // Fixed width for the item name
-                child: Text('Item', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Item', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
                 width: 40, // Fixed width for the quantity
-                child: Text('Qty', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Qty', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
                 width: 60, // Fixed width for the price
-                child: Text('Price', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Price', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
                 width: 60, // Fixed width for the total
-                child: Text('Total', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Total', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           ...orders.map((order) {
             return Column(
               children: [
@@ -211,21 +214,22 @@ class OrderGroupCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 5), // Adding some space between items
+                const SizedBox(height: 5), // Adding some space between items
               ],
             );
+          // ignore: unnecessary_to_list_in_spreads
           }).toList(),
-          Divider(),
+          const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Total',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               Text(
                 'Rp.${orders.fold<int>(0, (sum, order) => sum + order.itemTotal)}',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -236,7 +240,7 @@ class OrderGroupCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                 ),
-                child: Text('Make Payment', style: TextStyle(color: Colors.white),),
+                child: const Text('Make Payment', style: TextStyle(color: Colors.white),),
               ),
             ),
         ],

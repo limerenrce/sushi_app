@@ -1,4 +1,5 @@
 // search_state.dart
+
 import 'package:sushi_app/models/menu.dart';
 
 class SearchState {

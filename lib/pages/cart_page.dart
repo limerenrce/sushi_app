@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/cubit/cart/cart_cubit.dart';
@@ -212,7 +214,7 @@ class _CartPageState extends State<CartPage> {
 
       if (response.statusCode == 201) {
         // Show success dialog or handle success state
-        showDialog(
+        showDialog( 
           context: context,
           barrierDismissible: false,
           builder: (context) => AlertDialog(
@@ -487,8 +489,8 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         Text(
-                          "RP ${subtotal}",
-                          style: TextStyle(
+                          "RP $subtotal",
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

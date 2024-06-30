@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sushi_app/components/bottom_up_transition.dart';
 import 'package:sushi_app/cubit/auth/auth_cubit.dart';
 import 'package:sushi_app/models/login.dart';
+import 'package:sushi_app/pages/url_page.dart';
 import 'package:sushi_app/services/data_service.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:sushi_app/utils/constants.dart';
@@ -234,6 +236,16 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: secondaryColor,
+        foregroundColor: primaryColor,
+        onPressed: () {
+          // Navigator.pushNamed(context, '/form-screen');
+          // BottomUpRoute(page: const FormScreen());
+          Navigator.push(context, BottomUpRoute(page: const UrlPage()));
+        },
+        child: const Icon(Icons.wifi),
       ),
     );
   }
