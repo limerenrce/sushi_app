@@ -128,11 +128,10 @@ class OrderGroupCard extends StatelessWidget {
   }
 
   const OrderGroupCard(
-      {Key? key,
+      {super.key,
       required this.idOrder,
       required this.orders,
-      required this.onUpdate})
-      : super(key: key);
+      required this.onUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +340,8 @@ class OrderGroupCard extends StatelessWidget {
                 formatPriceTot(
                     orders.fold<int>(0, (sum, order) => sum + order.itemTotal)),
                 // 'Rp.${orders.fold<int>(0, (sum, order) => sum + order.itemTotal)}',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ],
           ),

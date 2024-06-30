@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -280,6 +282,7 @@ class _RamenMenuState extends State<RamenMenu> {
     );
     return formatter.format(price);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -346,10 +349,9 @@ class _RamenMenuState extends State<RamenMenu> {
                                 ),
                                 const SizedBox(height: 5),
                                 // PRICE
-                                Text(formatPrice(item.price),
-                                  style: TextStyle(
-                                    color: Colors.grey[700]
-                                  ),
+                                Text(
+                                  formatPrice(item.price),
+                                  style: TextStyle(color: Colors.grey[700]),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,

@@ -26,10 +26,10 @@ class MyButton extends StatelessWidget {
             const SizedBox(height: 10),
 
             //ICON
-            // const Icon(
-            //   Icons.arrow_forward,
-            //   color: Colors.white,
-            // )
+            const Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+            )
           ],
         ),
       ),
