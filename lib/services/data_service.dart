@@ -114,6 +114,29 @@ class DataService {
   // --------------- MODUL MENU -------------------- //
 
   // GET MENUS //
+  static Future<List<Menus>> fetchAllMenus() async {
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+        Uri.parse(Endpoints.getMenus),
+        headers: {'Authorization': 'Bearer $token'});
+    debugPrint("Response: ${{response.statusCode}}");
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return (data['data'] as List<dynamic>)
+          .map((item) => Menus.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } else {
+      // Handle error
+      debugPrint("Error response body: ${response.body}");
+      throw Exception('Failed to load menu: ${response.reasonPhrase}');
+    }
+  }
+
   static Future<List<Menus>> fetchMenus(String category) async {
     String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
