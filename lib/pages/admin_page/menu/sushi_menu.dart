@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
+import 'package:google_fonts/google_fonts.dart'; 
+import 'package:sushi_app/pages/admin_page/admin_updateMenu.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 import '../../../endpoints/endpoints.dart';
@@ -87,15 +87,16 @@ class _SushiMenuState extends State<SushiMenu> {
               GestureDetector(
                 onTap: () {
                   //POP ONCE TO REMOVE DIALOG BOX
-                  Navigator.pop(context); 
+                  Navigator.pop(context);
                 },
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(40), border: Border.all(color: primaryColor)), 
+                      borderRadius: BorderRadius.circular(40),
+                      border: Border.all(color: primaryColor)),
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 8, right: 20, left: 20),
-                  child:  Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //TEXT
@@ -111,13 +112,13 @@ class _SushiMenuState extends State<SushiMenu> {
               //DELETE BUTTON
               GestureDetector(
                 onTap: okayDelete,
-                
+
                 // (){
                 //   //DELETE THE MENU
                 //   okayDelete;
 
                 //   //POP ONCE TO REMOVE DIALOG BOX
-                //  // Navigator.pop(context); 
+                //  // Navigator.pop(context);
                 // },
                 child: Container(
                   decoration: BoxDecoration(
@@ -146,8 +147,8 @@ class _SushiMenuState extends State<SushiMenu> {
   }
 
   //ADD TO CART
-  void okayDelete() { 
-    //LET THE USER KNOW IT WAS SUCCESSFUL 
+  void okayDelete() {
+    //LET THE USER KNOW IT WAS SUCCESSFUL
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -287,7 +288,7 @@ class _SushiMenuState extends State<SushiMenu> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const AdminAddMenu(),
+                                                AdminUpdatemenu(menu: item),
                                           ),
                                         );
                                       },

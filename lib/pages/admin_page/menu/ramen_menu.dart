@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
+import 'package:sushi_app/pages/admin_page/admin_updateMenu.dart';
 import 'package:sushi_app/theme/colors.dart';
 
 import '../../../endpoints/endpoints.dart';
@@ -19,11 +19,19 @@ class RamenMenu extends StatefulWidget {
 
 class _RamenMenuState extends State<RamenMenu> {
   Future<List<Menus>>? _menu;
+  late Future<List<Menus>> futureMenuList;
 
   @override
   void initState() {
     super.initState();
     _menu = DataService.fetchMenus('ramen');
+    fetchMenuList();
+  }
+
+  void fetchMenuList() {
+    setState(() {
+      futureMenuList = DataService.fetchMenus('ramen');
+    });
   }
 
   //FAVORITE BUTTON
@@ -287,7 +295,7 @@ class _RamenMenuState extends State<RamenMenu> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const AdminAddMenu(),
+                                                AdminUpdatemenu(menu: item),
                                           ),
                                         );
                                       },

@@ -88,13 +88,13 @@ class CartCubit extends Cubit<CartState> {
   }
 
   //GET TAX
-  double getTax() {
-    return getSubtotal() * 0.1;
-  }
+  // double getTax() {
+  //   return getSubtotal() * 0.1;
+  // }
 
   //GET TOTAL ORDER
-  double getTotal() {
-    return getSubtotal() + getTax();
-  }
+  // double getTotal() {
+  //   return getSubtotal() + getTax();
+  // }
 }
 

@@ -10,7 +10,7 @@ class SearchCubit extends Cubit<SearchState> {
   void startSearch(String query) async {
     emit(state.copyWith(isSearching: true, showResults: false));
     try {
-      final results = await DataService.fetchMenus(query);
+      final results = await DataService.fetchAllMenus();
       emit(state.copyWith(
         isSearching: false,
         searchResults: results,

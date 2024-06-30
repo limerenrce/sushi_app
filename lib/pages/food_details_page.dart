@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sushi_app/components/button.dart';
@@ -6,7 +7,6 @@ import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class FoodDetailsPage extends StatefulWidget {
   final Menus menu;
@@ -110,7 +110,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent, 
       ),
       body: Column(
         children: [
@@ -119,10 +119,20 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: ListView(
                 children: [
-                  Image.network(
-                    '${Endpoints.ngrok}/${widget.menu.imagePath}',
+                  CachedNetworkImage(
+                    imageUrl: '${Endpoints.ngrok}/${widget.menu.imagePath}',
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(
+                      color: Colors.grey,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                     height: 200,
                   ),
+                  // Image.network(
+                  //   '${Endpoints.ngrok}/${widget.menu.imagePath}',
+                  //   height: 200,
+                  // ),
                   Row(
                     children: [
                       Icon(
