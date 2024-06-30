@@ -3,8 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:sushi_app/components/user_drawer.dart';
-import 'package:sushi_app/cubit/cart/cart_cubit.dart'; 
+import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/pages/food_details_page.dart';
@@ -87,6 +88,15 @@ class _MenuPageState extends State<MenuPage>
         _menu = DataService.fetchMenus('sides');
       }
     });
+  }
+
+  String formatPrice(int price) {
+    final formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+    return formatter.format(price);
   }
 
   @override
@@ -217,8 +227,8 @@ class _MenuPageState extends State<MenuPage>
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      margin: const EdgeInsets.only(
-                          left: 25, right: 25, bottom: 5),
+                      margin:
+                          const EdgeInsets.only(left: 25, right: 25, bottom: 5),
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,9 +252,9 @@ class _MenuPageState extends State<MenuPage>
                     ),
                   ),
                   const SizedBox(height: 20),
-        
+
                   const SizedBox(height: 20),
-        
+
                   // CATEGORY WIDGET
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -392,8 +402,7 @@ class _MenuPageState extends State<MenuPage>
                                                 child: CachedNetworkImage(
                                                   imageUrl:
                                                       '${Endpoints.ngrok}/${item.imagePath}',
-                                                  placeholder: (context,
-                                                          url) =>
+                                                  placeholder: (context, url) =>
                                                       const CircularProgressIndicator(
                                                     color: Colors.grey,
                                                   ),
@@ -436,8 +445,8 @@ class _MenuPageState extends State<MenuPage>
                                               // TEXT
                                               Text(
                                                 item.name,
-                                                style: GoogleFonts
-                                                    .dmSerifDisplay(
+                                                style:
+                                                    GoogleFonts.dmSerifDisplay(
                                                   fontSize: 20,
                                                 ),
                                               ),
@@ -458,8 +467,7 @@ class _MenuPageState extends State<MenuPage>
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color:
-                                                            Colors.grey[700],
+                                                        color: Colors.grey[700],
                                                       ),
                                                     ),
                                                     // RATING
@@ -581,8 +589,6 @@ class _MenuPageState extends State<MenuPage>
                 ],
               ),
             ),
-            // SEARCH RESULTS OVERLAY
-        
           ],
         ),
       ),

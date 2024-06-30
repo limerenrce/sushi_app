@@ -8,19 +8,19 @@ class Menus {
   String name;
   int price;
   double rating;
-  String updatedAt; 
+  String updatedAt;
 
   Menus({
     required this.category,
     required this.createdAt,
-    required this.deletedAt,
+    this.deletedAt,
     required this.description,
     required this.idMenus,
     required this.imagePath,
     required this.name,
     required this.price,
     required this.rating,
-    required this.updatedAt, 
+    required this.updatedAt,
   });
 
   factory Menus.fromJson(Map<String, dynamic> json) => Menus(
@@ -33,7 +33,7 @@ class Menus {
         name: json["name"],
         price: json["price"],
         rating: json["rating"]?.toDouble(),
-        updatedAt: json["updated_at"], 
+        updatedAt: json["updated_at"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +46,6 @@ class Menus {
         "name": name,
         "price": price,
         "rating": rating,
-        "updated_at": updatedAt, 
+        "updated_at": updatedAt,
       };
 }

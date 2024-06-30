@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:sushi_app/services/data_service.dart';
 import 'package:sushi_app/models/order_detail.dart';
@@ -50,7 +51,7 @@ class _AdminOrderListState extends State<AdminOrderList> {
         foregroundColor: Colors.grey[800],
         elevation: 0,
         title: const Text(
-          'Denpasar',
+          'Order List',
           textAlign: TextAlign.center,
         ),
       ),
@@ -108,15 +109,39 @@ class OrderGroupCard extends StatelessWidget {
   final List<OrderDetail> orders;
   final VoidCallback onUpdate;
 
-  const OrderGroupCard({super.key, required this.idOrder, required this.orders, required this.onUpdate});
+  String formatPrice(int price) {
+    final formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: '',
+      decimalDigits: 0,
+    );
+    return formatter.format(price);
+  }
+
+  String formatPriceTot(int total) {
+    final formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+    return formatter.format(total);
+  }
+
+  const OrderGroupCard(
+      {Key? key,
+      required this.idOrder,
+      required this.orders,
+      required this.onUpdate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String user = orders.first.username;
     String status = orders.first.status;
-    Color statusColor = status.toLowerCase() == 'paid' ? Colors.green : Colors.red;
+    Color statusColor =
+        status.toLowerCase() == 'paid' ? Colors.green : Colors.red;
 
-    void makePayment() async {
+    Future<void> makePayment() async {
       try {
         // Assuming orders list has only one status, update for simplicity
         await DataService().updateOrderStatus(orders.first.idOrder);
@@ -127,14 +152,93 @@ class OrderGroupCard extends StatelessWidget {
         });
         onUpdate();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Payment made successfully')));
+            const SnackBar(content: Text('Payment made successfully')));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to make payment: $e')),
         );
       }
     }
-    
+
+    void showConfirmationDialog() {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          content: SizedBox(
+            width: 350,
+            height: 220,
+            child: Column(
+              children: [
+                const SizedBox(height: 8),
+                Icon(Icons.payment, color: primaryColor, size: 60),
+                const SizedBox(height: 8),
+                const Text(
+                  "Are you sure you want to make the payment?",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  "Please make sure yor already received the money before proceeding this order! Thankyou!",
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(40),
+                        border: Border.all(color: primaryColor)),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: primaryColor, fontSize: 18),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context); // Close the dialog
+                    await makePayment();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(40)),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                    child: const Text(
+                      "OK",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -151,7 +255,8 @@ class OrderGroupCard extends StatelessWidget {
             children: [
               Text(
                 'OrderID#$idOrder',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               Text(
                 status,
@@ -170,19 +275,23 @@ class OrderGroupCard extends StatelessWidget {
             children: [
               Container(
                 width: 120, // Fixed width for the item name
-                child: const Text('Item', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Item',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
                 width: 40, // Fixed width for the quantity
-                child: const Text('Qty', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Qty',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
                 width: 60, // Fixed width for the price
-                child: const Text('Price', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Price',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
                 width: 60, // Fixed width for the total
-                child: const Text('Total', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Total',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -206,18 +315,19 @@ class OrderGroupCard extends StatelessWidget {
                     ),
                     Container(
                       width: 60, // Fixed width for the price
-                      child: Text('${order.menuPrice}'),
+                      child: Text(formatPrice(order.menuPrice)),
                     ),
                     Container(
                       width: 60, // Fixed width for the total
-                      child: Text('${order.menuPrice * order.quantity}'),
+                      child:
+                          Text(formatPrice(order.menuPrice * order.quantity)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 5), // Adding some space between items
               ],
             );
-          // ignore: unnecessary_to_list_in_spreads
+            // ignore: unnecessary_to_list_in_spreads
           }).toList(),
           const Divider(),
           Row(
@@ -228,19 +338,25 @@ class OrderGroupCard extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               Text(
-                'Rp.${orders.fold<int>(0, (sum, order) => sum + order.itemTotal)}',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                formatPriceTot(
+                    orders.fold<int>(0, (sum, order) => sum + order.itemTotal)),
+                // 'Rp.${orders.fold<int>(0, (sum, order) => sum + order.itemTotal)}',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ],
           ),
-          if (status.toLowerCase() == 'unpaid') // Show payment button if status is unpaid
+          if (status.toLowerCase() ==
+              'unpaid') // Show payment button if status is unpaid
             Center(
               child: ElevatedButton(
-                onPressed: makePayment,
+                onPressed: showConfirmationDialog,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                 ),
-                child: const Text('Make Payment', style: TextStyle(color: Colors.white),),
+                child: const Text(
+                  'Make Payment',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
         ],
@@ -248,4 +364,3 @@ class OrderGroupCard extends StatelessWidget {
     );
   }
 }
-
