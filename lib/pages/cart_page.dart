@@ -6,8 +6,7 @@ import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/models/menu.dart';
-import 'package:sushi_app/services/data_service.dart';
-import 'package:sushi_app/utils/secure_storage_util.dart'; // Import your DataService
+import 'package:sushi_app/services/data_service.dart'; // Import your DataService
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
