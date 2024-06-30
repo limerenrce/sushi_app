@@ -105,44 +105,43 @@ class _MenuPageState extends State<MenuPage>
         actions: [
           // CART BUTTON WITH BADGE
           BlocBuilder<CartCubit, CartState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      context.read<CartCubit>().resetNotificationCount();
-                      Navigator.pushNamed(context, '/cart-page');
-                    },
-                    icon: const Icon(Icons.shopping_cart),
-                  ),
-                  if (state.notificationCount > 0)
-                    Positioned(
-                      right: 5,
-                      top: 5,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          '${state.notificationCount}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
+  builder: (context, state) {
+    return Stack(
+      children: [
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/cart-page');
+          },
+          icon: const Icon(Icons.shopping_cart),
+        ),
+        if (state.notificationCount > 0)
+          Positioned(
+            right: 5,
+            top: 5,
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              constraints: const BoxConstraints(
+                minWidth: 16,
+                minHeight: 16,
+              ),
+              child: Text(
+                '${state.notificationCount}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
+      ],
+    );
+  },
+),
         ],
       ),
       body: SafeArea(

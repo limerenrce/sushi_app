@@ -1,10 +1,3 @@
-// part of 'cart_cubit.dart';
-
-// @immutable
-// sealed class CartState {}
-
-// final class CartInitial extends CartState {}
-
 part of 'cart_cubit.dart';
 
 class CartState extends Equatable {
@@ -17,14 +10,17 @@ class CartState extends Equatable {
     return CartState(cartItems: [], notificationCount: 0);
   }
 
-  CartState copyWith({List<CartItem>? cartItems, int? notificationCount}) {
+  CartState copyWith({List<CartItem>? cartItems}) {
     return CartState(
       cartItems: cartItems ?? this.cartItems,
-      notificationCount: notificationCount ?? this.notificationCount,
+      notificationCount: _calculateTotalQuantity(cartItems ?? this.cartItems),
     );
   }
 
   @override
   List<Object> get props => [cartItems, notificationCount];
-}
 
+  static int _calculateTotalQuantity(List<CartItem> cartItems) {
+    return cartItems.fold(0, (total, item) => total + item.quantity);
+  }
+}

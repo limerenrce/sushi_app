@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sushi_app/endpoints/endpoints.dart';
+import 'package:sushi_app/models/cart_item.dart';
 import 'package:sushi_app/models/order_detail.dart';
 
 import '../models/menu.dart';
@@ -195,66 +196,7 @@ class DataService {
       throw Exception('Failed to create menu: $e');
     }
   }
-// static Future<void> createMenu(Menus menu) async {
-//   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-//   if (token == null) {
-//     throw Exception('Token not found');
-//   }
-//     final response = await http.post(
-//       Uri.parse(Endpoints.createMenus),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//         'Authorization': 'Bearer $token',
-//       },
-//       body: jsonEncode(menu.toJson()),
-//     );
-
-//     if (response.statusCode == 201) {
-//       print('Issues uploaded succesfully');
-//     } else {
-//       throw Exception('Failed to create issues');
-//     }
-//   }
-
-// ----------------------- batas ------------------------
-
-  //   try {
-  //     // Construct the multipart request
-  //     var request = http.MultipartRequest('POST', Uri.parse(Endpoints.createMenus));
-
-  //     // Add fields to the request
-  //     request.fields['category'] = menu.category;
-  //     request.fields['createdAt'] = menu.createdAt;
-  //     request.fields['description'] = menu.description;
-  //     request.fields['name'] = menu.name;
-  //     request.fields['price'] = menu.price.toString();
-  //     request.fields['rating'] = menu.rating.toString();
-  //     request.fields['updatedAt'] = menu.updatedAt;
-
-  //     // Add the image file if it exists
-  //     if (imageFile != null) {
-  //       request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-  //     }
-
-  //     // Send the request
-  //     var response = await request.send();
-
-  //     // Read the response
-  //     var responseString = await response.stream.bytesToString();
-  //     if (response.statusCode == 200) {
-  //       print('Success: $responseString');
-  //       return true;
-  //     } else {
-  //       print('Failed with status: ${response.statusCode}');
-  //       print('Response: $responseString');
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //     return false;
-  //   }
-  // }
   // UPDATE EXISTING MENU //
   static Future<http.Response> updateMenus(
       int idMenus,
@@ -299,7 +241,6 @@ class DataService {
     return response;
   }
 
-
   //---------------- MODUL ORDERS ----------------
 
   //GET ORDERS
@@ -328,62 +269,118 @@ class DataService {
   }
 
   //UPDATE ORDERS
-//   Future<void> updateOrderStatus(int orderId) async {
-//   String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+  Future<void> updateOrderStatus(int orderId) async {
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
-//     if (token == null) {
-//       throw Exception('Token not found');
-//     }
-
-//   final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
-//   final Map<String, String> headers = {
-//     'Content-Type': 'application/json',
-//     'Authorization': 'Bearer $token',
-//   };
-//   final Map<String, dynamic> body = {'status': 'paid'};
-
-//   try {
-//     final response = await http.put(uri, headers: headers, body: jsonEncode(body));
-    
-//     if (response.statusCode == 200) {
-//       print('Order status updated successfully');
-//     } else {
-//       print('Failed to update order status. Status code: ${response.statusCode}');
-//       print('Response body: ${response.body}');
-//       throw Exception('Failed to update order status');
-//     }
-//   } catch (e) {
-//     print('Error updating order status: $e');
-//     throw Exception('Failed to update order status: $e');
-//   }
-// }
-Future<void> updateOrderStatus(int orderId) async {
-  String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
-
-  if (token == null) {
-    throw Exception('Token not found');
-  }
-  final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
-  final Map<String, String> headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': 'Bearer $token',
-  };
-  final Map<String, String> body = {'status': 'paid'};
-
-  try {
-    final response = await http.put(uri, headers: headers, body: body);
-
-    if (response.statusCode == 200) {
-      print('Order status updated successfully');
-    } else {
-      print('Failed to update order status. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to update order status');
+    if (token == null) {
+      throw Exception('Token not found');
     }
-  } catch (e) {
-    print('Error updating order status: $e');
-    throw Exception('Failed to update order status: $e');
-  }}
+    final Uri uri = Uri.parse('${Endpoints.updateOrders}/$orderId');
+    final Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer $token',
+    };
+    final Map<String, String> body = {'status': 'paid'};
+
+    try {
+      final response = await http.put(uri, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        print('Order status updated successfully');
+      } else {
+        print(
+            'Failed to update order status. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to update order status');
+      }
+    } catch (e) {
+      print('Error updating order status: $e');
+      throw Exception('Failed to update order status: $e');
+    }
+  }
+
+  //CREATE ORDER
+  Future<http.Response> createOrder(String username, List<int> idMenus, List<int> quantities, List<int> totals) async {
+    String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+      if (token == null) {
+        throw Exception('Token not found');
+      }
+
+    print('Token retrieved: $token');
+
+    // Prepare form data
+    var formData = {
+      'username': username,
+      'id_menus': idMenus.map((id) => id.toString()).toList(),
+      'quantity': quantities.map((q) => q.toString()).toList(),
+      'total': totals.map((t) => t.toString()).toList(),
+    };
+
+    // Convert formData to URL-encoded string
+    var encodedFormData = formData.entries.map((entry) {
+      if (entry.value is List<String>) {
+        return (entry.value as List<String>).map((value) => '${entry.key}=$value').join('&');
+      } else {
+        return '${entry.key}=${entry.value}';
+      }
+    }).join('&');
+
+    print('Encoded Form Data: $encodedFormData');
+
+    try {
+      var response = await http.post(
+        Uri.parse(Endpoints.createOrders), // Replace with your actual API endpoint
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: encodedFormData,
+      );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      return response;
+    } catch (e) {
+      print('Failed to create order: $e');
+      throw Exception('Failed to create order: $e');
+    }
+  }
+  
+  // Future<Map<String, dynamic>> createOrder(
+  //     String username, List<int> idMenus, List<int> quantities, List<double> totals) async {
+  //       String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
+
+  //   if (token == null) {
+  //     throw Exception('Token not found');
+  //   }
+  //   final url = Uri.parse(Endpoints.createOrders);
+
+  //   final headers = {
+  //     'Content-Type': 'application/x-www-form-urlencoded',
+  //     'Authorization': 'Bearer $token',
+  //   };
+    
+  //   final body = {
+  //     'username': username,
+  //     'id_menus': idMenus.map((id) => id.toString()).toList(),
+  //     'quantity': quantities.map((qty) => qty.toString()).toList(),
+  //     'total': totals.map((total) => total.toString()).toList(),
+  //   };
+
+  //   final response = await http.post(
+  //     url,
+  //     headers: headers,
+  //     body: body,
+  //   );
+
+  //   if (response.statusCode == 201) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Failed to create order: ${response.body}');
+  //   }
+  // }
 
 
 // --------------- MODUL CUSTOMER SUPPORT -------------------- //
