@@ -273,7 +273,7 @@ class DataService {
     var response = await request.send();
 
     // Check the response status
-    if (response.statusCode >= 200 && response.statusCode < 300) {
+    if (response.statusCode == 200 ) {
       debugPrint('Soft deleted menu successfully. Status ${response.statusCode}');
       // Convert the streamed response to a http.Response
       return http.Response.fromStream(response);

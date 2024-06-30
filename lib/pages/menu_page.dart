@@ -376,11 +376,13 @@ class _MenuPageState extends State<MenuPage>
                                                         '${Endpoints.ngrok}/${item.imagePath}',
                                                     placeholder: (context,
                                                             url) =>
-                                                        const CircularProgressIndicator(),
+                                                        const CircularProgressIndicator(
+                                                            color: Colors.grey,
+                                                            ),
                                                     errorWidget: (context, url,
                                                             error) =>
                                                         const Icon(Icons.error),
-                                                    height: 105, 
+                                                    height: 105,
                                                     fit: BoxFit.cover,
                                                   ),
                                                   // Image.network(

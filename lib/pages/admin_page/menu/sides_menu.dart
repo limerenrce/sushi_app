@@ -42,24 +42,31 @@ class _SidesMenuState extends State<SidesMenu> {
   }
 
   void delete(int id) async {
-     try {
-      final response = await DataService.deleteMenu(id);
+  try {
+    final response = await DataService.deleteMenu(id);
 
-      if (response.statusCode == 200) {
-        okayDelete();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'Failed to delete menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}')),
-        );
-      }
-    } catch (e) {
+    if (response.statusCode == 200) {
+      // Handle success (if needed)
+      okayDelete(); // Optionally show success message
+    } else {
+      // Handle failure
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        SnackBar(
+          content: Text(
+            'Failed to delete menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}',
+          ),
+        ),
       );
     }
+  } catch (e) {
+    // Handle exceptions
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: $e'),
+      ),
+    );
   }
+}
 
   //DELETE MENU
   void deleteMenu(int id) {
