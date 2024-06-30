@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; 
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:sushi_app/pages/admin_page/admin_updateMenu.dart';
 import 'package:sushi_app/theme/colors.dart';
 
@@ -23,7 +25,13 @@ class _SushiMenuState extends State<SushiMenu> {
   @override
   void initState() {
     super.initState();
-    _menu = DataService.fetchMenus('sushi');
+    fetchMenu();
+  }
+
+  void fetchMenu() {
+    setState(() {
+      _menu = DataService.fetchMenus('sushi');
+    });
   }
 
   //FAVORITE BUTTON
@@ -40,8 +48,8 @@ class _SushiMenuState extends State<SushiMenu> {
   }
 
   //DELETE MENU
-  void deleteMenu() {
-    //LET THE USER KNOW IT WAS SUCCESSFUL
+  void deleteMenu(int idMenus) {
+    // Show the confirmation dialog
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -79,14 +87,12 @@ class _SushiMenuState extends State<SushiMenu> {
           ),
         ),
         actions: [
-          //OKAY BUTTON
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () {
-                  //POP ONCE TO REMOVE DIALOG BOX
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -99,7 +105,6 @@ class _SushiMenuState extends State<SushiMenu> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //TEXT
                       Text(
                         "Cancel",
                         style: TextStyle(color: primaryColor, fontSize: 18),
@@ -109,17 +114,10 @@ class _SushiMenuState extends State<SushiMenu> {
                 ),
               ),
               const SizedBox(width: 8),
-              //DELETE BUTTON
               GestureDetector(
-                onTap: okayDelete,
-
-                // (){
-                //   //DELETE THE MENU
-                //   okayDelete;
-
-                //   //POP ONCE TO REMOVE DIALOG BOX
-                //  // Navigator.pop(context);
-                // },
+                onTap: () async {
+                  await okayDelete(idMenus);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                       color: primaryColor,
@@ -129,7 +127,6 @@ class _SushiMenuState extends State<SushiMenu> {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //TEXT
                       Text(
                         "Delete",
                         style: TextStyle(color: Colors.white, fontSize: 18),
@@ -146,73 +143,143 @@ class _SushiMenuState extends State<SushiMenu> {
     );
   }
 
-  //ADD TO CART
-  void okayDelete() {
-    //LET THE USER KNOW IT WAS SUCCESSFUL
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        content: SizedBox(
-          width: 350,
-          height: 200,
-          child: Column(
-            children: [
-              Icon(Icons.check_circle_outline,
-                  color: Colors.green[800], size: 78),
-              const SizedBox(height: 8),
-              const Text(
-                "Menu delete successful",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Menu has been successfully deleted",
-                style: TextStyle(color: Colors.grey[800]),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          //OKAY BUTTON
-          GestureDetector(
-            onTap: () {
-              //POP ONCE TO REMOVE DIALOG BOX
-              Navigator.pop(context);
+  Future<void> okayDelete(int idMenus) async {
+    try {
+      // Call the deleteMenu method from DataService
+      final response = await DataService.deleteMenu(idMenus);
 
-              //POP AGAIN TO GO TO PREVIOUS SCREEN
-              Navigator.pop(context);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: primaryColor, borderRadius: BorderRadius.circular(40)),
-              margin: const EdgeInsets.only(left: 50, right: 50),
-              padding: const EdgeInsets.all(15),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      // Check if the response status is OK
+      if (response.statusCode == 200) {
+        fetchMenu();
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            content: SizedBox(
+              width: 350,
+              height: 200,
+              child: Column(
                 children: [
-                  //TEXT
-                  Text(
-                    "Ok",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  Icon(Icons.check_circle_outline,
+                      color: Colors.green[800], size: 78),
+                  const SizedBox(height: 8),
+                  const Text(
+                    "Menu delete successful",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Menu has been successfully deleted",
+                    style: TextStyle(color: Colors.grey[800]),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(40)),
+                  margin: const EdgeInsets.only(left: 50, right: 50),
+                  padding: const EdgeInsets.all(15),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Ok",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
+      } else {
+        throw Exception('Failed to delete menu');
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          content: SizedBox(
+            width: 350,
+            height: 200,
+            child: Column(
+              children: [
+                Icon(Icons.error, color: Colors.red[800], size: 78),
+                const SizedBox(height: 8),
+                const Text(
+                  "Menu delete failed",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  e.toString(),
+                  style: TextStyle(color: Colors.grey[800]),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(40)),
+                margin: const EdgeInsets.only(left: 50, right: 50),
+                padding: const EdgeInsets.all(15),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
+  String formatPrice(int price) {
+    final formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+    return formatter.format(price);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -255,8 +322,14 @@ class _SushiMenuState extends State<SushiMenu> {
                       child: Row(
                         children: [
                           // IMAGE
-                          Image.network(
-                            '${Endpoints.ngrok}/${item.imagePath}',
+                          CachedNetworkImage(
+                            imageUrl: '${Endpoints.ngrok}/${item.imagePath}',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(
+                              color: Colors.grey,
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                             height: 80,
                           ),
                           const SizedBox(width: 30),
@@ -273,9 +346,10 @@ class _SushiMenuState extends State<SushiMenu> {
                                 ),
                                 const SizedBox(height: 5),
                                 // PRICE
-                                Text(
-                                  '${item.price}',
-                                  style: TextStyle(color: Colors.grey[700]),
+                                Text(formatPrice(item.price),
+                                  style: TextStyle(
+                                    color: Colors.grey[700]
+                                  ),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -300,7 +374,7 @@ class _SushiMenuState extends State<SushiMenu> {
                                     ),
                                     // DELETE BUTTON
                                     IconButton(
-                                      onPressed: () => deleteMenu(),
+                                      onPressed: () => deleteMenu(item.idMenus),
                                       icon: Icon(
                                         Icons.delete,
                                         color: primaryColor,

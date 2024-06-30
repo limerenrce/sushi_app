@@ -25,7 +25,7 @@ class _AdminHomeState extends State<AdminHome> {
         foregroundColor: Colors.grey[800],
         elevation: 0,
         title: const Text(
-          'Hi, Admin',
+          'Hi, Cashier',
           textAlign: TextAlign.center,
         ),
         actions: const [],
@@ -41,78 +41,84 @@ class _AdminHomeState extends State<AdminHome> {
                 decoration: BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.circular(20)),
+                    width: 370,
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 padding:
                     const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
                 child: Column(
                   children: [
                     Text(
-                      "January's Sales Recap",
+                      "Hello Cashier!",
                       style: GoogleFonts.dmSerifDisplay(
                         fontSize: 26,
                         color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Sushi",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        Text(
-                          "143",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ],
+                    const Text(
+                      "Manage your menu and orders easily with SushiMan! Happy Working!",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      // textAlign: TextAlign.center,
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Ramen",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        Text(
-                          "47",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Drinks",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        Text(
-                          "90",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "280",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text(
+                    //       "Sushi",
+                    //       style: TextStyle(color: Colors.white, fontSize: 16),
+                    //     ),
+                    //     Text(
+                    //       "143",
+                    //       style: TextStyle(color: Colors.white, fontSize: 16),
+                    //     ),
+                    //   ],
+                    // ),
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text(
+                    //       "Ramen",
+                    //       style: TextStyle(color: Colors.white, fontSize: 16),
+                    //     ),
+                    //     Text(
+                    //       "47",
+                    //       style: TextStyle(color: Colors.white, fontSize: 16),
+                    //     ),
+                    //   ],
+                    // ),
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text(
+                    //       "Sides",
+                    //       style: TextStyle(color: Colors.white, fontSize: 16),
+                    //     ),
+                    //     Text(
+                    //       "90",
+                    //       style: TextStyle(color: Colors.white, fontSize: 16),
+                    //     ),
+                    //   ],
+                    // ),
+                    // const SizedBox(height: 10),
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text(
+                    //       "Total",
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.bold),
+                    //     ),
+                    //     Text(
+                    //       "280",
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.bold),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
@@ -232,7 +238,7 @@ class _AdminHomeState extends State<AdminHome> {
 
                               //TEXT
                               Text(
-                                "Drinks",
+                                "Sides",
                                 style: GoogleFonts.dmSerifDisplay(fontSize: 20),
                               ),
                             ],

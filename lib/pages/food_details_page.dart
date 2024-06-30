@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:sushi_app/components/button.dart';
 import 'package:sushi_app/cubit/cart/cart_cubit.dart';
 import 'package:sushi_app/endpoints/endpoints.dart';
@@ -106,6 +107,15 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
     return widget.menu.price * quantityCount;
   }
 
+  String formatPrice(int price) {
+    final formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+    return formatter.format(price);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,7 +165,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                     style: GoogleFonts.dmSerifDisplay(fontSize: 28),
                   ),
                   Text(
-                    "RP ${widget.menu.price}",
+                    formatPrice(widget.menu.price),
                     style: TextStyle(
                         color: primaryColor,
                         fontWeight: FontWeight.bold,
@@ -191,7 +201,7 @@ class FoodDetailsPageState extends State<FoodDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'RP ${totalPrice()}',
+                      formatPrice(totalPrice()),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
