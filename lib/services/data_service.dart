@@ -112,14 +112,14 @@ class DataService {
   // --------------- MODUL MENU -------------------- //
 
   // GET MENUS //
-  static Future<List<Menus>> fetchAllMenus() async {
+  static Future<List<Menus>> fetchAllMenus(String name) async {
     String? token = await SecureStorageUtil.storage.read(key: tokenStoreName);
 
     if (token == null) {
       throw Exception('Token not found');
     }
 
-    final response = await http.get(Uri.parse(Endpoints.getMenus),
+    final response = await http.get(Uri.parse('${Endpoints.getMenus}/$name'),
         headers: {'Authorization': 'Bearer $token'});
     debugPrint("Response: ${{response.statusCode}}");
     if (response.statusCode == 200) {
