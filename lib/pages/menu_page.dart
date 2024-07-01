@@ -463,7 +463,7 @@ class _MenuPageState extends State<MenuPage>
                                                   children: [
                                                     // PRICE
                                                     Text(
-                                                      "RP${item.price}",
+                                                      formatPrice(item.price),
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
