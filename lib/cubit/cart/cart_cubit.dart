@@ -1,17 +1,5 @@
-// import 'dart:io';
-
-// import 'package:bloc/bloc.dart';
-// import 'package:meta/meta.dart';
-
-// part 'cart_state.dart';
-
-// class CartCubit extends Cubit<CartState> {
-//   CartCubit() : super(CartInitialState());
-// }
-
-// ignore: depend_on_referenced_packages
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/models/menu.dart';
 import 'package:sushi_app/models/cart_item.dart';
 
@@ -20,29 +8,7 @@ part 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartState.initial());
 
-  // //ADD ITEM
-  // void addItem(Menus menu, int quantity) {
-  //   final currentState = state;
-  //   final existingItem = currentState.cartItems.firstWhere(
-  //     (item) => item.menu.idMenus == menu.idMenus,
-  //     orElse: () => CartItem(menu: menu, quantity: 0),
-  //   );
-
-  //   if (existingItem.quantity > 0) {
-  //     final updatedItems = currentState.cartItems
-  //         .map((item) => item.menu.idMenus == menu.idMenus
-  //             ? CartItem(menu: item.menu, quantity: item.quantity + quantity)
-  //             : item)
-  //         .toList();
-  //     emit(currentState.copyWith(cartItems: updatedItems));
-  //   } else {
-  //     emit(currentState.copyWith(
-  //         cartItems: List.from(currentState.cartItems)
-  //           ..add(CartItem(menu: menu, quantity: quantity))));
-  //   }
-  // }
-
-  //ADD ITEM
+  // ADD ITEM
   void addItem(Menus menu, int quantity) {
     final currentState = state;
     final existingItem = currentState.cartItems.firstWhere(
@@ -56,23 +22,15 @@ class CartCubit extends Cubit<CartState> {
               ? CartItem(menu: item.menu, quantity: item.quantity + quantity)
               : item)
           .toList();
-      emit(currentState.copyWith(
-          cartItems: updatedItems,
-          notificationCount: currentState.notificationCount + 1));
+      emit(currentState.copyWith(cartItems: updatedItems));
     } else {
-      emit(currentState.copyWith(
-          cartItems: List.from(currentState.cartItems)
-            ..add(CartItem(menu: menu, quantity: quantity)),
-          notificationCount: currentState.notificationCount + 1));
+      final updatedItems = List<CartItem>.from(currentState.cartItems)
+        ..add(CartItem(menu: menu, quantity: quantity));
+      emit(currentState.copyWith(cartItems: updatedItems));
     }
   }
 
-  //RESET NOTIFICATION COUNT
-  void resetNotificationCount() {
-    emit(state.copyWith(notificationCount: 0));
-  }
-
-  //REMOVE ITEM
+  // REMOVE ITEM
   void removeItem(Menus menu) {
     final updatedItems = state.cartItems
         .where((item) => item.menu.idMenus != menu.idMenus)
@@ -80,25 +38,94 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(cartItems: updatedItems));
   }
 
-  //GET TOTAL FOR 1 ITEM IN DETAIL
+  // GET TOTAL FOR 1 ITEM IN DETAIL
   int calculateTotalPrice() {
     return state.cartItems.fold(
         0, (total, current) => total + (current.menu.price * current.quantity));
   }
 
-  //GET SUBTOTAL
+  // GET SUBTOTAL
   double getSubtotal() {
     return state.cartItems
         .fold(0, (total, item) => total + item.menu.price * item.quantity);
   }
 
-  //GET TAX
-  double getTax() {
-    return getSubtotal() * 0.1;
-  }
-
-  //GET TOTAL ORDER
-  double getTotal() {
-    return getSubtotal() + getTax();
+  // CLEAR CART
+  void clearCart() {
+    emit(CartState.initial());
   }
 }
+
+
+
+// import 'package:bloc/bloc.dart';
+// import 'package:equatable/equatable.dart';
+// import 'package:sushi_app/models/menu.dart';
+// import 'package:sushi_app/models/cart_item.dart';
+
+// part 'cart_state.dart';
+
+// class CartCubit extends Cubit<CartState> {
+//   CartCubit() : super(CartState.initial());
+//   //ADD ITEM
+//   void addItem(Menus menu, int quantity) {
+//     final currentState = state;
+//     final existingItem = currentState.cartItems.firstWhere(
+//       (item) => item.menu.idMenus == menu.idMenus,
+//       orElse: () => CartItem(menu: menu, quantity: 0),
+//     );
+
+//     if (existingItem.quantity > 0) {
+//       final updatedItems = currentState.cartItems
+//           .map((item) => item.menu.idMenus == menu.idMenus
+//               ? CartItem(menu: item.menu, quantity: item.quantity + quantity)
+//               : item)
+//           .toList();
+//       emit(currentState.copyWith(cartItems: updatedItems, notificationCount: currentState.notificationCount + 1));
+//     } else {
+//       emit(currentState.copyWith(
+//           cartItems: List.from(currentState.cartItems)
+//             ..add(CartItem(menu: menu, quantity: quantity)), notificationCount: currentState.notificationCount + 1));
+//     }
+//   }
+
+//   //RESET NOTIFICATION COUNT
+//   // void resetNotificationCount() {
+//   //   emit(state.copyWith(notificationCount: 0));
+//   // }
+
+//   //REMOVE ITEM
+//   void removeItem(Menus menu) {
+//     final updatedItems = state.cartItems
+//         .where((item) => item.menu.idMenus != menu.idMenus)
+//         .toList();
+//     emit(state.copyWith(cartItems: updatedItems));
+//   }
+
+//   //GET TOTAL FOR 1 ITEM IN DETAIL
+//   int calculateTotalPrice() {
+//     return state.cartItems.fold(
+//         0, (total, current) => total + (current.menu.price * current.quantity));
+//   }
+
+//   //GET SUBTOTAL
+//   double getSubtotal() {
+//     return state.cartItems.fold(0, (total, item) => total + item.menu.price * item.quantity);
+//   }
+
+//   //CLEAR CART
+//   void clearCart() {
+//     emit(CartState.initial());
+//   }
+
+//   //GET TAX
+//   // double getTax() {
+//   //   return getSubtotal() * 0.1;
+//   // }
+
+//   //GET TOTAL ORDER
+//   // double getTotal() {
+//   //   return getSubtotal() + getTax();
+//   // }
+// }
+

@@ -11,11 +11,14 @@ class AdminDrawer extends StatelessWidget {
 
   
   Future<void> doLogout(context) async {
-    debugPrint("need logout");
+    
     final response = await DataService.logoutData();
     if (response.statusCode == 200) {
       await SecureStorageUtil.storage.delete(key: tokenStoreName);
-      Navigator.pushReplacementNamed(context, "/login-page");
+     debugPrint('logout success');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Bye bye!')));
+      Navigator.pushReplacementNamed(context, '/login-page');
     }
   }
 

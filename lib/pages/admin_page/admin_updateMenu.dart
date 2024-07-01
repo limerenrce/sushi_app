@@ -1,31 +1,56 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/material.dart'; 
+import 'package:flutter_rating_bar/flutter_rating_bar.dart'; 
+import 'package:image_picker/image_picker.dart'; 
 import 'package:sushi_app/theme/colors.dart';
 import 'package:sushi_app/services/data_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
-class AdminAddMenu extends StatefulWidget {
-  const AdminAddMenu({super.key});
+import '../../endpoints/endpoints.dart';
+import '../../models/menu.dart';
+
+class AdminUpdatemenu extends StatefulWidget {
+  final Menus menu;
+  const AdminUpdatemenu({super.key, required this.menu});
 
   @override
   // ignore: library_private_types_in_public_api
-  _AdminAddMenuState createState() => _AdminAddMenuState();
+  _AdminUpdatemenuState createState() => _AdminUpdatemenuState();
 }
 
-class _AdminAddMenuState extends State<AdminAddMenu> {
+class _AdminUpdatemenuState extends State<AdminUpdatemenu> {
   final _titleController = TextEditingController();
   final _categoryController = TextEditingController();
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
 
   String? _selectedOption1;
-  File? galleryFile;
+  String? _imagePath; // Store the image path or URL
+  File? galleryFile; // Remove the initialization here
   final picker = ImagePicker();
 
   double _rating = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.menu.name;
+    _selectedOption1 = widget.menu.category;
+    _priceController.text = widget.menu.price.toString(); // Convert price to string
+    _descriptionController.text = widget.menu.description;
+    _rating = widget.menu.rating;
+    _imagePath = '${Endpoints.ngrok}/${widget.menu.imagePath}'; // Store the imagePath or URL
+
+    // If _imagePath is a URL, cache the image with cached_network_image
+    if (_imagePath != null && _imagePath!.startsWith('http')) {
+      // Using cached_network_image to fetch and cache network images
+      galleryFile = null; // Clear galleryFile since we're fetching from network
+    } else {
+      galleryFile = File(_imagePath!); // Assuming _imagePath is a local file path
+    }
+    }
 
   // Method to show the bottom sheet for image picking
   void _showPicker({required BuildContext context}) {
@@ -73,6 +98,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
 
   // Method to save data
   void saveData(BuildContext context) async {
+    final idMenu = widget.menu.idMenus;
     final name = _titleController.text;
     final category = _selectedOption1 ?? '';
     final price = _priceController.text;
@@ -91,7 +117,8 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     }
 
     try {
-      final response = await DataService.createMenus(
+      final response = await DataService.updateMenus(
+        idMenu,
         name,
         price,
         rating,
@@ -100,22 +127,20 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
         imagePath,
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Menu created successfully')),
+          const SnackBar(content: Text('Menu updated successfully')),
         );
-        // ignore: use_build_context_synchronously
         Navigator.pop(context); // Navigate back after successful creation
+        Navigator.pop(context); 
       } else {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
-                  'Failed to create menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}')),
+                  'Failed to update menu: ${response.statusCode} ${response.reasonPhrase}\n${response.body}')),
         );
       }
     } catch (e) {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
@@ -131,7 +156,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
         foregroundColor: Colors.grey[800],
         elevation: 0,
         title: const Text(
-          'New Menu',
+          'Update Menu',
           textAlign: TextAlign.center,
         ),
       ),
@@ -158,16 +183,22 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                       padding: const EdgeInsets.symmetric(vertical: 60.0),
                       child: Center(
                         child: galleryFile == null
-                            ? const Icon(
-                                Icons.photo,
-                                size: 100,
-                                color: Colors.grey,
-                              )
-                            : Image.file(
-                                galleryFile!,
-                                height: 200,
-                                width: 200,
-                                fit: BoxFit.cover,
+                            ? const Icon(Icons.photo, size: 100, color: Colors.grey,)
+                            : _imagePath != null && _imagePath!.startsWith('http')
+                                ? CachedNetworkImage(
+                                    imageUrl: _imagePath!,
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    height: 200,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    galleryFile!,
+                                    height: 200,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+
                               ),
                       ),
                     ),
@@ -282,7 +313,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                         child: Text(value),
                       );
                     }).toList(),
-                    decoration: const InputDecoration(
+                    decoration: const InputDecoration( 
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 12, horizontal: 15),
                       border: InputBorder
@@ -293,6 +324,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
               ),
 
               const SizedBox(height: 8),
+
 
               // -------------------- PRICE------------------------
               Padding(
@@ -335,6 +367,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
               ),
               const SizedBox(height: 8),
 
+
               // -------------------- PRICE------------------------
               Padding(
                 padding: const EdgeInsets.all(10),
@@ -376,7 +409,7 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
                 ),
               ),
               const SizedBox(height: 20),
-
+              
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => saveData(context),

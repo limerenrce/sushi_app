@@ -1,7 +1,7 @@
 class Menus {
   String category;
   String createdAt;
-  dynamic deletedAt;
+  String? deletedAt;
   String description;
   int idMenus;
   String imagePath;
@@ -13,7 +13,7 @@ class Menus {
   Menus({
     required this.category,
     required this.createdAt,
-    required this.deletedAt,
+    this.deletedAt,
     required this.description,
     required this.idMenus,
     required this.imagePath,

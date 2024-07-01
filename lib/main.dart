@@ -24,6 +24,8 @@ import 'pages/profile_page.dart';
 import 'pages/splash_page.dart';
 import 'pages/support_pages/serviceLog_page.dart';
 import 'theme/colors.dart';
+import 'pages/support_pages/serviceLog_page.dart';
+import 'theme/colors.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -114,9 +116,22 @@ class MyApp extends StatelessWidget {
           '/splash-page': (context) => const SplashPage(),
           '/login-page': (context) => const LoginPage(),
           '/signUp-page': (context) => const SignUpPage(),
+          '/signUp-page': (context) => const SignUpPage(),
           '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
           '/cart-page': (context) => const AuthWrapper(child: CartPage()),
           '/adminHome-page': (context) => const AuthWrapper(child: AdminHome()),
+          '/adminSushi-page': (context) =>
+              const AuthWrapper(child: SushiMenu()),
+          '/adminRamen-page': (context) =>
+              const AuthWrapper(child: RamenMenu()),
+          '/adminSides-page': (context) =>
+              const AuthWrapper(child: SidesMenu()),
+          '/adminAddMenu-page': (context) =>
+              const AuthWrapper(child: AdminAddMenu()),
+          '/adminOrderList-page': (context) =>
+              const AuthWrapper(child: AdminOrderList()),
+          '/services-page': (context) =>
+              const AuthWrapper(child: ServiceLogPage()),
           '/adminSushi-page': (context) =>
               const AuthWrapper(child: SushiMenu()),
           '/adminRamen-page': (context) =>
