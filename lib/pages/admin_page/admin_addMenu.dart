@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, use_build_context_synchronously
+// ignore_for_file: file_names, use_build_context_synchronously, duplicate_ignore
 
 import 'dart:io';
 import 'package:flutter/material.dart';
