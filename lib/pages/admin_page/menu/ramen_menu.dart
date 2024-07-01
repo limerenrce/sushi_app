@@ -36,18 +36,18 @@ class _RamenMenuState extends State<RamenMenu> {
     });
   }
 
-  //FAVORITE BUTTON
-  bool _isavail = true;
+  // //FAVORITE BUTTON
+  // bool _isavail = true;
 
-  void _toggleAvail() {
-    setState(() {
-      if (_isavail) {
-        _isavail = false;
-      } else {
-        _isavail = true;
-      }
-    });
-  }
+  // void _toggleAvail() {
+  //   setState(() {
+  //     if (_isavail) {
+  //       _isavail = false;
+  //     } else {
+  //       _isavail = true;
+  //     }
+  //   });
+  // }
 
   //DELETE MENU
   void deleteMenu(int idMenus) {
@@ -379,17 +379,6 @@ class _RamenMenuState extends State<RamenMenu> {
                                       onPressed: () => deleteMenu(item.idMenus),
                                       icon: Icon(
                                         Icons.delete,
-                                        color: primaryColor,
-                                        size: 18,
-                                      ),
-                                    ),
-                                    // TOGGLE AVAILABILITY BUTTON
-                                    IconButton(
-                                      onPressed: () => _toggleAvail,
-                                      icon: Icon(
-                                        _isavail
-                                            ? Icons.remove_red_eye
-                                            : Icons.remove_red_eye_outlined,
                                         color: primaryColor,
                                         size: 18,
                                       ),

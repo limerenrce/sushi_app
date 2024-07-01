@@ -1,13 +1,13 @@
 // search_cubit.dart
 
-import 'package:flutter_bloc/flutter_bloc.dart'; 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/services/data_service.dart';
 import 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(SearchState.initial());
+  SearchCubit() : super(const SearchState.initial());
 
-  void fetchEvent(String search) async {
+  void fetchMenu(String search) async {
     emit(state.copyWith(isLoading: true));
     try {
       final menuList = await DataService.fetchAllMenus(search);

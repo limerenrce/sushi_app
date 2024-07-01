@@ -31,13 +31,13 @@ class _SearchPageState extends State<SearchPage> {
 
   void onChange() {
     // Dispatch search event with current search text
-    context.read<SearchCubit>().fetchEvent(_searchController.text);
+    context.read<SearchCubit>().fetchMenu(_searchController.text);
   }
 
   void onClear() {
     // Clear search text and update state
     _searchController.clear();
-    context.read<SearchCubit>().fetchEvent('');
+    context.read<SearchCubit>().fetchMenu('');
   }
 
   _navigateToDetail(Menus menu) {
@@ -102,12 +102,12 @@ class _SearchPageState extends State<SearchPage> {
           BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
               if (state.isLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state.errorMessage.isNotEmpty) {
-                    return Center(child: Text(state.errorMessage));
-                  } else if (state.menuList.isEmpty) {
-                    return Center(child: Text('No results found.'));
-                  } else {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state.errorMessage.isNotEmpty) {
+                return Center(child: Text(state.errorMessage));
+              } else if (state.menuList.isEmpty) {
+                return const Center(child: Text('No results found.'));
+              } else {
                 return Expanded(
                   child: ListView.builder(
                     itemCount: state.menuList.length,
@@ -144,7 +144,8 @@ class _SearchPageState extends State<SearchPage> {
                                   const SizedBox(width: 20),
                                   // NAME AND PRICE
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       // NAME
                                       Text(
@@ -158,8 +159,9 @@ class _SearchPageState extends State<SearchPage> {
                                       Text(
                                         formatPrice(menu.price),
                                         // 'RP ${cartItem.menu.price * cartItem.quantity}',
-                  
-                                        style: TextStyle(color: Colors.grey[700]),
+
+                                        style:
+                                            TextStyle(color: Colors.grey[700]),
                                       ),
                                     ],
                                   ),
