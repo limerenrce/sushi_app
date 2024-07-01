@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sushi_app/components/auth_wrapper.dart';
 import 'package:sushi_app/cubit/cart/cart_cubit.dart';
-import 'package:sushi_app/cubit/menu/menu_cubit.dart';
 import 'package:sushi_app/cubit/profile/profile_cubit.dart';
 import 'package:sushi_app/cubit/search/search_cubit.dart';
 import 'package:sushi_app/pages/admin_page/admin_addMenu.dart';
@@ -23,8 +22,8 @@ import 'pages/cart_page.dart';
 import 'pages/menu_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/splash_page.dart';
-import 'pages/support_pages/serviceLog_page.dart'; 
-import 'theme/colors.dart'; 
+import 'pages/support_pages/serviceLog_page.dart';
+import 'theme/colors.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -114,18 +113,22 @@ class MyApp extends StatelessWidget {
           '/main-page': (context) => const Main(),
           '/splash-page': (context) => const SplashPage(),
           '/login-page': (context) => const LoginPage(),
-          '/signUp-page': (context) => const SignUpPage(), 
-
+          '/signUp-page': (context) => const SignUpPage(),
           '/menu-page': (context) => const AuthWrapper(child: MenuPage()),
           '/cart-page': (context) => const AuthWrapper(child: CartPage()),
           '/adminHome-page': (context) => const AuthWrapper(child: AdminHome()),
-          '/adminSushi-page': (context) => const AuthWrapper(child: SushiMenu()),
-          '/adminRamen-page': (context) => const AuthWrapper(child: RamenMenu()),
-          '/adminSides-page': (context) => const AuthWrapper(child: SidesMenu()),
-          '/adminAddMenu-page': (context) => const AuthWrapper(child: AdminAddMenu()),
-          '/adminOrderList-page': (context) => const AuthWrapper(child: AdminOrderList()),
-
-          '/services-page': (context) => const AuthWrapper(child: ServiceLogPage()),
+          '/adminSushi-page': (context) =>
+              const AuthWrapper(child: SushiMenu()),
+          '/adminRamen-page': (context) =>
+              const AuthWrapper(child: RamenMenu()),
+          '/adminSides-page': (context) =>
+              const AuthWrapper(child: SidesMenu()),
+          '/adminAddMenu-page': (context) =>
+              const AuthWrapper(child: AdminAddMenu()),
+          '/adminOrderList-page': (context) =>
+              const AuthWrapper(child: AdminOrderList()),
+          '/services-page': (context) =>
+              const AuthWrapper(child: ServiceLogPage()),
         },
       ),
     );
@@ -134,8 +137,6 @@ class MyApp extends StatelessWidget {
 
 class Main extends StatefulWidget {
   const Main({super.key});
-
-
 
   @override
   // ignore: library_private_types_in_public_api
@@ -155,7 +156,7 @@ class _MainState extends State<Main> {
       _selectedIndex = index;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -27,11 +27,14 @@ class _SignUpPageState extends State<SignUpPage> {
     final response = await DataService.sendRegister(name, username, password);
     if (response.statusCode == 201) {
       debugPrint('Regiter success');
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Register success')));
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/login-page');
     } else {
       debugPrint('failed ${response.statusCode}');
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Register failed')));
     }

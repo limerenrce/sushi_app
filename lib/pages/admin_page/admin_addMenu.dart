@@ -4,9 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:sushi_app/endpoints/endpoints.dart';
 import 'package:sushi_app/theme/colors.dart';
 import 'package:sushi_app/services/data_service.dart';
 
@@ -14,6 +12,7 @@ class AdminAddMenu extends StatefulWidget {
   const AdminAddMenu({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminAddMenuState createState() => _AdminAddMenuState();
 }
 
@@ -30,35 +29,6 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
   double _rating = 0;
 
   // Method to show the bottom sheet for image picking
-  void _showPicker({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Photo Library'),
-                onTap: () {
-                  getImage(ImageSource.gallery);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
-                title: const Text('Camera'),
-                onTap: () {
-                  getImage(ImageSource.camera);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
   // Method to get image from camera or gallery
   Future<void> getImage(ImageSource img) async {
@@ -82,7 +52,10 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
     final description = _descriptionController.text;
     final rating = _rating.toString();
 
-    if (name.isEmpty || category.isEmpty || price.isEmpty || description.isEmpty) {
+    if (name.isEmpty ||
+        category.isEmpty ||
+        price.isEmpty ||
+        description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill all the fields')),
       );
@@ -100,16 +73,20 @@ class _AdminAddMenuState extends State<AdminAddMenu> {
       );
 
       if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Menu created successfully')),
         );
+        // ignore: use_build_context_synchronously
         Navigator.pop(context); // Navigate back after successful creation
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to create menu')),
         );
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );

@@ -9,6 +9,7 @@
 //   CartCubit() : super(CartInitialState());
 // }
 
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sushi_app/models/menu.dart';
@@ -55,11 +56,14 @@ class CartCubit extends Cubit<CartState> {
               ? CartItem(menu: item.menu, quantity: item.quantity + quantity)
               : item)
           .toList();
-      emit(currentState.copyWith(cartItems: updatedItems, notificationCount: currentState.notificationCount + 1));
+      emit(currentState.copyWith(
+          cartItems: updatedItems,
+          notificationCount: currentState.notificationCount + 1));
     } else {
       emit(currentState.copyWith(
           cartItems: List.from(currentState.cartItems)
-            ..add(CartItem(menu: menu, quantity: quantity)), notificationCount: currentState.notificationCount + 1));
+            ..add(CartItem(menu: menu, quantity: quantity)),
+          notificationCount: currentState.notificationCount + 1));
     }
   }
 
@@ -84,7 +88,8 @@ class CartCubit extends Cubit<CartState> {
 
   //GET SUBTOTAL
   double getSubtotal() {
-    return state.cartItems.fold(0, (total, item) => total + item.menu.price * item.quantity);
+    return state.cartItems
+        .fold(0, (total, item) => total + item.menu.price * item.quantity);
   }
 
   //GET TAX
@@ -97,4 +102,3 @@ class CartCubit extends Cubit<CartState> {
     return getSubtotal() + getTax();
   }
 }
-
