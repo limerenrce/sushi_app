@@ -245,7 +245,12 @@ class _CartPageState extends State<CartPage> {
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    "prepared by our chef",
+                    "prepared by our chef.",
+                    style: TextStyle(color: Colors.grey[800]),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    "Itadadimasu!",
                     style: TextStyle(color: Colors.grey[800]),
                     textAlign: TextAlign.center,
                   ),
@@ -362,7 +367,7 @@ class _CartPageState extends State<CartPage> {
         backgroundColor: Colors.white,
         content: SizedBox(
           width: 350,
-          height: 200,
+          height: 230,
           child: Column(
             children: [
               const SizedBox(height: 8),
@@ -378,6 +383,10 @@ class _CartPageState extends State<CartPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
+              const Text(
+                "Please make sure you have all item that you want before placing an order. Arigato!",
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
@@ -498,10 +507,15 @@ class _CartPageState extends State<CartPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     //NAME
-                                    Text(
-                                      cartItem.menu.name,
-                                      style: GoogleFonts.dmSerifDisplay(
-                                          fontSize: 18),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      child: Text(
+                                        cartItem.menu.name,
+                                        style: GoogleFonts.dmSerifDisplay(
+                                            fontSize: 18),
+                                        softWrap: true,
+                                      ),
                                     ),
 
                                     const SizedBox(height: 10),
